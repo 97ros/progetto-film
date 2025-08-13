@@ -1,0 +1,9 @@
+# Ignora le cartelle delle dipendenze per entrambi i progetti
+/backend/node_modules
+/frontend/node_modules
+
+# Ignora il file con le variabili d'ambiente del backend
+/backend/.env
+
+# File generati dal sistema operativo
+.DS_Store

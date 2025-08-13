@@ -1,0 +1,5 @@
+# File per le variabili d'ambiente
+.env
+
+# Cartella delle dipendenze installate da npm
+node_modules 
