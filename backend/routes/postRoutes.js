@@ -17,5 +17,11 @@ router.get('/feed', authMiddleware.protect, postController.getFeed);
 // Anche per creare un post è necessaria l'autenticazione
 router.post('/', authMiddleware.protect, postController.createPost);
 
+// Rotta per modificare un post specifico
+router.put('/:postId', authMiddleware.protect, postController.updatePost);
+
+// Rotta per eliminare un post specifico
+router.delete('/:postId', authMiddleware.protect, postController.deletePost);
+
 
 module.exports = router;

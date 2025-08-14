@@ -18,5 +18,11 @@ router.get('/:username', watchedController.getWatchedEntries);
 // Questa rotta è protetta. L'utente deve essere loggato.
 router.post('/', authMiddleware.protect, watchedController.addWatchedEntry);
 
+// Rotta protetta per modificare una voce specifica
+router.put('/:entryId', authMiddleware.protect, watchedController.updateWatchedEntry);
+
+// Rotta protetta per eliminare una voce specifica
+router.delete('/:entryId', authMiddleware.protect, watchedController.deleteWatchedEntry);
+
 // Esportiamo il router
 module.exports = router;

@@ -27,8 +27,13 @@ exports.register = async (req, res) => {
         res.status(201).json({ message: "Utente registrato con successo!" });
 
     } catch (error) {
-        // 7. Se qualcosa va storto (es. utente già esistente), inviamo un errore
-        res.status(500).json({ error: "Errore durante la registrazione: " + error.message });
+    // 7. Se qualcosa va storto, controlliamo se è un errore di duplicazione
+    if (error.code === 11000) {
+        // Il codice 11000 è il codice di MongoDB per la violazione di un indice univoco
+        return res.status(409).json({ error: "Username o email già esistente." });
+    }
+    // Per tutti gli altri errori, inviamo un errore generico
+    res.status(500).json({ error: "Errore durante la registrazione: " + error.message });
     }
 };
 

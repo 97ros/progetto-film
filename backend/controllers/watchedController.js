@@ -57,3 +57,63 @@ exports.getWatchedEntries = async (req, res) => {
         res.status(500).json({ error: "Errore nel recuperare la lista dei film: " + error.message });
     }
 };
+
+// --- Funzione per MODIFICARE una voce nella lista dei visti ---
+exports.updateWatchedEntry = async (req, res) => {
+    try {
+        const entryId = req.params.entryId;
+        const currentUserId = req.user._id;
+        
+        // Dati che l'utente può modificare (es. il voto o la recensione)
+        const { rating, review } = req.body;
+
+        // Troviamo la voce nel database
+        const entry = await WatchedEntry.findById(entryId);
+
+        if (!entry) {
+            return res.status(404).json({ error: "Voce non trovata nella tua lista." });
+        }
+
+        // CONTROLLO DI AUTORIZZAZIONE: l'utente può modificare solo le sue voci
+        if (entry.userId.toString() !== currentUserId.toString()) {
+            return res.status(403).json({ error: "Non hai il permesso di modificare questa voce." });
+        }
+
+        // Aggiorniamo i campi e salviamo
+        entry.rating = rating;
+        entry.review = review;
+        await entry.save();
+
+        res.status(200).json({ message: "Voce aggiornata con successo!", entry: entry });
+
+    } catch (error) {
+        res.status(500).json({ error: "Errore durante l'aggiornamento della voce: " + error.message });
+    }
+};
+
+// --- Funzione per ELIMINARE una voce dalla lista dei visti ---
+exports.deleteWatchedEntry = async (req, res) => {
+    try {
+        const entryId = req.params.entryId;
+        const currentUserId = req.user._id;
+
+        const entry = await WatchedEntry.findById(entryId);
+
+        if (!entry) {
+            return res.status(404).json({ error: "Voce non trovata nella tua lista." });
+        }
+
+        // CONTROLLO DI AUTORIZZAZIONE
+        if (entry.userId.toString() !== currentUserId.toString()) {
+            return res.status(403).json({ error: "Non hai il permesso di eliminare questa voce." });
+        }
+
+        // Eliminiamo la voce
+        await WatchedEntry.findByIdAndDelete(entryId);
+
+        res.status(200).json({ message: "Film rimosso dalla lista con successo!" });
+        
+    } catch (error) {
+        res.status(500).json({ error: "Errore durante la rimozione della voce: " + error.message });
+    }
+};

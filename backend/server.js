@@ -11,8 +11,8 @@ const cors = require('cors'); // Middleware per permettere richieste da altri "d
 const authRoutes = require('./routes/authRoutes');
 const postRoutes = require('./routes/postRoutes');
 const watchedRoutes = require('./routes/watchedRoutes');
-// Aggiungi qui le altre route che creerai, es:
-// const watchedRoutes = require('./routes/watchedRoutes');
+const userRoutes = require('./routes/userRoutes');
+const movieRoutes = require('./routes/movieRoutes');
 
 // --- 3. CREAZIONE DELL'APPLICAZIONE EXPRESS ---
 const app = express();
@@ -43,7 +43,8 @@ app.use('/api/posts', postRoutes);
 
 //Altre route:
 app.use('/api/watched', watchedRoutes);
-
+app.use('/api/users', userRoutes);
+app.use('/api/movies', movieRoutes);
 
 // --- 7. AVVIO DEL SERVER ---
 app.listen(PORT, () => {

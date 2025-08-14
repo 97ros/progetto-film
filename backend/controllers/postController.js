@@ -52,3 +52,75 @@ exports.getFeed = async (req, res) => {
         res.status(500).json({ error: "Errore nel recuperare il feed: " + error.message });
     }
 };
+
+// --- Funzione per MODIFICARE un post esistente ---
+// Rotta protetta: l'utente deve essere loggato E deve essere l'autore del post.
+exports.updatePost = async (req, res) => {
+    try {
+        // 1. Estraiamo i dati necessari
+        const postId = req.params.postId; // L'ID del post da modificare, dall'URL
+        const currentUserId = req.user._id; // L'ID dell'utente loggato, dal token
+        const { caption } = req.body; // I nuovi dati da aggiornare (es. solo la didascalia)
+
+        // 2. Troviamo il post nel database
+        const post = await Post.findById(postId);
+
+        // 3. Controlli di sicurezza e validità
+        if (!post) {
+            return res.status(404).json({ error: "Post non trovato." });
+        }
+
+        // --- 4. CONTROLLO DI AUTORIZZAZIONE ---
+        // Confrontiamo l'ID dell'autore del post con l'ID dell'utente che ha fatto la richiesta.
+        // .toString() è importante per confrontare correttamente gli ObjectId di Mongoose.
+        if (post.authorId.toString() !== currentUserId.toString()) {
+            return res.status(403).json({ error: "Non hai il permesso di modificare questo post." });
+        }
+
+        // 5. Se tutti i controlli sono superati, aggiorniamo il post
+        // Qui aggiorniamo solo la didascalia, ma potresti aggiornare anche altre parti
+        post.caption = caption;
+        
+        // Non dimenticare di salvare le modifiche!
+        await post.save();
+
+        // 6. Inviamo una risposta di successo
+        res.status(200).json({ message: "Post aggiornato con successo!", post: post });
+
+    } catch (error) {
+        res.status(500).json({ error: "Errore durante l'aggiornamento del post: " + error.message });
+    }
+};
+
+// --- Funzione per ELIMINARE un post esistente ---
+// Rotta protetta: l'utente deve essere loggato E deve essere l'autore del post.
+exports.deletePost = async (req, res) => {
+    try {
+        // 1. Estraiamo i dati necessari
+        const postId = req.params.postId; // L'ID del post da eliminare, dall'URL
+        const currentUserId = req.user._id; // L'ID dell'utente loggato, dal token
+
+        // 2. Troviamo il post nel database
+        const post = await Post.findById(postId);
+
+        // 3. Controlli di sicurezza e validità
+        if (!post) {
+            return res.status(404).json({ error: "Post non trovato." });
+        }
+
+        // --- 4. CONTROLLO DI AUTORIZZAZIONE ---
+        // Esattamente come nella modifica, verifichiamo che l'utente sia il proprietario
+        if (post.authorId.toString() !== currentUserId.toString()) {
+            return res.status(403).json({ error: "Non hai il permesso di eliminare questo post." });
+        }
+
+        // 5. Se tutti i controlli sono superati, eliminiamo il post
+        await Post.findByIdAndDelete(postId);
+
+        // 6. Inviamo una risposta di successo senza contenuto
+        res.status(200).json({ message: "Post eliminato con successo!" });
+
+    } catch (error) {
+        res.status(500).json({ error: "Errore durante l'eliminazione del post: " + error.message });
+    }
+};
