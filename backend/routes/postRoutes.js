@@ -23,5 +23,10 @@ router.put('/:postId', authMiddleware.protect, postController.updatePost);
 // Rotta per eliminare un post specifico
 router.delete('/:postId', authMiddleware.protect, postController.deletePost);
 
+// Rotta per mettere/togliere like a un post
+router.post('/:postId/like', authMiddleware.protect, postController.likePost);
+
+// Rotta pubblica per ottenere un singolo post
+router.get('/:postId', postController.getPostById);
 
 module.exports = router;

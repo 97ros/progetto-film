@@ -7,7 +7,7 @@ const User = require('../models/userModel');
 exports.addWatchedEntry = async (req, res) => {
     try {
         // Prendiamo l'ID dell'utente dal token JWT (grazie al middleware)
-        const userId = req.user._id;
+        const userId = req.userId;
 
         // Prendiamo i dati del film dal corpo della richiesta inviata dal frontend
         const { tmdbId, title, posterPath, watchDate, rating, review } = req.body;
@@ -62,7 +62,7 @@ exports.getWatchedEntries = async (req, res) => {
 exports.updateWatchedEntry = async (req, res) => {
     try {
         const entryId = req.params.entryId;
-        const currentUserId = req.user._id;
+        const currentUserId = req.userId;
         
         // Dati che l'utente può modificare (es. il voto o la recensione)
         const { rating, review } = req.body;
@@ -95,7 +95,7 @@ exports.updateWatchedEntry = async (req, res) => {
 exports.deleteWatchedEntry = async (req, res) => {
     try {
         const entryId = req.params.entryId;
-        const currentUserId = req.user._id;
+        const currentUserId = req.userId;
 
         const entry = await WatchedEntry.findById(entryId);
 

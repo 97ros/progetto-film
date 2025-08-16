@@ -29,7 +29,11 @@ const postSchema = new Schema({
     caption: {
         type: String, // Il commento/testo del post
         maxLength: 280 // Mettiamo un limite, come su Twitter
-    }
+    },
+    likes: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }]
 }, {
     // 3. Opzione Mongoose: aggiunge automaticamente due campi:
     // createdAt (quando il post è stato creato) e updatedAt (quando è stato modificato)

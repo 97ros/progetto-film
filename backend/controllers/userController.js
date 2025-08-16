@@ -10,7 +10,7 @@ exports.followUser = async (req, res) => {
         const targetUsername = req.params.username;
         
         // L'utente che sta compiendo l'azione (il suo ID è nel token)
-        const currentUserId = req.user._id;
+        const currentUserId = req.userId;
 
         // Troviamo entrambi gli utenti nel database
         const targetUser = await User.findOne({ username: targetUsername });
@@ -82,7 +82,7 @@ exports.unfollowUser = async (req, res) => {
         const targetUsername = req.params.username;
 
         // L'utente che sta compiendo l'azione (il suo ID è nel token)
-        const currentUserId = req.user._id;
+        const currentUserId = req.userId;
 
         // Troviamo entrambi gli utenti nel database
         const targetUser = await User.findOne({ username: targetUsername });
@@ -119,7 +119,7 @@ exports.unfollowUser = async (req, res) => {
 exports.updateProfile = async (req, res) => {
     try {
         // 1. Prendiamo l'ID dell'utente dal token (messo lì dal middleware 'protect')
-        const currentUserId = req.user._id;
+        const currentUserId = req.userId;
 
         // 2. Prendiamo i dati che l'utente vuole aggiornare dal corpo della richiesta
         // In questo modo, l'utente può inviare solo la bio, solo l'immagine, o entrambe
