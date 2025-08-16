@@ -4,6 +4,7 @@
 
 # Ignora il file con le variabili d'ambiente del backend
 /backend/.env
+/frontend/.env
 
 # File generati dal sistema operativo
 .DS_Store
