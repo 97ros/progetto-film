@@ -51,16 +51,12 @@ const userSchema = new Schema({
         default: 'url_placeholder_immagine_profilo_default.jpg',
     },
 
-    // Campo per la lista degli utenti che seguono questo utente
-    followers: [{
-        type: Schema.Types.ObjectId, // Tipo speciale per salvare l'ID di un altro documento
-        ref: 'User'                  // Specifica che l'ID si riferisce a un documento nella collezione 'User'
-    }],
-
-    // Campo per la lista degli utenti seguiti da questo utente
-    following: [{
-        type: Schema.Types.ObjectId,
-        ref: 'User'
+    preferredGenres: [{ type: String }], // Array di stringhe per i generi
+    
+    watchlist: [{ // Array di oggetti per i film da vedere
+        tmdbId: { type: Number, required: true },
+        title: { type: String, required: true },
+        posterPath: { type: String }
     }]
 });
 

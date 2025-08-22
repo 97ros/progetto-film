@@ -39,3 +39,16 @@ exports.searchMovies = async (req, res) => {
         res.status(500).json({ error: "Errore durante la ricerca dei film." });
     }
 };
+
+// Funzione per ottenere i dettagli di un film.
+exports.getMovieDetails = async (req, res) => {
+    const tmdbId = req.params.tmdbId;
+    const tmdbApiKey = process.env.TMDB_API_KEY;
+    const tmdbUrl = `https://api.themoviedb.org/3/movie/${tmdbId}?api_key=${tmdbApiKey}&language=it-IT`;
+    try {
+        const response = await axios.get(tmdbUrl);
+        res.status(200).json(response.data);
+    } catch (error) {
+        res.status(500).json({ message: "Errore nel recuperare i dettagli del film." });
+    }
+};

@@ -6,6 +6,7 @@ const mongoose = require('mongoose'); // Libreria per interagire con MongoDB
 const cookieParser = require('cookie-parser');
 const cors = require('cors'); // Middleware per permettere richieste da altri "domini" (il nostro frontend)
 const http = require('http');
+const genreRoutes = require('./routes/genreRoutes');
 
 // --- 2. IMPORTAZIONE DELLE ROUTE ---
 // Importiamo i file delle route che abbiamo creato
@@ -43,6 +44,7 @@ app.use('/api/posts', postRoutes);
 app.use('/api/watched', watchedRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/movies', movieRoutes);
+app.use('/api/genres', genreRoutes);
 
 // --- 6. GESTIONE DEGLI ERRORI ---
 // Middleware per gestire le rotte non trovate (404)

@@ -33,7 +33,15 @@ const postSchema = new Schema({
     likes: [{
         type: Schema.Types.ObjectId,
         ref: 'User'
-    }]
+    }],
+
+    genres: [{ type: String }],
+
+    isPrivate: {
+        type: Boolean,
+        default: false // Di default, un post è pubblico
+    }
+
 }, {
     // 3. Opzione Mongoose: aggiunge automaticamente due campi:
     // createdAt (quando il post è stato creato) e updatedAt (quando è stato modificato)
