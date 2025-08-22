@@ -23,13 +23,20 @@ const postSchema = new Schema({
 
     // Contenuto del post creato dall'utente
     postImage: {
-        type: String, // L'URL dell'immagine che l'utente condivide
+        type: String, // L'URL dell'immagine della locandina
         required: true
     },
-    caption: {
-        type: String, // Il commento/testo del post
-        maxLength: 280 // Mettiamo un limite, come su Twitter
+
+     review: {
+        type: String 
     },
+
+    rating: { // Campo per le stelline
+        type: Number,
+        min: 1,
+        max: 5
+    },
+
     likes: [{
         type: Schema.Types.ObjectId,
         ref: 'User'
@@ -47,6 +54,9 @@ const postSchema = new Schema({
     // createdAt (quando il post è stato creato) e updatedAt (quando è stato modificato)
     timestamps: true 
 });
+
+// Aggiungiamo un indice per impedire a un utente di recensire lo stesso film più volte
+postSchema.index({ authorId: 1, tmdbId: 1 }, { unique: true });
 
 // 4. Creiamo ed esportiamo il modello, che Mongoose chiamerà "posts" nel database
 module.exports = mongoose.model('Post', postSchema);

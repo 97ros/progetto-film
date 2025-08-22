@@ -12,7 +12,7 @@ const genreRoutes = require('./routes/genreRoutes');
 // Importiamo i file delle route che abbiamo creato
 const authRoutes = require('./routes/authRoutes');
 const postRoutes = require('./routes/postRoutes');
-const watchedRoutes = require('./routes/watchedRoutes');
+
 const userRoutes = require('./routes/userRoutes');
 const movieRoutes = require('./routes/movieRoutes');
 
@@ -41,7 +41,7 @@ app.use(cookieParser());
 // Tutte le rotte definite in postRoutes saranno precedute da '/api/posts'
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
-app.use('/api/watched', watchedRoutes);
+
 app.use('/api/users', userRoutes);
 app.use('/api/movies', movieRoutes);
 app.use('/api/genres', genreRoutes);

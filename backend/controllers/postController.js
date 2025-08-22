@@ -13,7 +13,7 @@ exports.createPost = async (req, res) => {
 
         // Prendiamo i dati del post dal frontend
         // Aggiungiamo 'isPrivate' ai dati che prendiamo dal body
-        const { tmdbId, movieTitle, postImage, caption, isPrivate } = req.body;
+        const {  tmdbId, movieTitle, postImage, genres, review, rating, isPrivate } = req.body;
 
         // Validazione dell'input: controlliamo che ci siano i dati minimi
                 if (!postImage || !tmdbId || !movieTitle) {
@@ -25,7 +25,8 @@ exports.createPost = async (req, res) => {
                     tmdbId,
                     movieTitle,
                     postImage, // Corretto da 'imageUrl' per coerenza con il modello
-                    caption,
+                    review, 
+                    rating,
                     genres: genres,
                     isPrivate: isPrivate || false // Se non viene specificato, il post è pubblico
                 });
@@ -85,6 +86,7 @@ exports.updatePost = async (req, res) => {
     try {
         // 1. Estraiamo i dati necessari
         const postId = req.params.postId; // L'ID del post da modificare, dall'URL
+        const { review, rating } = req.body; // Dati aggiornabili
         const currentUserId = req.userId; // L'ID dell'utente loggato, dal token
         const { caption } = req.body; // I nuovi dati da aggiornare (es. solo la didascalia)
 
@@ -104,10 +106,9 @@ exports.updatePost = async (req, res) => {
         }
 
         // 5. Se tutti i controlli sono superati, aggiorniamo il post
-        // Qui aggiorniamo solo la didascalia, ma potresti aggiornare anche altre parti
-        if (caption !== undefined) {
-            post.caption = caption;
-        }
+        // Aggiorniamo i campi
+        if (review !== undefined) post.review = review;
+        if (rating !== undefined) post.rating = rating;
         
         // Non dimenticare di salvare le modifiche!
         const updatedPost = await post.save();
