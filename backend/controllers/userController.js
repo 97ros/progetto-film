@@ -1,51 +1,6 @@
 const User = require('../models/userModel');
+const WatchedEntry = require('../models/watchedEntryModel');
 
-// --- Funzione per SEGUIRE un altro utente ---
-// Logica:
-// 1. Aggiungiamo l'ID del target all'array "following" dell'utente corrente.
-// 2. Aggiungiamo l'ID dell'utente corrente all'array "followers" dell'utente target.
-exports.followUser = async (req, res) => {
-    try {
-        // L'utente che sta per essere seguito (il suo username è nell'URL)
-        const targetUsername = req.params.username;
-        
-        // L'utente che sta compiendo l'azione (il suo ID è nel token)
-        const currentUserId = req.userId;
-
-        // Troviamo entrambi gli utenti nel database
-        const targetUser = await User.findOne({ username: targetUsername });
-        const currentUser = await User.findById(currentUserId);
-
-        // Controlli di sicurezza e validità
-        if (!targetUser) {
-            return res.status(404).json({ error: "L'utente che cerchi di seguire non esiste." });
-        }
-
-        if (targetUser._id.toString() === currentUserId.toString()) {
-            return res.status(400).json({ error: "Non puoi seguire te stesso." });
-        }
-
-        // Usiamo l'operatore $addToSet di MongoDB per aggiungere l'ID solo se non è già presente.
-        // Questo previene i duplicati (non puoi seguire la stessa persona due volte).
-        
-        // Aggiungi l'utente corrente ai follower del target
-        await User.updateOne(
-            { _id: targetUser._id },
-            { $addToSet: { followers: currentUserId } }
-        );
-
-        // Aggiungi il target ai "following" dell'utente corrente
-        await User.updateOne(
-            { _id: currentUserId },
-            { $addToSet: { following: targetUser._id } }
-        );
-
-        res.status(200).json({ message: `Ora segui ${targetUsername}` });
-
-    } catch (error) {
-        res.status(500).json({ error: "Qualcosa è andato storto: " + error.message });
-    }
-};
 
 // --- Funzione per RECUPERARE il profilo di un utente ---
 // Rotta pubblica
@@ -64,55 +19,35 @@ exports.getUserProfile = async (req, res) => {
             return res.status(404).json({ error: "Utente non trovato." });
         }
 
-        // Se l'utente viene trovato, inviamo i suoi dati
-        res.status(200).json(user);
+        // Controlliamo se chi fa la richiesta è il proprietario del profilo
+        const isOwner = req.userId === user._id.toString();
+
+        // --- RECUPERA LE LISTE ---
+        // Recupera la lista dei film visti dell'utente
+        const watchedList = await WatchedEntry.find({ userId: user._id }).sort({ createdAt: -1 });
+
+        // Mostra i post privati solo se il richiedente è il proprietario
+        const postQuery = { authorId: user._id };
+        if (!isOwner) {
+            postQuery.isPrivate = false;
+        }
+        const userPosts = await Post.find(postQuery).sort({ createdAt: -1 });
+
+        // Combiniamo tutto in un unico oggetto di risposta
+        res.status(200).json({
+            userProfile: user,
+            watchedList: watchedList,
+            userPosts: userPosts,
+            // Aggiungiamo un campo per dire al frontend se mostrare le parti private
+            isOwner: isOwner 
+        });
 
     } catch (error) {
         res.status(500).json({ error: "Errore nel recuperare il profilo utente: " + error.message });
     }
 };
 
-// --- Funzione per SMETTERE DI SEGUIRE un altro utente ---
-// Logica:
-// 1. Rimuoviamo l'ID del target dall'array "following" dell'utente corrente.
-// 2. Rimuoviamo l'ID dell'utente corrente dall'array "followers" dell'utente target.
-exports.unfollowUser = async (req, res) => {
-    try {
-        // L'utente che sta per essere "unfollowed" (il suo username è nell'URL)
-        const targetUsername = req.params.username;
 
-        // L'utente che sta compiendo l'azione (il suo ID è nel token)
-        const currentUserId = req.userId;
-
-        // Troviamo entrambi gli utenti nel database
-        const targetUser = await User.findOne({ username: targetUsername });
-        const currentUser = await User.findById(currentUserId);
-
-        // Controlli di validità
-        if (!targetUser) {
-            return res.status(404).json({ error: "L'utente che cerchi di non seguire più non esiste." });
-        }
-
-        // Usiamo l'operatore $pull di MongoDB per rimuovere un elemento da un array.
-        
-        // Rimuovi l'utente corrente dai follower del target
-        await User.updateOne(
-            { _id: targetUser._id },
-            { $pull: { followers: currentUserId } }
-        );
-
-        // Rimuovi il target dai "following" dell'utente corrente
-        await User.updateOne(
-            { _id: currentUserId },
-            { $pull: { following: targetUser._id } }
-        );
-
-        res.status(200).json({ message: `Non segui più ${targetUsername}` });
-
-    } catch (error) {
-        res.status(500).json({ error: "Qualcosa è andato storto: " + error.message });
-    }
-};
 
 
 // --- Funzione per MODIFICARE il profilo dell'utente loggato ---
@@ -120,39 +55,84 @@ exports.updateProfile = async (req, res) => {
     try {
         // 1. Prendiamo l'ID dell'utente dal token (messo lì dal middleware 'protect')
         const currentUserId = req.userId;
+        const { username, bio, profilePicture, preferredGenres } = req.body;
 
-        // 2. Prendiamo i dati che l'utente vuole aggiornare dal corpo della richiesta
-        // In questo modo, l'utente può inviare solo la bio, solo l'immagine, o entrambe
-        const { bio, profilePicture } = req.body;
-
-        // 3. Troviamo l'utente nel database
+        // Troviamo l'utente da aggiornare
         const userToUpdate = await User.findById(currentUserId);
+        if (!userToUpdate) return res.status(404).json({ message: "Utente non trovato." });
 
-        // Controllo di sicurezza (anche se improbabile se il token è valido)
-        if (!userToUpdate) {
-            return res.status(404).json({ error: "Utente non trovato." });
+        // Controlla se il nuovo username è già stato preso da un altro utente
+        if (username && username !== userToUpdate.username) {
+            const existingUser = await User.findOne({ username: username });
+            if (existingUser) {
+                return res.status(409).json({ message: "Username già in uso." });
+            }
+            userToUpdate.username = username;
         }
 
-        // 4. Aggiorniamo i campi del documento utente solo se sono stati forniti nella richiesta
-        if (bio !== undefined) {
-            userToUpdate.bio = bio;
-        }
-        if (profilePicture !== undefined) {
-            userToUpdate.profilePicture = profilePicture;
-        }
+        // Aggiorniamo i campi solo se sono stati forniti
+        if (bio !== undefined) userToUpdate.bio = bio;
+        if (profilePicture !== undefined) userToUpdate.profilePicture = profilePicture;
+        if (preferredGenres !== undefined) userToUpdate.preferredGenres = preferredGenres;
 
-        // 5. Salviamo il documento utente aggiornato
         const updatedUser = await userToUpdate.save();
 
-        // 6. Rimuoviamo la password dalla risposta prima di inviarla
+        // Rimuoviamo la password dalla risposta
         updatedUser.password = undefined;
 
-        res.status(200).json({ 
-            message: "Profilo aggiornato con successo!", 
-            user: updatedUser 
-        });
+        res.status(200).json({ message: "Profilo aggiornato con successo!", user: updatedUser });
 
     } catch (error) {
-        res.status(500).json({ error: "Errore durante l'aggiornamento del profilo: " + error.message });
+        res.status(500).json({ message: "Errore durante l'aggiornamento del profilo." });
+    }
+};
+
+
+// --- Funzione per AGGIUNGERE un film alla watchlist ---
+exports.addToWatchlist = async (req, res) => {
+    try {
+        const currentUserId = req.userId;
+        // I dati del film da aggiungere (tmdbId, title, posterPath) li prendiamo dal body
+        const movieData = req.body;
+
+        if (!movieData.tmdbId || !movieData.title) {
+            return res.status(400).json({ message: "ID e titolo del film sono obbligatori." });
+        }
+        
+        // Usiamo $addToSet invece di $push per evitare di aggiungere film duplicati
+        const updatedUser = await User.findByIdAndUpdate(
+            currentUserId,
+            { $addToSet: { watchlist: movieData } },
+            { new: true } // Opzione per restituire il documento aggiornato
+        );
+
+        if (!updatedUser) return res.status(404).json({ message: "Utente non trovato." });
+        
+        res.status(200).json({ message: "Film aggiunto alla watchlist!", watchlist: updatedUser.watchlist });
+
+    } catch (error) {
+        res.status(500).json({ message: "Errore nell'aggiungere il film alla watchlist." });
+    }
+};
+
+// --- Funzione per RIMUOVERE un film dalla watchlist ---
+exports.removeFromWatchlist = async (req, res) => {
+    try {
+        const currentUserId = req.userId;
+        // L'ID del film da rimuovere lo prendiamo dai parametri dell'URL
+        const tmdbIdToRemove = req.params.tmdbId;
+
+        // Usiamo $pull per rimuovere l'oggetto dall'array che ha un tmdbId corrispondente
+        const updatedUser = await User.findByIdAndUpdate(
+            currentUserId,
+            { $pull: { watchlist: { tmdbId: tmdbIdToRemove } } },
+            { new: true }
+        );
+
+        if (!updatedUser) return res.status(404).json({ message: "Utente non trovato." });
+
+        res.status(200).json({ message: "Film rimosso dalla watchlist!", watchlist: updatedUser.watchlist });
+    } catch (error) {
+        res.status(500).json({ message: "Errore nel rimuovere il film dalla watchlist." });
     }
 };

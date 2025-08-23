@@ -21,8 +21,8 @@ const generateTokens = (userId) => {
 // --- Funzione per la REGISTRAZIONE ---
 exports.register = async (req, res) => {
     try {
-        // Prendiamo i dati inviati dal frontend (dal form di registrazione)
-        const { username, email, password } = req.body;
+        //Prendiamo i dati inviati dal frontend (dal form di registrazione), accettando anche i campi facoltativi
+        const { username, email, password, bio, profilePicture, preferredGenres } = req.body;
 
         // Controlla se l'utente o l'email esistono già
         const existingUser = await User.findOne({ $or: [{ email }, { username }] });
@@ -31,7 +31,15 @@ exports.register = async (req, res) => {
         }
 
         // Creiamo un nuovo utente usando il nostro modello
-        const newUser = new User({ username, email, password });
+        const newUser = new User({
+            username,
+            email,
+            password,
+            bio, // Sarà undefined se non fornito, ma il modello ha un default
+            profilePicture, // Stessa cosa
+            preferredGenres // Sarà un array di stringhe o undefined
+        });
+
         // Salviamo il nuovo utente nel database
         await newUser.save(); // La password viene hashata dal middleware pre-save in userModel
 
@@ -89,7 +97,8 @@ exports.login = async (req, res) => {
             accessToken,
             user: { // Invia alcune info utente non sensibili
                 id: user._id, 
-                username: user.username }
+                username: user.username,
+                profilePicture: user.profilePicture }
         });
 
 
@@ -149,7 +158,7 @@ exports.refresh = async (req, res) => {
 };
 
 // --- Funzione per il LOGOUT ---
-// in authController.js
+
 
 exports.logout = async (req, res) => {
     // 1. Controlla se il cookie jwt esiste nella richiesta

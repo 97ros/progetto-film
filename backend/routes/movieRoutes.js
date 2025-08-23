@@ -7,4 +7,7 @@ const movieController = require('../controllers/movieController');
 // Esempio: GET /api/movies/search?query=matrix
 router.get('/search', movieController.searchMovies);
 
+
+router.get('/:tmdbId', movieController.getMovieDetails);
+
 module.exports = router;

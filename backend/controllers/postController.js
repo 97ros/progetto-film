@@ -1,5 +1,6 @@
 const Post = require('../models/postModel');
 const User = require('../models/userModel'); // Ci serve per trovare chi segue l'utente
+const jwt = require('jsonwebtoken');
 
 // --- Funzione per CREARE un nuovo post ---
 // Nota: questa funzione sarà "protetta", solo gli utenti loggati potranno usarla.
@@ -11,7 +12,8 @@ exports.createPost = async (req, res) => {
         const authorId = req.userId; 
 
         // Prendiamo i dati del post dal frontend
-        const { tmdbId, movieTitle, postImage, caption } = req.body;
+        // Aggiungiamo 'isPrivate' ai dati che prendiamo dal body
+        const {  tmdbId, movieTitle, postImage, genres, review, rating, isPrivate } = req.body;
 
         // Validazione dell'input: controlliamo che ci siano i dati minimi
                 if (!postImage || !tmdbId || !movieTitle) {
@@ -23,7 +25,10 @@ exports.createPost = async (req, res) => {
                     tmdbId,
                     movieTitle,
                     postImage, // Corretto da 'imageUrl' per coerenza con il modello
-                    caption
+                    review, 
+                    rating,
+                    genres: genres,
+                    isPrivate: isPrivate || false // Se non viene specificato, il post è pubblico
                 });
 
         await newPost.save();
@@ -31,7 +36,7 @@ exports.createPost = async (req, res) => {
         // Popoliamo i dati dell'autore prima di restituire la risposta
         const populatedPost = await Post.findById(newPost._id).populate('authorId', 'username profilePicture'); // Corretto da 'author'        
 
-        res.status(201).json({ message: "Post creato con successo!", post: newPost });
+        res.status(201).json({ message: "Post creato con successo!", post: populatedPost  });
 
     } catch (error) {
         console.error("Errore creazione post:", error);
@@ -44,32 +49,36 @@ exports.createPost = async (req, res) => {
     }
 };
 
-// --- Funzione per recuperare il FEED dell'utente ---
-exports.getFeed = async (req, res) => {
+// --- Funzione per la HOMEPAGE ---
+// Restituisce tutti i post PUBBLICI, li filtra in base ai suoi generi preferiti.
+exports.getHomepagePosts = async (req, res) => {
     try {
-        // Prendiamo l'ID dal middleware
-        const currentUserId = req.userId;
-        
-        // Usiamo l'ID per trovare l'utente nel DB
-        const currentUser = await User.findById(currentUserId);
-        if (!currentUser) {
-            return res.status(404).json({ error: "Utente non trovato." });
+        // Sappiamo con certezza che req.userId esiste, grazie al middleware 'protect'
+        const userId = req.userId;
+        const user = await User.findById(userId);
+
+        let query = { isPrivate: false }; // Mostra sempre e solo i post pubblici a tutti
+
+        // Se l'utente ha definito dei generi preferiti, li usiamo per filtrare
+        if (user && user.preferredGenres && user.preferredGenres.length > 0) {
+            // Se l'utente ha dei generi preferiti, dobbiamo trovare i film di quei generi
+            // e poi i post relativi a quei film.
+            query.genres = { $in: user.preferredGenres };
         }
-
-        // Recuperiamo la lista degli utenti che segue
-        const followingIds = currentUser.following;
-
-        // Cerchiamo tutti i post il cui autore è nella lista 'followingIds'
-        const feedPosts = await Post.find({
-            'authorId': { $in: followingIds }
-        }).sort({ createdAt: -1 }); // Ordiniamo i post dal più recente al più vecchio
-
-        res.status(200).json(feedPosts);
+        // Eseguiamo la query e popoliamo l'autore
+        const posts = await Post.find(query)
+            .populate('authorId', 'username profilePicture')
+            .sort({ createdAt: -1 }) // Ordiniamo dal più recente
+            .limit(50); // Limitiamo a 50 post per non sovraccaricare
+        
+        res.status(200).json(posts);
 
     } catch (error) {
-        res.status(500).json({ error: "Errore nel recuperare il feed: " + error.message });
+        console.error("Errore recupero post per la homepage:", error);
+        res.status(500).json({ message: "Errore nel recuperare i post per la homepage." });
     }
 };
+
 
 // --- Funzione per MODIFICARE un post esistente ---
 // Rotta protetta: l'utente deve essere loggato E deve essere l'autore del post.
@@ -77,6 +86,7 @@ exports.updatePost = async (req, res) => {
     try {
         // 1. Estraiamo i dati necessari
         const postId = req.params.postId; // L'ID del post da modificare, dall'URL
+        const { review, rating } = req.body; // Dati aggiornabili
         const currentUserId = req.userId; // L'ID dell'utente loggato, dal token
         const { caption } = req.body; // I nuovi dati da aggiornare (es. solo la didascalia)
 
@@ -96,10 +106,9 @@ exports.updatePost = async (req, res) => {
         }
 
         // 5. Se tutti i controlli sono superati, aggiorniamo il post
-        // Qui aggiorniamo solo la didascalia, ma potresti aggiornare anche altre parti
-        if (caption !== undefined) {
-            post.caption = caption;
-        }
+        // Aggiorniamo i campi
+        if (review !== undefined) post.review = review;
+        if (rating !== undefined) post.rating = rating;
         
         // Non dimenticare di salvare le modifiche!
         const updatedPost = await post.save();
@@ -199,14 +208,33 @@ exports.getPostById = async (req, res) => {
     try {
         const postId = req.params.postId;
         
-        const post = await Post.findById(postId)
-            .populate('authorId', 'username profilePicture'); // Corretto da 'author' a 'authorId'
+        const post = await Post.findById(postId).populate('authorId', 'username profilePicture'); 
 
         if (!post) {
             return res.status(404).json({ message: "Post non trovato." });
         }
 
-        res.status(200).json({ message: "Post recuperato con successo.", post });
+        // --- CONTROLLO PRIVACY ---
+        if (post.isPrivate) {
+            // Se il post è privato, solo l'autore può vederlo.
+            // Dobbiamo verificare l'identità del richiedente.
+            // Usiamo lo stesso metodo "soft" visto per la homepage.
+            const authHeader = req.headers.authorization || req.headers.Authorization;
+            let currentUserId = null;
+            if (authHeader?.startsWith('Bearer ')) {
+                const token = authHeader.split(' ')[1];
+                try {
+                    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+                    currentUserId = decoded.userId;
+                } catch (err) { /* ignora token non valido */ }
+            }
+
+            if (post.authorId._id.toString() !== currentUserId) {
+                return res.status(403).json({ message: "Questo post è privato." });
+            }
+        }
+        // Se il post non è privato, o se l'utente è l'autore, lo mostriamo.
+        res.status(200).json(post);
 
     } catch (error) {
         console.error("Errore recupero post per ID:", error);
@@ -215,7 +243,19 @@ exports.getPostById = async (req, res) => {
         if (error.name === 'CastError') {
             return res.status(400).json({ message: "ID del post non valido." });
         }
-        
-        res.status(500).json({ message: "Errore del server." });
+}
+};
+
+
+// Funzione per trovare i post di un film.
+exports.getPostsForMovie = async (req, res) => {
+    try {
+        const tmdbId = req.params.tmdbId;
+        const posts = await Post.find({ tmdbId: tmdbId, isPrivate: false })
+            .populate('authorId', 'username profilePicture')
+            .sort({ createdAt: -1 });
+        res.status(200).json(posts);
+    } catch (error) {
+        res.status(500).json({ message: "Errore nel recuperare i post per il film." });
     }
 };
