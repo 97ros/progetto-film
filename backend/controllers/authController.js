@@ -97,7 +97,8 @@ exports.login = async (req, res) => {
             accessToken,
             user: { // Invia alcune info utente non sensibili
                 id: user._id, 
-                username: user.username }
+                username: user.username,
+                profilePicture: user.profilePicture }
         });
 
 
@@ -157,7 +158,7 @@ exports.refresh = async (req, res) => {
 };
 
 // --- Funzione per il LOGOUT ---
-// in authController.js
+
 
 exports.logout = async (req, res) => {
     // 1. Controlla se il cookie jwt esiste nella richiesta
