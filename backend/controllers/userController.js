@@ -1,6 +1,4 @@
 const User = require('../models/userModel');
-const WatchedEntry = require('../models/watchedEntryModel');
-
 
 // --- Funzione per RECUPERARE il profilo di un utente ---
 // Rotta pubblica
@@ -46,9 +44,6 @@ exports.getUserProfile = async (req, res) => {
         res.status(500).json({ error: "Errore nel recuperare il profilo utente: " + error.message });
     }
 };
-
-
-
 
 // --- Funzione per MODIFICARE il profilo dell'utente loggato ---
 exports.updateProfile = async (req, res) => {
