@@ -1,38 +1,39 @@
-.App {
-  text-align: center;
-}
+/*Scopo: Contiene gli stili specifici per il layout principale definito in App.jsx.
+In questo caso, il suo scopo principale è creare la struttura a due colonne:
+la Navbar fissa a sinistra e l'area del contenuto principale a destra,
+assicurandosi che il contenuto non finisca sotto la navbar.*/
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
+/* src/App.css */
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.app-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  min-height: 100vh;
 }
 
-.App-link {
-  color: #61dafb;
+/* L'area del contenuto principale */
+.main-content {
+  /* La Navbar è larga 240px, quindi il contenuto deve iniziare dopo */
+  margin-left: 240px; 
+
+  /* Occupa tutto lo spazio rimanente in larghezza */
+  flex-grow: 1; 
+
+  /* Aggiunge un po' di spazio interno per non avere il contenuto attaccato ai bordi */
+  padding: 2rem; 
+
+  /* Assicura che il padding non aumenti la larghezza totale */
+  box-sizing: border-box; 
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Media Query per schermi più piccoli (es. tablet/telefoni) */
+/* Qui potresti nascondere la navbar e mostrare un menu hamburger,
+   ma per ora facciamo in modo che il contenuto vada sotto */
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0; /* Rimuove il margine, la navbar andrà sopra */
+    padding: 1rem;
+    padding-top: 80px; /* Aggiunge spazio sopra per non finire sotto una eventuale navbar superiore */
   }
-  to {
-    transform: rotate(360deg);
-  }
+
+  /* Dovresti anche modificare la Navbar per essere nascosta o diversa su mobile */
 }

@@ -1,0 +1,118 @@
+/* ExplorePage.css */
+
+.explore-container {
+    padding: 40px;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+}
+
+.explore-container h1 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.search-bar-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.search-input {
+    width: 100%;
+    padding: 15px 20px;
+    font-size: 18px;
+    border: 2px solid #ddd;
+    border-radius: 50px; /* Stile "pillola" */
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #e50914; /* Colore primario quando attivo */
+    box-shadow: 0 0 8px rgba(229, 9, 20, 0.2);
+}
+
+.error-message {
+    text-align: center;
+    color: #e50914;
+    margin-top: 16px;
+}
+
+/* Menu a tendina dei risultati */
+.results-dropdown {
+    list-style: none;
+    padding: 0;
+    margin-top: 8px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-height: 400px; /* Altezza massima, poi diventa scrollabile */
+    overflow-y: auto;
+}
+
+.result-item {
+    border-bottom: 1px solid #eee;
+}
+.result-item:last-child {
+    border-bottom: none;
+}
+
+.result-link {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.2s ease;
+}
+
+.result-link:hover {
+    background-color: #f5f5f5;
+}
+
+.result-poster {
+    width: 50px;
+    height: 75px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 16px;
+    background-color: #eee; /* Colore di sfondo mentre l'immagine carica */
+}
+
+.result-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.result-title {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.result-year {
+    font-size: 14px;
+    color: #777;
+}
+
+/* Spinner di caricamento */
+.loading-spinner {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #e50914;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: translateY(-50%) rotate(0deg); }
+    100% { transform: translateY(-50%) rotate(360deg); }
+}

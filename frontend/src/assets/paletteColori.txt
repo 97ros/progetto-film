@@ -1,0 +1,176 @@
+/* Color Theme Swatches in Hex */
+.University-of-Massachusetts-Portraits-Part-3-1-hex { color: #252859; }
+.University-of-Massachusetts-Portraits-Part-3-2-hex { color: #7B838C; }
+.University-of-Massachusetts-Portraits-Part-3-3-hex { color: #485F73; }
+.University-of-Massachusetts-Portraits-Part-3-4-hex { color: #F2F2F2; }
+.University-of-Massachusetts-Portraits-Part-3-5-hex { color: #BFBFBF; }
+
+/* Color Theme Swatches in RGBA */
+.University-of-Massachusetts-Portraits-Part-3-1-rgba { color: rgba(37, 40, 89, 1); }
+.University-of-Massachusetts-Portraits-Part-3-2-rgba { color: rgba(123, 130, 140, 1); }
+.University-of-Massachusetts-Portraits-Part-3-3-rgba { color: rgba(72, 94, 114, 1); }
+.University-of-Massachusetts-Portraits-Part-3-4-rgba { color: rgba(242, 242, 242, 1); }
+.University-of-Massachusetts-Portraits-Part-3-5-rgba { color: rgba(191, 191, 191, 1); }
+
+/* Color Theme Swatches in HSLA */
+.University-of-Massachusetts-Portraits-Part-3-1-hsla { color: hsla(236, 40, 24, 1); }
+.University-of-Massachusetts-Portraits-Part-3-2-hsla { color: hsla(213, 6, 51, 1); }
+.University-of-Massachusetts-Portraits-Part-3-3-hsla { color: hsla(208, 22, 36, 1); }
+.University-of-Massachusetts-Portraits-Part-3-4-hsla { color: hsla(0, 0, 95, 1); }
+.University-of-Massachusetts-Portraits-Part-3-5-hsla { color: hsla(0, 0, 75, 1); }
+
+
+
+/* Color Theme Swatches in Hex */
+.vintage-blue-book-cover.-canvas-texture.-use-for-background.-1-hex { color: #F2DCEC; }
+.vintage-blue-book-cover.-canvas-texture.-use-for-background.-2-hex { color: #72A1A6; }
+.vintage-blue-book-cover.-canvas-texture.-use-for-background.-3-hex { color: #A9D4D9; }
+.vintage-blue-book-cover.-canvas-texture.-use-for-background.-4-hex { color: #437373; }
+.vintage-blue-book-cover.-canvas-texture.-use-for-background.-5-hex { color: #568C8C; }
+
+/* Color Theme Swatches in RGBA */
+.vintage-blue-book-cover.-canvas-texture.-use-for-background.-1-rgba { color: rgba(242, 220, 236, 1); }
+.vintage-blue-book-cover.-canvas-texture.-use-for-background.-2-rgba { color: rgba(114, 160, 165, 1); }
+.vintage-blue-book-cover.-canvas-texture.-use-for-background.-3-rgba { color: rgba(169, 211, 216, 1); }
+.vintage-blue-book-cover.-canvas-texture.-use-for-background.-4-rgba { color: rgba(66, 114, 114, 1); }
+.vintage-blue-book-cover.-canvas-texture.-use-for-background.-5-rgba { color: rgba(85, 140, 140, 1); }
+
+/* Color Theme Swatches in HSLA */
+.vintage-blue-book-cover.-canvas-texture.-use-for-background.-1-hsla { color: hsla(315, 46, 90, 1); }
+.vintage-blue-book-cover.-canvas-texture.-use-for-background.-2-hsla { color: hsla(185, 22, 54, 1); }
+.vintage-blue-book-cover.-canvas-texture.-use-for-background.-3-hsla { color: hsla(185, 38, 75, 1); }
+.vintage-blue-book-cover.-canvas-texture.-use-for-background.-4-hsla { color: hsla(180, 26, 35, 1); }
+.vintage-blue-book-cover.-canvas-texture.-use-for-background.-5-hsla { color: hsla(180, 24, 44, 1); }
+
+
+/* Color Theme Swatches in Hex */
+.retro-sky-pattern-on-old-paper-1-hex { color: #658DA6; }
+.retro-sky-pattern-on-old-paper-2-hex { color: #6DA0A6; }
+.retro-sky-pattern-on-old-paper-3-hex { color: #688C82; }
+.retro-sky-pattern-on-old-paper-4-hex { color: #D9C6A3; }
+.retro-sky-pattern-on-old-paper-5-hex { color: #D9C8B4; }
+
+/* Color Theme Swatches in RGBA */
+.retro-sky-pattern-on-old-paper-1-rgba { color: rgba(101, 140, 165, 1); }
+.retro-sky-pattern-on-old-paper-2-rgba { color: rgba(109, 160, 165, 1); }
+.retro-sky-pattern-on-old-paper-3-rgba { color: rgba(103, 140, 129, 1); }
+.retro-sky-pattern-on-old-paper-4-rgba { color: rgba(216, 197, 162, 1); }
+.retro-sky-pattern-on-old-paper-5-rgba { color: rgba(216, 200, 179, 1); }
+
+/* Color Theme Swatches in HSLA */
+.retro-sky-pattern-on-old-paper-1-hsla { color: hsla(202, 26, 52, 1); }
+.retro-sky-pattern-on-old-paper-2-hsla { color: hsla(185, 23, 53, 1); }
+.retro-sky-pattern-on-old-paper-3-hsla { color: hsla(163, 14, 47, 1); }
+.retro-sky-pattern-on-old-paper-4-hsla { color: hsla(39, 41, 74, 1); }
+.retro-sky-pattern-on-old-paper-5-hsla { color: hsla(33, 32, 77, 1); }
+
+
+
+/* Color Theme Swatches in Hex */
+.Vintage-Sherlock-1-hex { color: #8B501B; }
+.Vintage-Sherlock-2-hex { color: #FFE797; }
+.Vintage-Sherlock-3-hex { color: #CCEFBE; }
+.Vintage-Sherlock-4-hex { color: #718444; }
+.Vintage-Sherlock-5-hex { color: #FF3D2D; }
+
+/* Color Theme Swatches in RGBA */
+.Vintage-Sherlock-1-rgba { color: rgba(138, 79, 26, 1); }
+.Vintage-Sherlock-2-rgba { color: rgba(255, 231, 151, 1); }
+.Vintage-Sherlock-3-rgba { color: rgba(204, 239, 189, 1); }
+.Vintage-Sherlock-4-rgba { color: rgba(112, 131, 68, 1); }
+.Vintage-Sherlock-5-rgba { color: rgba(255, 61, 45, 1); }
+
+/* Color Theme Swatches in HSLA */
+.Vintage-Sherlock-1-hsla { color: hsla(28, 67, 32, 1); }
+.Vintage-Sherlock-2-hsla { color: hsla(46, 100, 79, 1); }
+.Vintage-Sherlock-3-hsla { color: hsla(102, 60, 84, 1); }
+.Vintage-Sherlock-4-hsla { color: hsla(77, 31, 39, 1); }
+.Vintage-Sherlock-5-hsla { color: hsla(4, 100, 58, 1); }
+
+
+/* Color Theme Swatches in Hex */
+.Four-empty-vintage-tin-signs-on-a-white-background-1-hex { color: #9EBF95; }
+.Four-empty-vintage-tin-signs-on-a-white-background-2-hex { color: #F2D16D; }
+.Four-empty-vintage-tin-signs-on-a-white-background-3-hex { color: #401801; }
+.Four-empty-vintage-tin-signs-on-a-white-background-4-hex { color: #F2695C; }
+.Four-empty-vintage-tin-signs-on-a-white-background-5-hex { color: #F2F2F2; }
+
+/* Color Theme Swatches in RGBA */
+.Four-empty-vintage-tin-signs-on-a-white-background-1-rgba { color: rgba(158, 191, 149, 1); }
+.Four-empty-vintage-tin-signs-on-a-white-background-2-rgba { color: rgba(242, 209, 109, 1); }
+.Four-empty-vintage-tin-signs-on-a-white-background-3-rgba { color: rgba(63, 23, 1, 1); }
+.Four-empty-vintage-tin-signs-on-a-white-background-4-rgba { color: rgba(242, 105, 91, 1); }
+.Four-empty-vintage-tin-signs-on-a-white-background-5-rgba { color: rgba(242, 242, 242, 1); }
+
+/* Color Theme Swatches in HSLA */
+.Four-empty-vintage-tin-signs-on-a-white-background-1-hsla { color: hsla(107, 24, 66, 1); }
+.Four-empty-vintage-tin-signs-on-a-white-background-2-hsla { color: hsla(45, 83, 68, 1); }
+.Four-empty-vintage-tin-signs-on-a-white-background-3-hsla { color: hsla(21, 96, 12, 1); }
+.Four-empty-vintage-tin-signs-on-a-white-background-4-hsla { color: hsla(5, 85, 65, 1); }
+.Four-empty-vintage-tin-signs-on-a-white-background-5-hsla { color: hsla(0, 0, 94, 1); }
+
+
+/* Color Theme Swatches in Hex */
+.Vintage-Frequency-1-hex { color: #F2EFDF; }
+.Vintage-Frequency-2-hex { color: #F2D091; }
+.Vintage-Frequency-3-hex { color: #F29057; }
+.Vintage-Frequency-4-hex { color: #F24738; }
+.Vintage-Frequency-5-hex { color: #A63D33; }
+
+/* Color Theme Swatches in RGBA */
+.Vintage-Frequency-1-rgba { color: rgba(242, 239, 222, 1); }
+.Vintage-Frequency-2-rgba { color: rgba(242, 208, 145, 1); }
+.Vintage-Frequency-3-rgba { color: rgba(242, 144, 87, 1); }
+.Vintage-Frequency-4-rgba { color: rgba(242, 71, 55, 1); }
+.Vintage-Frequency-5-rgba { color: rgba(165, 60, 51, 1); }
+
+/* Color Theme Swatches in HSLA */
+.Vintage-Frequency-1-hsla { color: hsla(50, 43, 91, 1); }
+.Vintage-Frequency-2-hsla { color: hsla(39, 79, 76, 1); }
+.Vintage-Frequency-3-hsla { color: hsla(22, 85, 64, 1); }
+.Vintage-Frequency-4-hsla { color: hsla(5, 87, 58, 1); }
+.Vintage-Frequency-5-hsla { color: hsla(5, 52, 42, 1); }
+
+
+
+/* Color Theme Swatches in Hex */
+.uomo-in-camicia-blu-e-sciarpa-utilizza-una-vecchia-cinepresa-da-super-8,-isolato-su-sfondo-bianco-1-hex { color: #F0F0F2; }
+.uomo-in-camicia-blu-e-sciarpa-utilizza-una-vecchia-cinepresa-da-super-8,-isolato-su-sfondo-bianco-2-hex { color: #3D5A73; }
+.uomo-in-camicia-blu-e-sciarpa-utilizza-una-vecchia-cinepresa-da-super-8,-isolato-su-sfondo-bianco-3-hex { color: #6387A6; }
+.uomo-in-camicia-blu-e-sciarpa-utilizza-una-vecchia-cinepresa-da-super-8,-isolato-su-sfondo-bianco-4-hex { color: #9ABBD9; }
+.uomo-in-camicia-blu-e-sciarpa-utilizza-una-vecchia-cinepresa-da-super-8,-isolato-su-sfondo-bianco-5-hex { color: #D9A491; }
+
+/* Color Theme Swatches in RGBA */
+.uomo-in-camicia-blu-e-sciarpa-utilizza-una-vecchia-cinepresa-da-super-8,-isolato-su-sfondo-bianco-1-rgba { color: rgba(239, 240, 242, 1); }
+.uomo-in-camicia-blu-e-sciarpa-utilizza-una-vecchia-cinepresa-da-super-8,-isolato-su-sfondo-bianco-2-rgba { color: rgba(60, 89, 114, 1); }
+.uomo-in-camicia-blu-e-sciarpa-utilizza-una-vecchia-cinepresa-da-super-8,-isolato-su-sfondo-bianco-3-rgba { color: rgba(99, 134, 165, 1); }
+.uomo-in-camicia-blu-e-sciarpa-utilizza-una-vecchia-cinepresa-da-super-8,-isolato-su-sfondo-bianco-4-rgba { color: rgba(153, 187, 216, 1); }
+.uomo-in-camicia-blu-e-sciarpa-utilizza-una-vecchia-cinepresa-da-super-8,-isolato-su-sfondo-bianco-5-rgba { color: rgba(216, 164, 145, 1); }
+
+/* Color Theme Swatches in HSLA */
+.uomo-in-camicia-blu-e-sciarpa-utilizza-una-vecchia-cinepresa-da-super-8,-isolato-su-sfondo-bianco-1-hsla { color: hsla(224, 8, 94, 1); }
+.uomo-in-camicia-blu-e-sciarpa-utilizza-una-vecchia-cinepresa-da-super-8,-isolato-su-sfondo-bianco-2-hsla { color: hsla(208, 30, 34, 1); }
+.uomo-in-camicia-blu-e-sciarpa-utilizza-una-vecchia-cinepresa-da-super-8,-isolato-su-sfondo-bianco-3-hsla { color: hsla(208, 27, 52, 1); }
+.uomo-in-camicia-blu-e-sciarpa-utilizza-una-vecchia-cinepresa-da-super-8,-isolato-su-sfondo-bianco-4-hsla { color: hsla(208, 45, 72, 1); }
+.uomo-in-camicia-blu-e-sciarpa-utilizza-una-vecchia-cinepresa-da-super-8,-isolato-su-sfondo-bianco-5-hsla { color: hsla(16, 48, 70, 1); }
+
+/* Color Theme Swatches in Hex */
+.Vntg-1-hex { color: #162440; }
+.Vntg-2-hex { color: #F3EEE8; }
+.Vntg-3-hex { color: #F2C07B; }
+.Vntg-4-hex { color: #E6704C; }
+.Vntg-5-hex { color: #19284B; }
+
+/* Color Theme Swatches in RGBA */
+.Vntg-1-rgba { color: rgba(22, 36, 64, 1); }
+.Vntg-2-rgba { color: rgba(243, 238, 232, 1); }
+.Vntg-3-rgba { color: rgba(242, 192, 123, 1); }
+.Vntg-4-rgba { color: rgba(230, 112, 76, 1); }
+.Vntg-5-rgba { color: rgba(25, 40, 75, 1); }
+
+/* Color Theme Swatches in HSLA */
+.Vntg-1-hsla { color: hsla(219, 48, 16, 1); }
+.Vntg-2-hsla { color: hsla(32, 31, 93, 1); }
+.Vntg-3-hsla { color: hsla(34, 82, 71, 1); }
+.Vntg-4-hsla { color: hsla(14, 75, 60, 1); }
+.Vntg-5-hsla { color: hsla(222, 50, 19, 1); }

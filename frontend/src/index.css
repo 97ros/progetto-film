@@ -1,3 +1,9 @@
+/*Scopo: Contiene gli stili **globali** e di base per l'intera applicazione. Viene caricato una sola volta e le sue regole si applicano a tutto il sito.
+È usato per impostare font di default, colori di sfondo, e resettare gli stili predefiniti del browser per avere una base consistente.
+src/index.css
+*/
+
+/* Imposta un font moderno e pulito per l'intera applicazione */
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,9 +11,16 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #f4f4f4; /* Un grigio chiaro per lo sfondo delle pagine */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Una regola "box-sizing" standard per rendere il layout più prevedibile */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Stili di base per i link, per rimuovere la sottolineatura di default */
+a {
+  text-decoration: none;
+  color: inherit;
 }

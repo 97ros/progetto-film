@@ -1,17 +1,32 @@
+// src/index.js
+/*Scopo: È il punto di ingresso dell'applicazione. È il primo file JavaScript che viene eseguito.
+Il suo compito è semplice ma cruciale:
+- Importare le librerie fondamentali (React).
+- Importare il componente principale (App).
+- "Iniettare" l'intera applicazione React all'interno dell'elemento <div id="root"> nel file public/index.html.
+- Avvolgere l'intera app nei "Provider" necessari, come BrowserRouter (per abilitare il routing)
+e il nostro AuthProvider (per fornire il contesto di autenticazione).*/
+
+// src/index.js
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import { BrowserRouter } from 'react-router-dom';
+
+import 'bootstrap/dist/css/bootstrap.min.css'; // Importa gli stili di Bootstrap
+import './index.css'; // I tuoi stili globali
+
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { AuthProvider } from './context/AuthContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    {/* BrowserRouter abilita la navigazione tra pagine */}
+    <BrowserRouter>
+      {/* AuthProvider rende disponibile lo stato di login a tutta l'app */}
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
