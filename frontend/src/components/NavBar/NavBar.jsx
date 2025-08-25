@@ -51,15 +51,7 @@ function Navbar() {
 
             {/* 6. Aggiunta una sezione "footer" per raggruppare profilo utente e logout */}
             <div className="navbar-footer">
-                <Link to={`/user/${currentUser.username}`} className="navbar-user-profile">
-                    <img 
-                        src={currentUser.profilePicture || 'https://via.placeholder.com/40'} 
-                        alt="Avatar utente" 
-                        className="user-avatar"
-                    />
-                    <span className="user-name">{currentUser.username}</span>
-                </Link>
-
+                    <span className="user-name">@{currentUser.username}</span>
                 <div className="logout-section">
                     {/* 7. Il pulsante ora chiama direttamente la funzione `logout` dal contesto */}
                     <button onClick={logout} className="logout-button">

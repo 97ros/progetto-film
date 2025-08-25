@@ -86,9 +86,8 @@ exports.updatePost = async (req, res) => {
     try {
         // 1. Estraiamo i dati necessari
         const postId = req.params.postId; // L'ID del post da modificare, dall'URL
-        const { review, rating } = req.body; // Dati aggiornabili
+        const { review, rating, isPrivate } = req.body; // Dati aggiornabili
         const currentUserId = req.userId; // L'ID dell'utente loggato, dal token
-        const { caption } = req.body; // I nuovi dati da aggiornare (es. solo la didascalia)
 
         // 2. Troviamo il post nel database
         const post = await Post.findById(postId);
@@ -109,6 +108,9 @@ exports.updatePost = async (req, res) => {
         // Aggiorniamo i campi
         if (review !== undefined) post.review = review;
         if (rating !== undefined) post.rating = rating;
+        if (isPrivate !== undefined) {
+            post.isPrivate = isPrivate;
+        }
         
         // Non dimenticare di salvare le modifiche!
         const updatedPost = await post.save();

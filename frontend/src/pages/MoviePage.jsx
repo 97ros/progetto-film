@@ -6,9 +6,13 @@ import { useAuth } from '../context/AuthContext';
 
 // Componenti UI
 import { Container, Row, Col, Card, Image, Spinner, Alert, Button, Modal, Badge } from 'react-bootstrap';
-import CreatePostForm from '../components/CreatePostForm'; // Assicurati di avere questo componente
+import IconButton from '@mui/material/IconButton';
+import Rating from '@mui/material/Rating';
+import CreatePostForm from '../components/CreatePostForm';
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
 import PostAddIcon from '@mui/icons-material/PostAdd';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const linkStyle = { textDecoration: 'none', color: 'inherit' };
 
@@ -54,17 +58,26 @@ function MoviePage() {
                 tmdbId: movieDetails.id,
                 title: movieDetails.title,
                 posterPath: posterUrl,
-                cast: movieDetails.cast,
-                languages: movieDetails.languages,
-                imdb: movieDetails.imdb_id.rating
             };
             await api.post('/users/me/watchlist', watchlistData);
             alert(`"${movieDetails.title}" è stato aggiunto alla tua watchlist!`);
         } catch(err) {
-            alert(
-                err.response?<div className="text-danger">{err.response.data.message}</div> :
-                <div className="text-danger">"Questo film è già nella tua watchlist o si è verificato un errore."</div>
+            alert((err.response && err.response.data && err.response.data.message) || "Questo film è già nella tua watchlist o si è verificato un errore.");
+        }
+    };
+
+    // Logica per il like al post nella scheda film
+    const handleLikePost = async (postId) => {
+        try {
+            const response = await api.post(`/posts/${postId}/like`);
+            const updatedPost = response.data.post;
+            // Aggiorna lo stato dei post per riflettere il like/unlike
+            setPosts(currentPosts => 
+                currentPosts.map(p => p._id === postId ? updatedPost : p)
             );
+        } catch(err) {
+            console.error("Errore durante il like:", err);
+            alert((err.response && err.response.data && err.response.data.message) || "Non è stato possibile aggiornare il like.");
         }
     };
     
@@ -93,9 +106,23 @@ function MoviePage() {
                     <h1>{movieDetails.title} <span className="text-muted">({movieDetails.release_date.substring(0, 4)})</span></h1>
                     <div>
                         {movieDetails.genres.map(genre => (
-                            <Badge pill bg="secondary" className="me-1" key={genre.id}>{genre.name}</Badge>
+                            <Badge pill bg="secondary" className="me-1" key={genre._id}>{genre.name}</Badge>
                         ))}
                     </div>
+
+                    <p><strong>Registi:</strong> {movieDetails.directors && movieDetails.directors.length > 0 ? movieDetails.directors.join(', ') : 'Non disponibile'}</p>
+
+                    <h6>Cast Principale</h6>
+                    <p>
+                        {movieDetails.cast && movieDetails.cast.length > 0
+                        ? movieDetails.cast.slice(0, 10).join(', ')
+                        : 'Non disponibile'}
+                        </p>
+                    <h6>Lingue</h6>
+                    <p>{movieDetails.languages && movieDetails.languages.length > 0 ? movieDetails.languages.join(', ') : 'Non disponibile'}</p>
+
+                    <h6>Valutazione TMDB</h6>
+                    <p>{movieDetails.vote_average ? `${movieDetails.vote_average.toFixed(1)} / 10` : 'Non disponibile'}</p>
 
                     <h5 className="mt-3">Trama</h5>
                     <p>{movieDetails.overview}</p>
@@ -120,23 +147,39 @@ function MoviePage() {
 
             <h3>Post su "{movieDetails.title}"</h3>
             {posts.length > 0 ? (
-                posts.map(post => (
+                posts.map(post => {
+                    const isLiked = currentUser && post.likes.includes(currentUser.id);
+                    return (
                     <Card key={post._id} className="mb-3">
                         <Card.Body>
                             <div className="d-flex align-items-start">
                                 <Link to={`/user/${post.authorId.username}`}>
-                                    <Image src={post.authorId.profilePicture || 'https://via.placeholder.com/50'} roundedCircle width="50" height="50" />
+                                    <Image src={post.authorId.profilePicture || 'https://via.placeholder.com/50'}
+                                    roundedCircle
+                                    style={{ objectFit: 'cover' }}
+                                    width="50"
+                                    height="50" />
                                 </Link>
                                 <div className="ms-3 w-100">
                                     <Link to={`/user/${post.authorId.username}`} style={linkStyle}>
                                         <strong>{post.authorId.username}</strong>
                                     </Link>
+                                    {post.rating > 0 && (
+                                        <Rating name="read-only" value={post.rating} readOnly size="small" />
+                                    )}
                                     <p className="mt-1 mb-0">{post.review}</p>
                                 </div>
                             </div>
                         </Card.Body>
+                         <Card.Footer className="bg-white d-flex align-items-center">
+                                <IconButton onClick={() => handleLikePost(post._id)} color="error" disabled={!currentUser}>
+                                    {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                                </IconButton>
+                                <span>{post.likes.length} Mi piace</span>
+                            </Card.Footer>
                     </Card>
-                ))
+                );
+                })
             ) : (
                 <p>Nessuno ha ancora scritto un post su questo film. Sii il primo!</p>
             )}

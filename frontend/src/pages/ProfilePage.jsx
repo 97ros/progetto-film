@@ -1,22 +1,24 @@
-// src/pages/ProfilePage.jsx
-import React, { useState, useEffect, useCallback } from 'react'; // React deve essere importato per usare React.Fragment
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
 
 // Import componenti UI
-import { Container, Row, Col, Image, Spinner, Alert, Card, Badge, Button, Form, Modal, FormCheck } from 'react-bootstrap';
-import { IconButton, TextField } from '@mui/material';
+import { Container, Row, Col, Image, Spinner, Alert, Card, Badge, Button, Modal, FormCheck, Form as BootstrapForm } from 'react-bootstrap';
+import { IconButton, TextField, Rating } from '@mui/material';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
-
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function ProfilePage() {
     const { username } = useParams();
     const { currentUser, setCurrentUser } = useAuth();
 
     const [profileData, setProfileData] = useState(null);
+    const [userPosts, setUserPosts] = useState([]); // Stato dedicato per i post
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -24,19 +26,25 @@ function ProfilePage() {
     const [formData, setFormData] = useState({});
     const [showGenreModal, setShowGenreModal] = useState(false);
     const [allGenres, setAllGenres] = useState([]);
+
+    const [editingPost, setEditingPost] = useState(null); // Contiene il post da modificare
+    const [editPostData, setEditPostData] = useState({ review: '', rating: 0 }); // Dati del form di modifica post
     
     const isOwner = currentUser && currentUser.username === username;
 
     const fetchProfileData = useCallback(async () => {
         setLoading(true);
+        setError(null); // Resetta l'errore a ogni nuovo fetch
         try {
             const response = await api.get(`/users/${username}`);
             setProfileData(response.data);
+            setUserPosts(response.data.userPosts || []);
             setFormData({
                 username: response.data.userProfile.username,
                 profilePicture: response.data.userProfile.profilePicture || '',
                 bio: response.data.userProfile.bio || '',
                 preferredGenres: response.data.userProfile.preferredGenres || [],
+                isPrivate: response.data.userProfile.isPrivate || false
             });
         } catch (err) {
             console.error("Errore nel caricare il profilo:", err);
@@ -50,9 +58,65 @@ function ProfilePage() {
         fetchProfileData();
     }, [fetchProfileData]);
 
-    const handleFormChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+    const handleLikePost = async (postId) => {
+        try {
+            const response = await api.post(`/posts/${postId}/like`);
+            const updatedPost = response.data.post;
+            setUserPosts(currentPosts => 
+                currentPosts.map(p => p._id === postId ? updatedPost : p)
+            );
+        } catch(err) {
+            console.error("Errore durante il like:", err);
+            alert((err.response && err.response.data && err.response.data.message) || "Non è stato possibile aggiornare il like.");
+        }
     };
+
+    const handleDeletePost = async (postId) => {
+        if (window.confirm("Sei sicuro di voler eliminare questo post?")) {
+            try {
+                await api.delete(`/posts/${postId}`);
+                // Rimuovi il post dallo stato per aggiornare la UI istantaneamente
+                setUserPosts(currentPosts => currentPosts.filter(p => p._id !== postId));
+            } catch (err) {
+                console.error("Errore durante l'eliminazione del post:", err);
+                alert("Non è stato possibile eliminare il post.");
+            }
+        }
+    };
+
+    // --- NUOVE FUNZIONI PER LA MODIFICA DEL POST ---
+    // Apre il modal e pre-compila il form di modifica
+    const handleOpenEditModal = (post) => {
+        setEditingPost(post);
+        setEditPostData({
+            review: post.review || '',
+            rating: post.rating || 0,
+            isPrivate: post.isPrivate || false
+        });
+    };
+
+    // Chiude il modal
+    const handleCloseEditModal = () => {
+        setEditingPost(null);
+    };
+
+    // Gestisce il salvataggio delle modifiche del post
+    const handleUpdatePost = async () => {
+        if (!editingPost) return;
+        try {
+            const response = await api.put(`/posts/${editingPost._id}`, editPostData);
+            const updatedPost = response.data.post;
+            setUserPosts(currentPosts =>
+                currentPosts.map(p => (p._id === updatedPost._id ? updatedPost : p))
+            );
+            handleCloseEditModal();
+        } catch (err) {
+            console.error("Errore durante l'aggiornamento del post:", err);
+            alert("Non è stato possibile aggiornare il post.");
+        }
+    };
+
+    const handleFormChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const handleProfileUpdate = async () => {
         try {
@@ -91,18 +155,23 @@ function ProfilePage() {
     if (error) return <Container className="mt-5"><Alert variant="danger">{error}</Alert></Container>;
     if (!profileData) return null;
 
-    const { userProfile, userPosts, watchedList } = profileData;
+    // Destrutturazione corretta dei dati dalla risposta del backend
+    const { userProfile } = profileData;
     const genresToShow = isEditing ? formData.preferredGenres : userProfile.preferredGenres;
 
     return (
         <Container className="mt-4">
             <Row className="align-items-center mb-4">
                 <Col xs="auto">
-                    <Image src={isEditing ? (formData.profilePicture || 'https://via.placeholder.com/150') : (userProfile.profilePicture || 'https://via.placeholder.com/150')} roundedCircle width="150" height="150" />
+                    <Image src={isEditing ? (formData.profilePicture || 'https://via.placeholder.com/150') : (userProfile.profilePicture || 'https://via.placeholder.com/150')}
+                    roundedCircle
+                    style={{ objectFit: 'cover' }}
+                    width="150"
+                    height="150"
+                    />
                 </Col>
                 <Col>
                     {isEditing ? (
-                        // --- CORREZIONE 1: Sostituito <> con React.Fragment ---
                         <React.Fragment>
                             <TextField label="Username" name="username" value={formData.username} onChange={handleFormChange} variant="standard" fullWidth sx={{ mb: 2 }} />
                             <TextField label="URL Immagine Profilo" name="profilePicture" value={formData.profilePicture} onChange={handleFormChange} variant="standard" fullWidth />
@@ -127,7 +196,6 @@ function ProfilePage() {
 
                     <h5 className="mt-3">Generi Preferiti</h5>
                     <div>
-                        {/* --- CORREZIONE 2: Sostituito ?.map con && --- */}
                         {genresToShow && genresToShow.map(genre => (
                             <Badge pill bg="info" className="me-1 fs-6" key={genre}>{genre}</Badge>
                         ))}
@@ -149,11 +217,17 @@ function ProfilePage() {
             
             <hr className="my-4" />
 
+            {/* Sezione Watchlist, visibile solo al proprietario del profilo */}
             {isOwner && (
                  <React.Fragment>
                     <h3>La mia Watchlist</h3>
                     <Row className="flex-nowrap overflow-auto g-3 mb-4">
-                        {watchedList && watchedList.length > 0 ? watchedList.map(movie => (
+                        {/* 
+                            **CORREZIONE CHIAVE**:
+                            La watchlist viene letta da `userProfile.watchlist`, che è la sua posizione corretta
+                            nella risposta dell'API dopo aver corretto il backend.
+                        */}
+                        {userProfile.watchlist && userProfile.watchlist.length > 0 ? userProfile.watchlist.map(movie => (
                             <Col xs="auto" key={movie.tmdbId}>
                                 <Link to={`/movie/${movie.tmdbId}`}>
                                     <Image src={movie.posterPath || 'https://via.placeholder.com/150x225'} style={{height: '225px', width: '150px'}} rounded />
@@ -167,29 +241,108 @@ function ProfilePage() {
 
             <h3>Post di {userProfile.username}</h3>
             {userPosts && userPosts.length > 0 ? (
-                userPosts.map(post => (
-                    <Card key={post._id} className="mb-3">
-                         <Card.Body>
-                            <Row>
-                                <Col xs={3} md={2}>
-                                    <Link to={`/movie/${post.tmdbId}`}>
-                                        <Card.Img src={post.postImage || 'https://via.placeholder.com/150x225'} />
-                                    </Link>
-                                </Col>
-                                <Col xs={9} md={10}>
-                                    <h5>{post.movieTitle}</h5>
-                                    {post.rating > 0 && <Badge bg="warning" text="dark">Voto: {post.rating}/5</Badge>}
-                                    <p className="mt-2">{post.review}</p>
-                                    {post.isPrivate && <Badge bg="secondary">Post Privato</Badge>}
-                                </Col>
-                            </Row>
-                        </Card.Body>
-                    </Card>
-                ))
+                userPosts.map(post => {
+                    const isLiked = currentUser && post.likes.includes(currentUser.id);
+
+                    return (
+                        <Card key={post._id} className="mb-3">
+                            <Card.Body>
+                                <Row>
+                                    <Col xs={3} md={2}>
+                                        <Link to={`/movie/${post.tmdbId}`}>
+                                            <Card.Img src={post.postImage || 'https://via.placeholder.com/150x225'} />
+                                        </Link>
+                                    </Col>
+                                    <Col xs={9} md={10}>
+                                        <h5>{post.movieTitle}</h5>
+                                        {post.rating > 0 && (
+                                            <Rating name="read-only" value={post.rating} readOnly size="small" />
+                                        )}
+                                        <p className="mt-2">{post.review}</p>
+                                        {post.isPrivate && <Badge bg="secondary">Post Privato</Badge>}
+                                    </Col>
+                                </Row>
+                            </Card.Body>
+                            {/* 
+                                --- CORREZIONE CHIAVE: Unico Card.Footer ---
+                                Questo footer ora contiene sia la sezione like che i pulsanti di modifica/elimina,
+                                ma mostra i pulsanti di modifica/elimina solo se `isOwner` è true.
+                            */}
+                            <Card.Footer className="bg-white d-flex justify-content-between align-items-center">
+                                {/* Sezione Like (a sinistra) */}
+                                <div className="d-flex align-items-center">
+                                    <IconButton onClick={() => handleLikePost(post._id)} color='error' disabled={!currentUser}>
+                                        {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                                    </IconButton>
+                                    <span>{post.likes.length} Mi piace</span>
+                                </div>
+
+                                {/* Sezione Modifica/Elimina (a destra, visibile solo al proprietario) */}
+                                {isOwner && (
+                                    <div>
+                                        <IconButton size="small" onClick={() => handleOpenEditModal(post)}>
+                                            <EditIcon fontSize="small" />
+                                        </IconButton>
+                                        <IconButton size="small" onClick={() => handleDeletePost(post._id)}>
+                                            <DeleteIcon fontSize="small" color="error" />
+                                        </IconButton>
+                                    </div>
+                                )}
+                            </Card.Footer>
+                        </Card>
+                    );
+                })
             ) : (
                 <p>Questo utente non ha ancora pubblicato nessun post.</p>
             )}
 
+<Modal show={!!editingPost} onHide={handleCloseEditModal} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Modifica il tuo post</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <BootstrapForm>
+                        <BootstrapForm.Group className="mb-3">
+                            <BootstrapForm.Label>La tua recensione</BootstrapForm.Label>
+                            <BootstrapForm.Control
+                                as="textarea"
+                                rows={4}
+                                value={editPostData.review}
+                                onChange={(e) => setEditPostData({ ...editPostData, review: e.target.value })}
+                            />
+                        </BootstrapForm.Group>
+                        <BootstrapForm.Group>
+                            <BootstrapForm.Label>Il tuo voto</BootstrapForm.Label>
+                            <Rating
+                                name="edit-rating"
+                                value={editPostData.rating}
+                                onChange={(event, newValue) => {
+                                    setEditPostData({ ...editPostData, rating: newValue || 0 });
+                                }}
+                                size="large"
+                            />
+                            <BootstrapForm.Check
+                                type="checkbox"
+                                id="edit-private"
+                                label="Post privato"
+                                checked={editPostData.isPrivate}
+                                onChange={(e) => setEditPostData({ ...editPostData, isPrivate: e.target.checked })}
+                            />
+                        </BootstrapForm.Group>
+                    </BootstrapForm>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseEditModal}>
+                        Annulla
+                    </Button>
+                    <Button variant="primary" onClick={handleUpdatePost}>
+                        Salva Modifiche
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+    );
+
+            {/* Modal per la modifica dei generi */}
             <Modal show={showGenreModal} onHide={() => setShowGenreModal(false)} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Seleziona i tuoi generi preferiti</Modal.Title>
@@ -201,7 +354,6 @@ function ProfilePage() {
                             type="checkbox"
                             id={`genre-${genre._id}`}
                             label={genre.name}
-                            // --- CORREZIONE 3: Sostituito ?.includes con && ---
                             checked={formData.preferredGenres && formData.preferredGenres.includes(genre.name)}
                             onChange={() => handleGenreChange(genre.name)}
                         />

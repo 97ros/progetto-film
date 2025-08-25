@@ -39,9 +39,9 @@ app.use(cookieParser());
 // Tutte le rotte definite in authRoutes saranno precedute da '/api/auth'
 // Tutte le rotte definite in postRoutes saranno precedute da '/api/posts'
 app.use('/api/auth', authRoutes);
-app.use('/api/posts', postRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/movies', movieRoutes);
+app.use('/api/posts', postRoutes);
 app.use('/api/genres', genreRoutes);
 
 // --- 6. GESTIONE DEGLI ERRORI ---

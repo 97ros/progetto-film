@@ -84,6 +84,7 @@ const HomePage = () => {
                                         <Image 
                                             src={post.authorId.profilePicture || 'https://via.placeholder.com/40'} 
                                             roundedCircle 
+                                            style={{ objectFit: 'cover' }}
                                             width="40" 
                                             height="40" 
                                             className="me-2"
@@ -113,7 +114,7 @@ const HomePage = () => {
                                     </Row>
                                 </Card.Body>
                                 <Card.Footer className="bg-white d-flex align-items-center">
-                                    <IconButton onClick={() => handleLikePost(post._id)} color="error" disabled={!currentUser}>
+                                    <IconButton onClick={() => handleLikePost(post._id)} color='error' disabled={!currentUser} >
                                         {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                                     </IconButton>
                                     <span>{post.likes.length} Mi piace</span>

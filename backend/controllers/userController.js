@@ -1,4 +1,5 @@
 const User = require('../models/userModel');
+const Post = require('../models/postModel');
 
 // --- Funzione per RECUPERARE il profilo di un utente ---
 // Rotta pubblica
@@ -20,10 +21,6 @@ exports.getUserProfile = async (req, res) => {
         // Controlliamo se chi fa la richiesta è il proprietario del profilo
         const isOwner = req.userId === user._id.toString();
 
-        // --- RECUPERA LE LISTE ---
-        // Recupera la lista dei film visti dell'utente
-        const watchedList = await WatchedEntry.find({ userId: user._id }).sort({ createdAt: -1 });
-
         // Mostra i post privati solo se il richiedente è il proprietario
         const postQuery = { authorId: user._id };
         if (!isOwner) {
@@ -34,7 +31,6 @@ exports.getUserProfile = async (req, res) => {
         // Combiniamo tutto in un unico oggetto di risposta
         res.status(200).json({
             userProfile: user,
-            watchedList: watchedList,
             userPosts: userPosts,
             // Aggiungiamo un campo per dire al frontend se mostrare le parti private
             isOwner: isOwner 
