@@ -83,28 +83,44 @@ exports.updateProfile = async (req, res) => {
 exports.addToWatchlist = async (req, res) => {
     try {
         const currentUserId = req.userId;
-        // I dati del film da aggiungere (tmdbId, title, posterPath) li prendiamo dal body
+
         const movieData = req.body;
 
         if (!movieData.tmdbId || !movieData.title) {
             return res.status(400).json({ message: "ID e titolo del film sono obbligatori." });
         }
-        
-        // Usiamo $addToSet invece di $push per evitare di aggiungere film duplicati
+
+        // Troviamo prima l'utente per controllare se il film è già presente
+        const user = await User.findById(currentUserId);
+        if (!user) return res.status(404).json({ message: "Utente non trovato." });
+
+        const isMovieInWatchlist = user.watchlist.some(movie => movie.tmdbId === movieData.tmdbId);
+
+        if (isMovieInWatchlist) {
+            return res.status(409).json({ message: "Questo film è già nella tua watchlist." });
+        }
+
+         // Creiamo un nuovo oggetto con i dati del film E la data di aggiunta
+        const movieToAdd = {
+            ...movieData,       // Copia tutti i dati originali del film
+            addedAt: new Date() // Aggiunge il campo "addedAt" con la data attuale
+        };
+
+        // Se non è presente, lo aggiungiamo usando $push
         const updatedUser = await User.findByIdAndUpdate(
             currentUserId,
-            { $addToSet: { watchlist: movieData } },
-            { new: true } // Opzione per restituire il documento aggiornato
+            { $push: { watchlist: movieToAdd } }, // Usiamo $push, l'unicità è garantita dal nostro controllo
+            { new: true }
         );
 
-        if (!updatedUser) return res.status(404).json({ message: "Utente non trovato." });
-        
         res.status(200).json({ message: "Film aggiunto alla watchlist!", watchlist: updatedUser.watchlist });
 
     } catch (error) {
         res.status(500).json({ message: "Errore nell'aggiungere il film alla watchlist." });
     }
 };
+
+
 
 // --- Funzione per RIMUOVERE un film dalla watchlist ---
 exports.removeFromWatchlist = async (req, res) => {

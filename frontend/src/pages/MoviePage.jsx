@@ -10,6 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import Rating from '@mui/material/Rating';
 import CreatePostForm from '../components/CreatePostForm';
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
+import BookmarkRemoveIcon from '@mui/icons-material/BookmarkRemove';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -18,13 +19,16 @@ const linkStyle = { textDecoration: 'none', color: 'inherit' };
 
 function MoviePage() {
     const { movieId } = useParams();
-    const { currentUser } = useAuth(); // Prendiamo l'utente corrente dal contesto
+    const { currentUser, setCurrentUser } = useAuth(); // Prendiamo l'utente corrente dal contesto
 
     const [movieDetails, setMovieDetails] = useState(null);
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [showCreateModal, setShowCreateModal] = useState(false); // Stato per il modal
+
+    // --- NUOVO: Stato per tracciare se il film è nella watchlist ---
+    const [isInWatchlist, setIsInWatchlist] = useState(false);
 
     useEffect(() => {
         const fetchMovieData = async () => {
@@ -49,6 +53,23 @@ function MoviePage() {
         fetchMovieData();
     }, [movieId]);
 
+     // --- NUOVO: useEffect per controllare lo stato della watchlist ---
+    // --- CORREZIONE CHIAVE: Aggiunto un controllo di sicurezza su currentUser.watchlist ---
+    useEffect(() => {
+        // Controlla se l'utente è loggato, se i dettagli del film sono caricati,
+        // e, soprattutto, se currentUser.watchlist esiste ed è un array.
+        if (currentUser && movieDetails && Array.isArray(currentUser.watchlist)) {
+            const movieIsOnList = currentUser.watchlist.some(
+                movie => movie.tmdbId.toString() === movieId
+            );
+            setIsInWatchlist(movieIsOnList);
+        } else {
+            // Se una delle condizioni non è vera, assicurati che il film non sia segnato come "nella watchlist"
+            setIsInWatchlist(false);
+        }
+    }, [currentUser, movieDetails, movieId]);
+
+
     // 2. Logica per aggiungere alla watchlist
     const handleAddToWatchlist = async () => {
         if (!currentUser) return alert("Devi effettuare il login per aggiungere film alla watchlist.");
@@ -59,10 +80,43 @@ function MoviePage() {
                 title: movieDetails.title,
                 posterPath: posterUrl,
             };
-            await api.post('/users/me/watchlist', watchlistData);
+
+            const response = await api.post('/users/me/watchlist', watchlistData);
+            
+            // Aggiorna il contesto dell'utente con la nuova watchlist
+            setCurrentUser(prevUser => ({
+                ...prevUser,
+                watchlist: response.data.watchlist
+            }));
+
+            // Aggiorna lo stato locale per cambiare il pulsante
+            setIsInWatchlist(true); 
             alert(`"${movieDetails.title}" è stato aggiunto alla tua watchlist!`);
+
+
         } catch(err) {
             alert((err.response && err.response.data && err.response.data.message) || "Questo film è già nella tua watchlist o si è verificato un errore.");
+        }
+    };
+
+    // --- NUOVO: Funzione per rimuovere dalla watchlist ---
+    const handleRemoveFromWatchlist = async () => {
+        if (!currentUser) return alert("Devi essere loggato per rimuovere film.");
+        try {
+            const response = await api.delete(`/users/me/watchlist/${movieId}`);
+            
+            // Aggiorna il contesto dell'utente con la watchlist modificata
+            setCurrentUser(prevUser => ({
+                ...prevUser,
+                watchlist: response.data.watchlist
+            }));
+            
+            // Aggiorna lo stato locale per cambiare il pulsante
+            setIsInWatchlist(false);
+            alert(`"${movieDetails.title}" è stato rimosso dalla tua watchlist.`);
+
+        } catch (err) {
+            alert((err.response?.data?.message) || "Errore durante la rimozione del film.");
         }
     };
 
@@ -130,10 +184,19 @@ function MoviePage() {
                     {/* 4. I pulsanti di azione sono mostrati solo se l'utente è loggato */}
                     {currentUser && (
                          <div className="d-flex align-items-center mt-4">
-                            <Button variant="outline-primary" onClick={handleAddToWatchlist} className="me-2">
-                                <BookmarkAddIcon fontSize="small" className="me-1" />
-                                Aggiungi alla Watchlist
-                            </Button>
+                            {/* --- MODIFICA: Rendering condizionale del pulsante watchlist --- */}
+                            {isInWatchlist ? (
+                                <Button variant="outline-danger" onClick={handleRemoveFromWatchlist} className="me-2">
+                                    <BookmarkRemoveIcon fontSize="small" className="me-1" />
+                                    Rimuovi dalla Watchlist
+                                </Button>
+                            ) : (
+                                <Button variant="outline-primary" onClick={handleAddToWatchlist} className="me-2">
+                                    <BookmarkAddIcon fontSize="small" className="me-1" />
+                                    Aggiungi alla Watchlist
+                                </Button>
+                            )}
+                            
                             <Button variant="primary" onClick={() => setShowCreateModal(true)}>
                                 <PostAddIcon fontSize="small" className="me-1" />
                                 Scrivi un post

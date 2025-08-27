@@ -56,7 +56,10 @@ const userSchema = new Schema({
     watchlist: [{ // Array di oggetti per i film da vedere
         tmdbId: { type: Number, required: true },
         title: { type: String, required: true },
-        posterPath: { type: String }
+        posterPath: { type: String },
+        addedAt: { type: Date,
+        default: Date.now // Si popola automaticamente con la data corrente
+        }
     }]
 });
 
