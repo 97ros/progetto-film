@@ -1,5 +1,5 @@
 // src/pages/SearchPage.jsx
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../services/api.js'; // Usiamo il nostro servizio API centralizzato
 import './SearchPage.css';

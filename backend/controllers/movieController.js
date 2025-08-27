@@ -14,7 +14,10 @@ exports.searchMovies = async (req, res) => {
             title: movie.title,
             overview: movie.overview,
             release_date: movie.release_date,
-            poster_path: movie.poster_path,
+             // Costruiamo l'URL completo per la locandina
+            poster_path: movie.poster_path 
+                ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` 
+                : null, // Se non c'è una locandina, inviamo null
             vote_average: movie.vote_average
         }));
 
@@ -55,7 +58,9 @@ exports.getMovieDetails = async (req, res) => {
             title: movie.title,
             overview: movie.overview,
             release_date: movie.release_date,
-            poster_path: movie.poster_path,
+            poster_path: movie.poster_path
+                ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                : null,
             genres: movie.genres || [],
             directors,
             cast,

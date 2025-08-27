@@ -58,6 +58,37 @@ function ProfilePage() {
         fetchProfileData();
     }, [fetchProfileData]);
 
+
+     // --- FUNZIONE PER RIMUOVERE DALLA WATCHLIST ---
+    const handleRemoveFromWatchlist = async (tmdbId) => {
+        // Chiediamo conferma all'utente
+        if (!window.confirm("Sei sicuro di voler rimuovere questo film dalla tua watchlist?")) {
+            return;
+        }
+
+        try {
+            // Chiamata all'API per la rimozione
+            await api.delete(`/users/me/watchlist/${tmdbId}`);
+
+            // Aggiorniamo lo stato per riflettere la rimozione
+            setProfileData(currentProfile => {
+                const updatedWatchlist = currentProfile.userProfile.watchlist.filter(movie => movie.tmdbId !== tmdbId);
+                return {
+                    ...currentProfile,
+                    userProfile: {
+                        ...currentProfile.userProfile,
+                        watchlist: updatedWatchlist
+                    }
+                };
+            });
+
+        } catch (err) {
+            console.error("Errore durante la rimozione dalla watchlist:", err);
+            alert((err.response?.data?.message) || "Non è stato possibile rimuovere il film.");
+        }
+    };
+
+
     const handleLikePost = async (postId) => {
         try {
             const response = await api.post(`/posts/${postId}/like`);
@@ -159,6 +190,14 @@ function ProfilePage() {
     const { userProfile } = profileData;
     const genresToShow = isEditing ? formData.preferredGenres : userProfile.preferredGenres;
 
+
+    // Ordina la watchlist per data di aggiunta (dal più recente al più vecchio)
+    // Usiamo [...userProfile.watchlist] per creare una copia dell'array prima di ordinarlo.
+    // È una buona pratica per non modificare direttamente lo stato.
+    const sortedWatchlist = userProfile.watchlist 
+    ? [...userProfile.watchlist].sort((a, b) => new Date(b.addedAt) - new Date(a.addedAt))
+    : [];
+
     return (
         <Container className="mt-4">
             <Row className="align-items-center mb-4">
@@ -227,17 +266,40 @@ function ProfilePage() {
                             La watchlist viene letta da `userProfile.watchlist`, che è la sua posizione corretta
                             nella risposta dell'API dopo aver corretto il backend.
                         */}
-                        {userProfile.watchlist && userProfile.watchlist.length > 0 ? userProfile.watchlist.map(movie => (
-                            <Col xs="auto" key={movie.tmdbId}>
-                                <Link to={`/movie/${movie.tmdbId}`}>
-                                    <Image src={movie.posterPath || 'https://via.placeholder.com/150x225'} style={{height: '225px', width: '150px'}} rounded />
-                                </Link>
-                            </Col>
-                        )) : <p>La tua watchlist è vuota.</p>}
-                    </Row>
-                    <hr className="my-4" />
-                </React.Fragment>
-            )}
+                        {/* 
+                        **MODIFICA CHIAVE**:
+                        Usa 'sortedWatchlist' invece di 'userProfile.watchlist'
+                    */}
+                    {sortedWatchlist.length > 0 ? sortedWatchlist.map(movie => (
+                        <Col xs="auto" key={movie.tmdbId}>
+                            <div style={{ position: 'relative' }}> 
+                            <Link to={`/movie/${movie.tmdbId}`}>
+                                <Image src={movie.posterPath || 'https://via.placeholder.com/150x225'} style={{height: '225px', width: '150px'}} rounded />
+                            </Link>
+                            {/* --- MODIFICA: Aggiunta del pulsante di eliminazione --- */}
+                                <IconButton
+                                    size="small"
+                                    onClick={(e) => {
+                                        e.preventDefault(); // Impedisce al Link di attivarsi
+                                        handleRemoveFromWatchlist(movie.tmdbId);
+                                    }}
+                                    aria-label={`Rimuovi ${movie.title} dalla watchlist`}
+                                    style={{
+                                        position: 'absolute',
+                                        top: '5px',
+                                        right: '5px',
+                                        backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                                    }}
+                                >
+                                    <DeleteIcon fontSize="small" color="error" />
+                                </IconButton>
+                                </div>
+                        </Col>
+                    )) : <p>La tua watchlist è vuota.</p>}
+                </Row>
+                <hr className="my-4" />
+            </React.Fragment>
+        )}
 
             <h3>Post di {userProfile.username}</h3>
             {userPosts && userPosts.length > 0 ? (

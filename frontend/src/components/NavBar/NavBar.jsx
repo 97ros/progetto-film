@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import { useAuth } from '/Users/aurora/Documents/GitHub/progetto-film/frontend/src/context/AuthContext.js'; // 1. Importiamo il nostro hook
+import { useAuth } from '../../context/AuthContext.js'; // 1. Importiamo il nostro hook
 import './NavBar.css';
 
 // Import delle icone
