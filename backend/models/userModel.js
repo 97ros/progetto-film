@@ -22,9 +22,7 @@ const userSchema = new Schema({
         required: [true, "L'email è obbligatoria."],
         unique: true,
         trim: true,
-        lowercase: true // Salva sempre l'email in minuscolo per consistenza
-        // Regex semplice per validazione email
-        //match: [/\S+@\S+\.\S+/, "L'email non è valida"],
+        lowercase: true // Salva sempre l'email in minuscolo per consistenza 
     },
 
     // Campo per la password (verrà salvata in formato criptato)
@@ -64,7 +62,7 @@ const userSchema = new Schema({
 });
 
 
-// 4. Middleware (o "hook") di Mongoose per eseguire l'hashing prima di salvare ('pre-save')
+// 4. Middleware di Mongoose per eseguire l'hashing prima di salvare ('pre-save')
 userSchema.pre('save', async function (next) {
     // Esegui l'hashing solo se la password è stata modificata (o è nuova)
     if (!this.isModified('password')) return next();
