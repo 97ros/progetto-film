@@ -1,3 +1,4 @@
+// Importiamo lan libreria 
 const axios = require("axios");
 
 // Funzione per cercare film tramite il titolo
@@ -14,10 +15,9 @@ exports.searchMovies = async (req, res) => {
             title: movie.title,
             overview: movie.overview,
             release_date: movie.release_date,
-             // Costruiamo l'URL completo per la locandina
-            poster_path: movie.poster_path 
-                ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` 
-                : null, // Se non c'è una locandina, inviamo null
+            poster_path: movie.poster_path
+                ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                : null,
             vote_average: movie.vote_average
         }));
 
@@ -35,14 +35,10 @@ exports.getMovieDetails = async (req, res) => {
 
     try {
         // 1. Dettagli base del film
-        const movieRes = await axios.get(
-            `https://api.themoviedb.org/3/movie/${tmdbId}?api_key=${tmdbApiKey}&language=it-IT`
-        );
-
-        // 2. Cast e crew
-        const creditsRes = await axios.get(
-            `https://api.themoviedb.org/3/movie/${tmdbId}/credits?api_key=${tmdbApiKey}&language=it-IT`
-        );
+        const [movieRes, creditsRes] = await Promise.all([
+            axios.get(`https://api.themoviedb.org/3/movie/${tmdbId}?api_key=${tmdbApiKey}&language=it-IT`),
+            axios.get(`https://api.themoviedb.org/3/movie/${tmdbId}/credits?api_key=${tmdbApiKey}&language=it-IT`)
+        ]);
 
         const movie = movieRes.data;
         const credits = creditsRes.data;
@@ -52,6 +48,8 @@ exports.getMovieDetails = async (req, res) => {
             .map(d => d.name);
 
         const cast = credits.cast.slice(0, 10).map(c => c.name); // primi 10 attori
+
+        const languages = movie.spoken_languages.map(l => l.english_name);
 
         const cleanedMovie = {
             id: movie.id,
@@ -64,10 +62,9 @@ exports.getMovieDetails = async (req, res) => {
             genres: movie.genres || [],
             directors,
             cast,
-            languages: movie.spoken_languages.map(l => l.english_name),
+            languages,
             vote_average: movie.vote_average
         };
-
         res.status(200).json(cleanedMovie);
     } catch (error) {
         console.error("Errore nel recuperare i dettagli del film:", error.message);

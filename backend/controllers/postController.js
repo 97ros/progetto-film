@@ -1,19 +1,21 @@
+// Importiamo il nostro modello per i post
 const Post = require('../models/postModel');
-const User = require('../models/userModel'); // Ci serve per trovare chi segue l'utente
+
+// Importiamo il nostro modello per gli utenti
+const User = require('../models/userModel');
+
+// Importiamo la libreria jsonwebtoken
 const jwt = require('jsonwebtoken');
 
-// --- Funzione per CREARE un nuovo post ---
+// Funzione per CREARE un nuovo post
 // Nota: questa funzione sarà "protetta", solo gli utenti loggati potranno usarla.
 exports.createPost = async (req, res) => {
     try {
-        // L'ID dell'utente non lo prendiamo dal body (sarebbe insicuro!),
-        // ma dal token JWT che è stato verificato da un middleware.
-        // Lo aggiungeremo a 'req' nel middleware di autenticazione.
+        // Prendiamo l'ID dell'utente dal token JWT che è stato verificato da un middleware.
         const authorId = req.userId; 
 
         // Prendiamo i dati del post dal frontend
-        // Aggiungiamo 'isPrivate' ai dati che prendiamo dal body
-        const {  tmdbId, movieTitle, postImage, genres, review, rating, isPrivate } = req.body;
+        const { tmdbId, movieTitle, postImage, genres, review, rating, isPrivate } = req.body;
 
         // Validazione dell'input: controlliamo che ci siano i dati minimi
                 if (!postImage || !tmdbId || !movieTitle) {
@@ -21,14 +23,14 @@ exports.createPost = async (req, res) => {
                 }
         
                 const newPost = new Post({
-                    authorId: authorId, // Corretto da 'author'
+                    authorId: authorId,
                     tmdbId,
                     movieTitle,
-                    postImage, // Corretto da 'imageUrl' per coerenza con il modello
+                    postImage,
                     review, 
                     rating,
                     genres: genres,
-                    isPrivate: isPrivate || false // Se non viene specificato, il post è pubblico
+                    isPrivate: isPrivate || false
                 });
 
         await newPost.save();
@@ -49,7 +51,7 @@ exports.createPost = async (req, res) => {
     }
 };
 
-// --- Funzione per la HOMEPAGE ---
+// Funzione per la HOMEPAGE
 // Restituisce tutti i post PUBBLICI, li filtra in base ai suoi generi preferiti.
 exports.getHomepagePosts = async (req, res) => {
     try {
@@ -80,7 +82,7 @@ exports.getHomepagePosts = async (req, res) => {
 };
 
 
-// --- Funzione per MODIFICARE un post esistente ---
+// Funzione per MODIFICARE un post esistente
 // Rotta protetta: l'utente deve essere loggato E deve essere l'autore del post.
 exports.updatePost = async (req, res) => {
     try {

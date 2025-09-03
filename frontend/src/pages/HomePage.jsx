@@ -24,6 +24,13 @@ const HomePage = () => {
     const [showCreateModal, setShowCreateModal] = useState(false);
 
     useEffect(() => {
+    console.log("CurrentUser in HomePage:", currentUser);
+    if (currentUser) {
+        console.log("CurrentUser ID:", currentUser._id);
+    }
+}, [currentUser]);
+
+    useEffect(() => {
         const fetchHomepagePosts = async () => {
             if (!currentUser) return; // Non fare nulla se l'utente non è loggato
 
@@ -74,9 +81,7 @@ const HomePage = () => {
                 posts.length > 0 ? (
                     posts.map(post => {
                         if (!post || !post.authorId) return null; // Controllo di sicurezza
-                        
                         const isLiked = currentUser && post.likes.includes(currentUser.id);
-
                         return (
                             <Card key={post._id} className="mb-4 shadow-sm">
                                 <Card.Header className="bg-white border-bottom-0">

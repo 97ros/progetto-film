@@ -1,6 +1,7 @@
+// Importiamo il nostro modello per i generi
 const Genre = require('../models/genreModel');
 
-// --- Funzione per ottenere tutti i generi ---
+// Funzione per ottenere tutti i generi
 exports.getAllGenres = async (req, res) => {
     try {
         // Trova tutti i documenti nella collezione Genre e ordinali per nome

@@ -1,8 +1,11 @@
+// Importiamo il nostro modello per gli utenti
 const User = require('../models/userModel');
+
+// Importiamo il nostro modello per i post
 const Post = require('../models/postModel');
 
-// --- Funzione per RECUPERARE il profilo di un utente ---
-// Rotta pubblica
+// Funzione per RECUPERARE il profilo di un utente
+// Rotta pubblicas
 exports.getUserProfile = async (req, res) => {
     try {
         // Prendiamo lo username dal parametro dell'URL (es. /api/users/mario.rossi)
@@ -41,7 +44,7 @@ exports.getUserProfile = async (req, res) => {
     }
 };
 
-// --- Funzione per MODIFICARE il profilo dell'utente loggato ---
+// Funzione per MODIFICARE il profilo dell'utente loggato
 exports.updateProfile = async (req, res) => {
     try {
         // 1. Prendiamo l'ID dell'utente dal token (messo lì dal middleware 'protect')
@@ -94,9 +97,7 @@ exports.addToWatchlist = async (req, res) => {
         const user = await User.findById(currentUserId);
         if (!user) return res.status(404).json({ message: "Utente non trovato." });
 
-        const isMovieInWatchlist = user.watchlist.some(movie => movie.tmdbId === movieData.tmdbId);
-
-        if (isMovieInWatchlist) {
+        if (user.watchlist.some(movie => movie.tmdbId === movieData.tmdbId)) {
             return res.status(409).json({ message: "Questo film è già nella tua watchlist." });
         }
 
@@ -119,7 +120,6 @@ exports.addToWatchlist = async (req, res) => {
         res.status(500).json({ message: "Errore nell'aggiungere il film alla watchlist." });
     }
 };
-
 
 
 // --- Funzione per RIMUOVERE un film dalla watchlist ---

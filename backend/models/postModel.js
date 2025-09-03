@@ -1,62 +1,70 @@
-// 1. Importiamo Mongoose
+// Importiamo la libreria Mongoose
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// 2. Definiamo la struttura e le regole per i nostri "Post"
+// Definiamo la struttura e le regole per i nostri "Post"
 const postSchema = new Schema({
-    // Questo è il link all'autore del post. È fondamentale!
+
+    // Campo per l'autore del post
     authorId: {
-        type: Schema.Types.ObjectId, // L'ID dell'utente che ha creato il post
-        ref: 'User',                 // Riferimento al modello 'User'
-        required: true               // Un post deve sempre avere un autore
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     },
 
-    // Informazioni sul film a cui il post si riferisce
+    // Campo per l'ID del film su TMDB
     tmdbId: {
-        type: Number, // L'ID del film preso da The Movie Database (TMDB)
+        type: Number,
         required: true
     },
+
+    // Campo per il titolo del film
     movieTitle: {
-        type: String, // Salviamo il titolo per comodità, così non dobbiamo cercarlo ogni volta
+        type: String,
         required: true
     },
 
-    // Contenuto del post creato dall'utente
+    // Campo per l'immagine del post
     postImage: {
-        type: String, // L'URL dell'immagine della locandina
+        type: String,
         required: true
     },
 
-     review: {
-        type: String 
+    // Campo per la recensione del film
+    review: {
+        type: String
     },
 
-    rating: { // Campo per le stelline
+    // Campo per il rating del film
+    rating: {
         type: Number,
         min: 1,
         max: 5
     },
 
+    // Campo per i "mi piace" del post
     likes: [{
         type: Schema.Types.ObjectId,
         ref: 'User'
     }],
 
+    // Campo per i generi del film
     genres: [{ type: String }],
 
+    // Campo per la privacy del post
     isPrivate: {
         type: Boolean,
-        default: false // Di default, un post è pubblico
+        default: false
     }
 
-}, {
-    // 3. Opzione Mongoose: aggiunge automaticamente due campi:
-    // createdAt (quando il post è stato creato) e updatedAt (quando è stato modificato)
-    timestamps: true 
+},
+
+{
+    timestamps: true
 });
 
 // Aggiungiamo un indice per impedire a un utente di recensire lo stesso film più volte
 postSchema.index({ authorId: 1, tmdbId: 1 }, { unique: true });
 
-// 4. Creiamo ed esportiamo il modello, che Mongoose chiamerà "posts" nel database
+// Creiamo ed esportiamo il modello 'Post'
 module.exports = mongoose.model('Post', postSchema);

@@ -402,7 +402,6 @@ function ProfilePage() {
                     </Button>
                 </Modal.Footer>
             </Modal>
-    );
 
             {/* Modal per la modifica dei generi */}
             <Modal show={showGenreModal} onHide={() => setShowGenreModal(false)} centered>
