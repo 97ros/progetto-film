@@ -33,7 +33,10 @@ exports.createPost = async (req, res) => {
                     isPrivate: isPrivate || false
                 });
 
-        await newPost.save();
+        await newPost.save()
+            .then(savedDocument => res.send('Corso inserito'))
+            .catch(error => res.send(error)); 
+
 
         // Popoliamo i dati dell'autore prima di restituire la risposta
         const populatedPost = await Post.findById(newPost._id).populate('authorId', 'username profilePicture'); // Corretto da 'author'        
