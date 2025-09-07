@@ -34,7 +34,6 @@ exports.getMovieDetails = async (req, res) => {
     const tmdbApiKey = process.env.TMDB_API_KEY;
 
     try {
-        // 1. Dettagli base del film
         const [movieRes, creditsRes] = await Promise.all([
             axios.get(`https://api.themoviedb.org/3/movie/${tmdbId}?api_key=${tmdbApiKey}&language=it-IT`),
             axios.get(`https://api.themoviedb.org/3/movie/${tmdbId}/credits?api_key=${tmdbApiKey}&language=it-IT`)

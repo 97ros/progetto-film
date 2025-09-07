@@ -1,16 +1,19 @@
+// Importiamo Express per usare il suo sistema di routing
 const express = require('express');
+
+// Creiamo un "mini-router" specifico per queste rotte
 const router = express.Router();
 
-// Importiamo il nostro controller dei post
+// Importiamo il nostro controller dei post 
 const postController = require('../controllers/postController');
 
-// Importiamo un middleware di autenticazione che creeremo tra poco
+// Importiamo il middleware di autenticazione
 const authMiddleware = require('../middleware/authMiddleware');
 
 // Rotta per la homepage
 router.get('/', authMiddleware.protect, postController.getHomepagePosts); 
 
-// Anche per creare un post è necessaria l'autenticazione
+// Rotta per creare un nuovo post
 router.post('/', authMiddleware.protect, postController.createPost);
 
 // Rotta per modificare un post specifico
@@ -25,6 +28,7 @@ router.post('/:postId/like', authMiddleware.protect, postController.likePost);
 // Rotta per ottenere un singolo post
 router.get('/:postId', authMiddleware.protect, postController.getPostById);
 
-router.get('/movie/:tmdbId', postController.getPostsForMovie);
+// Rotta pubblica per ottenere i post di un film specifico
+router.get('/movie/:tmdbId', authMiddleware.protect, postController.getPostsForMovie);
 
 module.exports = router;
