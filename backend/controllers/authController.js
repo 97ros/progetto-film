@@ -29,22 +29,25 @@ exports.register = async (req, res) => {
         const { username, email, password } = req.body;
 
         // Controlla se l'utente o l'email esistono già
-        const existingUser = await User.findOne({ $or: [{ email }, { username }] });
-        if (existingUser) {
-            return res.status(409).json({ message: "Username o email già in uso." });
-        }
+        User.findOne({ $or: [{ email }, { username }] })
+        .then(async user => {
+            if (!user) {
+                // Creiamo un nuovo utente usando il nostro modello
+                const newUser = new User({
+                username,
+                email,
+                password
+                });
 
-        // Creiamo un nuovo utente usando il nostro modello
-        const newUser = new User({
-            username,
-            email,
-            password
+                // Salviamo il nuovo utente nel database
+                await newUser.save();
+                res.status(201).json({ message: "Utente registrato con successo!" });
+            }
+        })
+        .catch(error => {
+            console.error("Errore durante la verifica di username/email unici:", error);
+            res.status(409).json({ message: "Username o email già in uso." });
         });
-
-        // Salviamo il nuovo utente nel database
-        await newUser.save();
-
-        res.status(201).json({ message: "Utente registrato con successo!" });
 
     } catch (error) {
         console.error("Errore registrazione:", error);
@@ -74,7 +77,8 @@ exports.login = async (req, res) => {
 
         // Se le credenziali sono valide, allora creiamo i token
         const { accessToken, refreshToken } = generateTokens(user._id);
-
+        
+        // Salviamo il refresh token nel database
         console.log(`[LOGIN] Salvataggio refresh token nel DB: ${refreshToken} per utente ${user._id}`);
         await RefreshToken.create({ token: refreshToken, userId: user._id });
 
