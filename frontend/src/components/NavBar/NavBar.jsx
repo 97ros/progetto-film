@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext.js'; // 1. Importiamo il nostro hook
+import { useAuth } from '../../context/AuthContext.js'; // Importiamo il nostro hook
 import './NavBar.css';
 
 // Import delle icone
@@ -9,12 +9,12 @@ import { FaHome, FaSearch, FaUser, FaSignOutAlt } from 'react-icons/fa';
 // Import del logo
 import logo from '../../assets/logo.png'; 
 
-// 2. Il componente non ha più bisogno di props
+// Il componente non ha più bisogno di props
 function Navbar() {
-    // 3. Usiamo il contesto per ottenere l'utente e la funzione di logout
+    // Usiamo il contesto per ottenere l'utente e la funzione di logout
     const { currentUser, logout } = useAuth();
 
-    // 4. Se l'utente non è ancora stato caricato, non mostriamo nulla per evitare errori
+    // Se l'utente non è ancora stato caricato, non mostriamo nulla per evitare errori
     if (!currentUser) {
         return null; 
     }
@@ -41,7 +41,7 @@ function Navbar() {
                     </NavLink>
                 </li>
                 <li>
-                    {/* 5. Il link al profilo ora è dinamico e usa lo username dell'utente loggato */}
+                    {/* Il link al profilo ora è dinamico e usa lo username dell'utente loggato */}
                     <NavLink to={`/user/${currentUser.username}`} className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
                         <FaUser className="nav-icon" />
                         <span>Profilo</span>
@@ -49,7 +49,7 @@ function Navbar() {
                 </li>
             </ul>
 
-            {/* 6. Aggiunta una sezione "footer" per raggruppare profilo utente e logout */}
+            {/* Aggiunta una sezione "footer" per raggruppare profilo utente e logout */}
             <div className="navbar-footer">
                     <span className="user-name">@{currentUser.username}</span>
                 <div className="logout-section">

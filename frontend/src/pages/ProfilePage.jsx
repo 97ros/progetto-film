@@ -59,7 +59,7 @@ function ProfilePage() {
     }, [fetchProfileData]);
 
 
-     // --- FUNZIONE PER RIMUOVERE DALLA WATCHLIST ---
+     // FUNZIONE PER RIMUOVERE DALLA WATCHLIST 
     const handleRemoveFromWatchlist = async (tmdbId) => {
         // Chiediamo conferma all'utente
         if (!window.confirm("Sei sicuro di voler rimuovere questo film dalla tua watchlist?")) {
@@ -115,7 +115,7 @@ function ProfilePage() {
         }
     };
 
-    // --- NUOVE FUNZIONI PER LA MODIFICA DEL POST ---
+    // FUNZIONI PER LA MODIFICA DEL POST 
     // Apre il modal e pre-compila il form di modifica
     const handleOpenEditModal = (post) => {
         setEditingPost(post);
@@ -266,17 +266,13 @@ function ProfilePage() {
                             La watchlist viene letta da `userProfile.watchlist`, che è la sua posizione corretta
                             nella risposta dell'API dopo aver corretto il backend.
                         */}
-                        {/* 
-                        **MODIFICA CHIAVE**:
-                        Usa 'sortedWatchlist' invece di 'userProfile.watchlist'
-                    */}
                     {sortedWatchlist.length > 0 ? sortedWatchlist.map(movie => (
                         <Col xs="auto" key={movie.tmdbId}>
                             <div style={{ position: 'relative' }}> 
                             <Link to={`/movie/${movie.tmdbId}`}>
                                 <Image src={movie.posterPath || 'https://via.placeholder.com/150x225'} style={{height: '225px', width: '150px'}} rounded />
                             </Link>
-                            {/* --- MODIFICA: Aggiunta del pulsante di eliminazione --- */}
+                            {/* Aggiunta del pulsante di eliminazione */}
                                 <IconButton
                                     size="small"
                                     onClick={(e) => {

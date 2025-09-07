@@ -74,7 +74,7 @@ function App() {
                         element={<ProtectedRoute><MoviePage /></ProtectedRoute>} 
                     />
 
-                    {/* Rotta jolly per URL non trovati */}
+                    {/* Rotta per URL non trovati */}
                     <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
             </main>

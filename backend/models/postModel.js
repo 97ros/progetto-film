@@ -45,7 +45,7 @@ const postSchema = new Schema({
     // Campo per i "mi piace" del post
     likes: [{
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User', // Utento a cui piace il post 
     }],
 
     // Campo per i generi del film

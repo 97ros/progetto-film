@@ -61,6 +61,7 @@ const userSchema = new Schema({
 });
 
 
+
 // Middleware di Mongoose per eseguire l'hashing prima di salvare
 userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next();
@@ -73,10 +74,12 @@ userSchema.pre('save', async function (next) {
     }
 });
 
+
 // Metodo di istanza per confrontare le password
 userSchema.methods.comparePassword = function (inputPassword) {
     return bcrypt.compare(inputPassword, this.password);
 };
+
 
 // Esportiamo il modello e Mongoose creerà una collezione chiamata "users"
 module.exports = mongoose.model('User', userSchema);
