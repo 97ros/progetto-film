@@ -23,14 +23,14 @@ const generateTokens = (userId) => {
 };
 
 // Funzione per la REGISTRAZIONE
-exports.register = async (req, res) => {
-    try {
+exports.register = (req, res) => {
         //Prendiamo i dati inviati dal frontend (dal form di registrazione)
         const { username, email, password } = req.body;
 
         // Controlla se l'utente o l'email esistono già
         User.findOne({ $or: [{ email }, { username }] })
-        .then(async user => {
+        .then( (user) => {
+			if (user) {throw new Error('AlreadyUsed')};
             if (!user) {
                 // Creiamo un nuovo utente usando il nostro modello
                 const newUser = new User({
@@ -38,27 +38,32 @@ exports.register = async (req, res) => {
                 email,
                 password
                 });
-
-                // Salviamo il nuovo utente nel database
-                await newUser.save();
-                res.status(201).json({ message: "Utente registrato con successo!" });
+				return newUser;
             }
+		})
+        .then( (newUser) => {
+            // Salviamo il nuovo utente nel database
+            return newUser.save();
         })
-        .catch(error => {
-            console.error("Errore durante la verifica di username/email unici:", error);
-            res.status(409).json({ message: "Username o email già in uso." });
-        });
-
-    } catch (error) {
-        console.error("Errore registrazione:", error);
-        if (error.name === 'ValidationError') {
-            const messages = Object.values(error.errors).map(val => val.message);
-            return res.status(400).json({ message: messages.join('. ') });
-        }
-        
-        res.status(500).json({ message: "Errore del server durante la registrazione." });
-    }
-};
+        .then( (savedUser) => {
+            console.log("Utente registrato con successo:", savedUser.username);
+            res.status(201).json({ message: "Registrazione avvenuta con successo! Ora puoi effettuare il login." });
+        })
+		.catch( (error) => {
+			if (error.message === 'AlreadyUsed') {
+				console.error("Errore durante la verifica di username/email unici:", error);
+            	res.status(409).json({ message: "Username o email già in uso." });
+		}
+			else {
+                console.error("Errore durante la registrazione:", error);
+		        if (error.name === 'ValidationError') {
+		            const messages = Object.values(error.errors).map(val => val.message);
+		            return res.status(400).json({ message: messages.join('. ') });
+		        }
+                res.status(500).json({ message: "Errore del server durante la registrazione." });
+			}
+		})
+    };
 
 // Funzione per il LOGIN
 exports.login = async (req, res) => {

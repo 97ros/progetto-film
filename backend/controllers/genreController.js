@@ -3,7 +3,7 @@ const Genre = require('../models/genreModel');
 
 // Funzione per ottenere tutti i generi
 exports.getAllGenres = (req, res) => {
-        // Trova tutti i documenti nella collezione Genre e ordinali per nome
+        // Troviamo tutti i documenti nella collezione Genre e ordiniamoli per nome
         Genre.find()
         .sort({ name: 1 })
         .then((genres) => {

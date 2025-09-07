@@ -158,21 +158,20 @@ exports.likePost = async (req, res) => {
             post.likes.splice(index, 1);
         }
 
-        const updatedPost = await post.save();
-        
-        Post.findById(updatedPost._id)
-            .populate('authorId', 'username profilePicture')
-            .then(populatedPost => {
-                res.json({
-                    message: "Operazione like/unlike completata.",
-                    post: populatedPost,
-                    likesCount: populatedPost.likes.length
-                });
-            })
-            .catch((error) => {
-                console.error("Errore nell'operazione like/unlike:", error);
-                res.status(500).json({ message: "Errore del server." });
+        post.save()
+        .then((updatedPost) => { return Post.findById(updatedPost._id).populate('authorId', 'username profilePicture'); 
+        })
+        .then((populatedPost) => {
+            res.json({
+                message: "Operazione like/unlike completata.",
+                post: populatedPost,
+                likesCount: populatedPost.likes.length
             });
+        })
+        .catch((error) => {
+            console.error("Errore nell'operazione like/unlike:", error);
+            res.status(500).json({ message: "Errore del server." });
+        });
 };
 
 // Funzione per OTTENERE un post specifico tramite il suo ID
@@ -213,7 +212,6 @@ exports.getPostById = async (req, res) => {
         }
 }
 };
-
 
 // Funzione per trovare i post di un film specifico tramite il suo TMDB ID
 exports.getPostsForMovie = (req, res) => {
