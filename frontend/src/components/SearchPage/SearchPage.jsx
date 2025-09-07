@@ -14,7 +14,7 @@ function SearchPage() {
     // useEffect per la ricerca con debounce
     useEffect(() => {
         // Pulisci i risultati se la query è troppo corta
-        if (searchQuery.trim().length < 3) {
+        if (searchQuery.trim().length < 2) {
             setResults([]);
             setNoResults(false);
             return;

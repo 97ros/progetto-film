@@ -34,7 +34,7 @@ function CreatePostForm({ onPostCreated, movieData = null }) {
     }, [movieData]);
 
     useEffect(() => {
-        if (movieData || searchQuery.trim().length < 3) {
+        if (movieData || searchQuery.trim().length < 2) {
             setSearchResults([]);
             return;
         }

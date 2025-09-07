@@ -22,7 +22,7 @@ router.delete('/:postId', authMiddleware.protect, postController.deletePost);
 // Rotta per mettere/togliere like a un post
 router.post('/:postId/like', authMiddleware.protect, postController.likePost);
 
-// Rotta pubblica per ottenere un singolo post
+// Rotta per ottenere un singolo post
 router.get('/:postId', authMiddleware.protect, postController.getPostById);
 
 router.get('/movie/:tmdbId', postController.getPostsForMovie);

@@ -53,8 +53,8 @@ function MoviePage() {
         fetchMovieData();
     }, [movieId]);
 
-     // --- NUOVO: useEffect per controllare lo stato della watchlist ---
-    // --- CORREZIONE CHIAVE: Aggiunto un controllo di sicurezza su currentUser.watchlist ---
+     // useEffect per controllare lo stato della watchlist 
+    // CORREZIONE CHIAVE: Aggiunto un controllo di sicurezza su currentUser.watchlist 
     useEffect(() => {
         // Controlla se l'utente è loggato, se i dettagli del film sono caricati,
         // e, soprattutto, se currentUser.watchlist esiste ed è un array.
@@ -70,7 +70,7 @@ function MoviePage() {
     }, [currentUser, movieDetails, movieId]);
 
 
-    // 2. Logica per aggiungere alla watchlist
+    // Logica per aggiungere alla watchlist
     const handleAddToWatchlist = async () => {
         if (!currentUser) return alert("Devi effettuare il login per aggiungere film alla watchlist.");
         try {
@@ -99,7 +99,7 @@ function MoviePage() {
         }
     };
 
-    // --- NUOVO: Funzione per rimuovere dalla watchlist ---
+    // Funzione per rimuovere dalla watchlist 
     const handleRemoveFromWatchlist = async () => {
         if (!currentUser) return alert("Devi essere loggato per rimuovere film.");
         try {
@@ -145,7 +145,7 @@ function MoviePage() {
     if (error) return <Container className="mt-5"><Alert variant="danger">{error}</Alert></Container>;
     if (!movieDetails) return null;
 
-    // 3. Costruiamo l'URL completo della locandina
+    // Costruiamo l'URL completo della locandina
     const posterUrl = movieDetails.poster_path 
         ? `https://image.tmdb.org/t/p/w500${movieDetails.poster_path}` 
         : 'https://via.placeholder.com/400x600.png?text=N/A';
@@ -181,10 +181,10 @@ function MoviePage() {
                     <h5 className="mt-3">Trama</h5>
                     <p>{movieDetails.overview}</p>
                     
-                    {/* 4. I pulsanti di azione sono mostrati solo se l'utente è loggato */}
+                    {/* I pulsanti di azione sono mostrati solo se l'utente è loggato */}
                     {currentUser && (
                          <div className="d-flex align-items-center mt-4">
-                            {/* --- MODIFICA: Rendering condizionale del pulsante watchlist --- */}
+                            {/* MODIFICA: Rendering condizionale del pulsante watchlist */}
                             {isInWatchlist ? (
                                 <Button variant="outline-danger" onClick={handleRemoveFromWatchlist} className="me-2">
                                     <BookmarkRemoveIcon fontSize="small" className="me-1" />
@@ -247,7 +247,7 @@ function MoviePage() {
                 <p>Nessuno ha ancora scritto un post su questo film. Sii il primo!</p>
             )}
 
-            {/* 5. Modal per la creazione del post */}
+            {/* Modal per la creazione del post */}
             <Modal show={showCreateModal} onHide={() => setShowCreateModal(false)} size="lg" centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Crea un post per "{movieDetails.title}"</Modal.Title>

@@ -16,10 +16,10 @@ import React, { createContext, useState, useContext, useEffect, useCallback } fr
 import api from '../services/api';
 import { useNavigate } from 'react-router-dom';
 
-// 1. Creiamo il Contesto
+// Creiamo il Contesto
 const AuthContext = createContext(null);
 
-// 2. Creiamo il "Provider", il componente che gestirà la logica
+// Creiamo il "Provider", il componente che gestirà la logica
 export const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState(null);
     const [loading, setLoading] = useState(true); // Inizia come true per gestire il controllo iniziale
@@ -104,7 +104,7 @@ export const AuthProvider = ({ children }) => {
     );
 };
 
-// 3. Creiamo un Hook personalizzato per un accesso più semplice
+// Creiamo un Hook personalizzato per un accesso più semplice
 export const useAuth = () => {
     return useContext(AuthContext);
 };
