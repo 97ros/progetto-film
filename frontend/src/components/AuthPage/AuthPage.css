@@ -4,9 +4,9 @@
 .auth-page-container {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     min-height: 100vh;
-    background-color: #f0f2f5; /* Sfondo grigio chiaro */
+    background-color: var(--light-beige); /* Sfondo grigio chiaro */
     font-family: Arial, sans-serif;
     position: relative;
 }
