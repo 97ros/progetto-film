@@ -205,7 +205,7 @@ function ProfilePage() {
                     <Image src={isEditing ? (formData.profilePicture || 'https://via.placeholder.com/150') : (userProfile.profilePicture || 'https://via.placeholder.com/150')}
                     roundedCircle
                     style={{ objectFit: 'cover' }}
-                    width="150"
+                    width="450"
                     height="150"
                     />
                 </Col>

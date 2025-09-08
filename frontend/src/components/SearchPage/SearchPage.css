@@ -3,26 +3,30 @@
 .explore-container {
     padding: 40px;
     width: 100%;
-    max-width: 800px;
+
     margin: 0 auto;
     font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra orizzontalmente gli elementi figli */
 }
 
 .explore-container h1 {
     color: #333;
     text-align: center;
-    margin-bottom: 32px;
+    margin-bottom: 20px;
 }
 
 .search-bar-wrapper {
     position: relative;
     width: 100%;
+    max-width: 600px; /* Aumentata la larghezza massima per renderla più grande */
 }
 
 .search-input {
     width: 100%;
-    padding: 15px 20px;
-    font-size: 18px;
+    padding: 20px 25px;
+    font-size: 22px;
     border: 2px solid #ddd;
     border-radius: 50px; /* Stile "pillola" */
     box-sizing: border-box;
@@ -31,7 +35,7 @@
 
 .search-input:focus {
     outline: none;
-    border-color: #e50914; /* Colore primario quando attivo */
+    border-color: var(--accent-orange); /* Colore primario quando attivo */
     box-shadow: 0 0 8px rgba(229, 9, 20, 0.2);
 }
 
@@ -101,13 +105,13 @@
 /* Spinner di caricamento */
 .loading-spinner {
     position: absolute;
-    right: 20px;
+    right: 25px;
     top: 50%;
     transform: translateY(-50%);
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     border: 3px solid #f3f3f3;
-    border-top: 3px solid #e50914;
+    border-top: 3px solid var(--accent-orange);
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }

@@ -1,74 +1,97 @@
 /* src/pages/AuthPage.css */
 
+
 .auth-page-container {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     min-height: 100vh;
-    background-color: #f0f2f5; /* Sfondo grigio chiaro */
+    background-color: var(--light-beige); /* Sfondo grigio chiaro */
     font-family: Arial, sans-serif;
     position: relative;
 }
 
+
+/* Contenitore principale per i form di Login e Registrazione */
 .auth-form-card {
-    background: white;
-    padding: 2.5rem 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-    box-sizing: border-box;
+  width: 100%;
+  max-width: 400px;
+  padding: 2.5rem 2rem;
+  background-color: var(--primary-dark-blue);
+  border-radius: 8px;
+  margin: 0;
+  
+  /* Applicazione di box-shadow come visto nella slide 23 "Background (e ombra) di un box" */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  color: var(--light-beige);
+  box-sizing: border-box;
 }
 
+/* Stile per i titoli dei form */
 .auth-form-card h2 {
-    text-align: center;
-    margin-bottom: 2rem;
-    color: #333;
-    font-weight: 600;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2.5em; /* Unità relativa 'em' come visto nella slide 49 */
+  font-weight: 600;
+  color: #f0f2f5;
 }
 
+/* Gruppo che contiene label e input, utile per la spaziatura */
 .form-group {
-    margin-bottom: 1.25rem;
+  margin-bottom: 1.25rem;
 }
 
+/* Stile delle etichette (label) */
 .form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-    color: #555;
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  font-size: 0.9em;
 }
 
+/* Stile dei campi di input */
 .form-group input {
-    width: 100%;
-    padding: 0.8rem 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-    box-sizing: border-box;
-    transition: border-color 0.2s;
+  width: 100%;
+  padding: 12px 15px; /* Controllo del padding interno (Box Model) */
+  background-color: var(--secondary-dark-blue);
+  border: 2px solid transparent;
+  border-radius: 5px;
+  color: var(--light-beige);
+  font-size: 1em;
+
+  /* Applicazione delle transizioni (slide 52) per un effetto fluido */
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
+/* Stile per l'input quando è in focus (selezionato dall'utente) */
+/* Utilizzo della pseudo-classe ':focus' (slide 48) */
 .form-group input:focus {
-    outline: none;
-    border-color: #e50914; /* Colore primario al focus */
+  outline: none;
+  border-color: var(--accent-yellow);
+  box-shadow: 0 0 10px rgba(242, 192, 123, 0.5);
 }
 
+/* Stile per il bottone di submit */
 .submit-btn {
-    width: 100%;
-    padding: 0.8rem;
-    background-color: #e50914; /* Rosso primario */
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 1rem;
-    transition: background-color 0.3s ease;
+  width: 100%;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--accent-orange);
+  color: var(--secondary-dark-blue);
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 1rem;
+  
+  /* Transizione per l'effetto hover */
+  transition: background-color 0.3s, transform 0.2s;
 }
 
+/* Effetto al passaggio del mouse sul bottone, uso della pseudo-classe ':hover' */
 .submit-btn:hover {
-    background-color: #f40612; /* Rosso più acceso */
+  background-color: #d96544; /* Versione leggermente più scura dell'arancione */
+  transform: translateY(-2px); /* Leggero sollevamento */
 }
 
 .submit-btn:disabled {
@@ -76,24 +99,25 @@
     cursor: not-allowed;
 }
 
-.auth-switcher {
-    margin-top: 1.5rem;
-    text-align: center;
-    color: #666;
-    font-size: 0.9rem;
-}
 
-.switcher-link {
-    color: #e50914;
-    font-weight: bold;
-    cursor: pointer;
-    background: none;
-    border: none;
-    padding: 0;
+/* Stile per il testo e i link in fondo al form */
+.auth-switcher {
+  text-align: center;
+  margin-top: 25px;
+  color: var(--accent-yellow);
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.9rem;
 }
 
 .switcher-link:hover {
-    text-decoration: underline;
+  color: var(--accent-orange);
+  text-decoration: underline;
 }
 
 .error-message {
