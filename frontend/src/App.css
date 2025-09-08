@@ -31,8 +31,6 @@ assicurandosi che il contenuto non finisca sotto la navbar.*/
 }
 
 /* Media Query per schermi più piccoli (es. tablet/telefoni) */
-/* Qui potresti nascondere la navbar e mostrare un menu hamburger,
-   ma per ora facciamo in modo che il contenuto vada sotto */
 @media (max-width: 768px) {
   .main-content {
     margin-left: 0; /* Rimuove il margine, la navbar andrà sopra */

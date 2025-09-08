@@ -3,7 +3,16 @@
 src/index.css
 */
 
-/* Imposta un font moderno e pulito per l'intera applicazione */
+/* Definizione delle variabili colore come visto nella slide 50 "Funzioni in CSS" */
+:root {
+  --primary-dark-blue: #162440;
+  --secondary-dark-blue: #19284B;
+  --light-beige: #F3EEE8;
+  --accent-yellow: #F2C07B;
+  --accent-orange: #E6704C;
+}
+
+/* Stili globali per il corpo della pagina */
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -12,6 +21,14 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #f4f4f4; /* Un grigio chiaro per lo sfondo delle pagine */
+
+/* Utilizzo di Flexbox (slide 34) per centrare il contenuto verticalmente e orizzontalmente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--light-beige); /* Sfondo generale della pagina */
+
 }
 
 /* Una regola "box-sizing" standard per rendere il layout più prevedibile */
