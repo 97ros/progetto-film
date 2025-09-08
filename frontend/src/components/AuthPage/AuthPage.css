@@ -1,5 +1,6 @@
 /* src/pages/AuthPage.css */
 
+
 .auth-page-container {
     display: flex;
     justify-content: center;
@@ -18,6 +19,7 @@
   padding: 2.5rem 2rem;
   background-color: var(--primary-dark-blue);
   border-radius: 8px;
+  margin: 0;
   
   /* Applicazione di box-shadow come visto nella slide 23 "Background (e ombra) di un box" */
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
@@ -31,7 +33,7 @@
   margin-bottom: 2rem;
   font-size: 2.5em; /* Unità relativa 'em' come visto nella slide 49 */
   font-weight: 600;
-  color: var(--accent-yellow);
+  color: #f0f2f5;
 }
 
 /* Gruppo che contiene label e input, utile per la spaziatura */
@@ -127,17 +129,4 @@
     margin-bottom: 1rem;
     text-align: center;
     font-size: 0.9rem;
-}
-
-
-/* Responsive Design con Media Query (slide 43) */
-/* Per schermi più piccoli di 480px */
-@media screen and (max-width: 480px) {
-  .auth-container {
-    padding: 25px;
-  }
-
-  .auth-title {
-    font-size: 2em;
-  }
 }
