@@ -42,7 +42,7 @@ function App() {
             {/* La Navbar è visibile solo se l'utente è loggato */}
             {currentUser && <Navbar />}
 
-            <main className={`main-content ${currentUser ? 'protected-routes' : 'no-navbar'}`}>
+            <main className="main-content">
                 <Routes>
                     {/* Rotte Pubbliche (Login/Registrazione) */}
                     <Route 
@@ -75,7 +75,7 @@ function App() {
                     />
 
                     {/* Rotta per URL non trovati */}
-                    <Route path="*" element={<Navigate to="/" replace />} />
+                    <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
             </main>
         </div>

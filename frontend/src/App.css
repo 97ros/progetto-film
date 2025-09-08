@@ -6,15 +6,15 @@ assicurandosi che il contenuto non finisca sotto la navbar.*/
 /* src/App.css */
 
 .app-container {
-  display: flex; /* Usa Flexbox per creare un layout a due colonne */
+  display: flex;
   min-height: 100vh;
 }
 
 /* L'area del contenuto principale */
 .main-content {
+  /* La Navbar è larga 240px, quindi il contenuto deve iniziare dopo */
+  margin-left: 240px; 
 
-  margin-left: 0; /* Inizialmente nessun margine a sinistra */
-  
   /* Occupa tutto lo spazio rimanente in larghezza */
   flex-grow: 1; 
 
@@ -23,11 +23,6 @@ assicurandosi che il contenuto non finisca sotto la navbar.*/
 
   /* Assicura che il padding non aumenti la larghezza totale */
   box-sizing: border-box; 
-}
-
-.main-content.protected-routes {
-  /* La Navbar è larga 240px, quindi il contenuto deve iniziare dopo */
-  margin-left: 240px;
 }
 
 /* Media Query per schermi più piccoli (es. tablet/telefoni) */
