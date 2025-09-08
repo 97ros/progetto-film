@@ -53,7 +53,7 @@ function SearchPage() {
     }, [searchQuery]);
 
     return (
-        <div className="search-page-container">
+        <div className="explore-container">
             <h1>Cosa vuoi cercare?</h1>
             <div className="search-bar-wrapper">
                 <input
