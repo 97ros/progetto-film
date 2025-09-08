@@ -1,20 +1,35 @@
-// src/context/AuthContext.js
+// Importiamo le dipendenze necessarie
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
-import api from '../services/api'; // Assicurati che api.js sia configurato correttamente
+
+// Importiamo il nostro servizio API centralizzato
+import api from '../services/api';
+
+// Importiamo useNavigate per la navigazione programmatica
 import { useNavigate } from 'react-router-dom';
 
+// Creiamo il contesto di autenticazione
 const AuthContext = createContext(null);
 
+// Creiamo il provider del contesto
 export const AuthProvider = ({ children }) => {
+
+    // Stato per l'utente attualmente autenticato
     const [currentUser, setCurrentUser] = useState(null);
+
+    // Stato per indicare se stiamo ancora caricando lo stato di autenticazione
     const [loading, setLoading] = useState(true);
+
+    // Inizializziamo useNavigate per la navigazione programmatica
     const navigate = useNavigate();
 
+
+    // Funzione per effettuare il login
     const login = async (credentials) => {
         try {
+            // Effettuiamo la richiesta di login al backend
             const response = await api.post('/auth/login', credentials);
             const { accessToken, user } = response.data;
-            
+
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('user', JSON.stringify(user));
 

@@ -1,8 +1,15 @@
+// Importiamo React e gli hook necessari
 import React, { useState } from 'react';
-import { useAuth } from '../../context/AuthContext'; // Importa useAuth dal contesto di autenticazione
+
+// Importiamo il contesto di autenticazione per gestire login e registrazione
+//useAuth è un custom hook che ci permette di accedere al contesto
+import { useAuth } from '../../context/AuthContext';
+
+// Importiamo il CSS specifico per questa pagina
 import './AuthPage.css';
 
 function AuthPage() {
+
     // Stato per controllare se mostrare il form di login (true) o di registrazione (false)
     const [isLoginView, setIsLoginView] = useState(true);
     
@@ -16,18 +23,19 @@ function AuthPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
 
-    const auth = useAuth(); // Otteniamo le funzioni di login/register dal contesto
+    const auth = useAuth();
 
     // Funzione per passare da login a registrazione e viceversa
     const toggleView = () => {
         setIsLoginView(!isLoginView);
-        // Pulisce i campi e gli errori quando si cambia vista
+        // Puliamo i campi e gli errori quando cambiamo vista
         setUsername('');
         setEmail('');
         setPassword('');
         setError('');
     };
 
+    // Funzione per gestire l'invio del form
     const handleSubmit = async (event) => {
         event.preventDefault();
         setIsLoading(true);
@@ -44,17 +52,20 @@ function AuthPage() {
                 toggleView();
             }
         } catch (err) {
-            // Mostra il messaggio di errore proveniente dal backend
+            // Mostriamo il messaggio di errore proveniente dal backend
             setError(err.response?.data?.message || 'Si è verificato un errore.');
         } finally {
+            // Terminiamo il caricamento
             setIsLoading(false);
         }
     };
 
+    // Funzione per mostrare/nascondere la password
     const togglePasswordVisibility = () => {
         setIsPasswordVisible(currentValue => !currentValue);
     };
 
+    // Renderizziamo il form di autenticazione
     return (
         <main className='main-content'>
         <div className="auth-page-container"> 
@@ -101,7 +112,7 @@ function AuthPage() {
                     </button>
                 </div>
 
-                {/* Mostra il messaggio di errore se presente */}
+                {/* Mostriamo il messaggio di errore se presente */}
                 {error && <p className="error-message">{error}</p>}
 
                 <button type="submit" className="submit-btn" disabled={isLoading}>
@@ -121,4 +132,5 @@ function AuthPage() {
     );
 }
 
+// Esportiamo il componente AuthPage
 export default AuthPage;
