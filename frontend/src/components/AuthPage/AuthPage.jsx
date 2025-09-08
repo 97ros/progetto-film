@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAuth } from '../../context/AuthContext'; // Importiamo l'hook per l'autenticazione
+import { useAuth } from '../../context/AuthContext'; // Importa useAuth dal contesto di autenticazione
 import './AuthPage.css';
 
 function AuthPage() {
@@ -56,6 +56,7 @@ function AuthPage() {
     };
 
     return (
+        <main className='main-content'>
         <div className="auth-page-container"> 
             <form onSubmit={handleSubmit} className="auth-form-card"> 
                 <h2>{isLoginView ? 'Accedi al tuo account' : 'Crea un nuovo account'}</h2>
@@ -116,6 +117,7 @@ function AuthPage() {
                 </p>
             </form>
         </div>
+        </main>
     );
 }
 
