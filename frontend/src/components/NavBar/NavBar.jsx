@@ -1,15 +1,22 @@
+// Importiamo la libreria di React
 import React from 'react';
+
+// Importiamo i componenti NavLink e Link
 import { NavLink, Link } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext.js'; // Importiamo il nostro hook
+
+// Importiamo il nostro hook di autenticazione
+import { useAuth } from '../../context/AuthContext.js';
+
+// Importiamo il foglio di stile di questa pagina
 import './NavBar.css';
 
-// Import delle icone
+// Importiamo icone
 import { FaHome, FaSearch, FaUser, FaSignOutAlt } from 'react-icons/fa';
 
-// Import del logo
+// Importiamo il logo della web application
 import logo from '../../assets/logo_app.png'; 
 
-// Il componente non ha più bisogno di props
+// Creiamo il componente NavBar
 function Navbar() {
     // Usiamo il contesto per ottenere l'utente e la funzione di logout
     const { currentUser, logout } = useAuth();

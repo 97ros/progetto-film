@@ -11,8 +11,7 @@
     flex-direction: column;
     padding: 24px;
     box-sizing: border-box;
-        z-index: 1000; /* <-- AGGIUNGI QUESTA RIGA */
-}
+    z-index: 1000;
 
 /* Stile per il logo */
 .navbar-logo {
@@ -148,4 +147,5 @@
 .logout-button:hover {
     background-color: #282828;
     color: #ffffff;
+}
 }
