@@ -8,6 +8,7 @@ import { useAuth } from '../../context/AuthContext';
 // Importiamo il CSS specifico per questa pagina
 import './AuthPage.css';
 
+// Creiamo il componente AuthPage
 function AuthPage() {
 
     // Stato per controllare se mostrare il form di login (true) o di registrazione (false)

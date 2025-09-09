@@ -1,9 +1,16 @@
-// src/pages/SearchPage.jsx
+// Importiamo React e gli hook fondamentali per gestire lo stato e gli effetti collaterali
 import React, { useState, useEffect} from 'react';
+
+// Importiamo il componente Link 
 import { Link } from 'react-router-dom';
+
+// Importiamo l'istanza di axios preconfigurata
 import api from '../../services/api.js'; // Usiamo il nostro servizio API centralizzato
+
+// Importiamo il CSS specifico per questa pagina
 import './SearchPage.css';
 
+// Creiamo il componente SearchPage
 function SearchPage() {
     const [searchQuery, setSearchQuery] = useState('');
     const [results, setResults] = useState([]);
@@ -11,9 +18,9 @@ function SearchPage() {
     const [error, setError] = useState(null);
     const [noResults, setNoResults] = useState(false); // Stato per gestire "nessun risultato"
 
-    // useEffect per la ricerca con debounce
+    // Logica di ricerca
     useEffect(() => {
-        // Pulisci i risultati se la query è troppo corta
+        // Puliamo i risultati se la query è troppo corta
         if (searchQuery.trim().length < 2) {
             setResults([]);
             setNoResults(false);

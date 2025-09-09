@@ -1,4 +1,4 @@
-/* SearchPage.css */
+/* Contenitore principale */
 .explore-container {
     width: 100%;
     min-height: 100vh; /* Assicura che copra tutta l'altezza della viewport */
@@ -9,11 +9,9 @@
     flex-direction: column;
     align-items: center;
     background-color: #f3eee8ff;
-    /* Assicura che lo sfondo si estenda su tutta la pagina */
-    position: relative;
+    position: relative; /* Assicura che lo sfondo si estenda su tutta la pagina */
 }
-
-/* Assicurati che il parent container non interferisca */
+/* */
 .explore-container::before {
     content: '';
     position: fixed;
@@ -153,21 +151,4 @@
 @keyframes spin {
     0% { transform: translateY(-50%) rotate(0deg); }
     100% { transform: translateY(-50%) rotate(360deg); }
-}
-
-/* Media queries per responsive design */
-@media (max-width: 768px) {
-    .explore-container {
-        padding: 20px 15px;
-    }
-    
-    .explore-container h1 {
-        font-size: 2rem;
-        margin-bottom: 20px;
-    }
-    
-    .search-input {
-        font-size: 18px;
-        padding: 16px 20px;
-    }
 }
