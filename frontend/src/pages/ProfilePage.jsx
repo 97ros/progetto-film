@@ -200,8 +200,8 @@ function ProfilePage() {
     : [];
 
     return (
-        <Container className="mt-4" px={4} style={{ width: '100%', padding: '80px', paddingTop: null }}>
-            <Row className="align-items-center mb-4">
+        <Container className="mt-4" px={4} style={{ maxWidth: '1110px', width: '100%', paddingTop: null, position:'relative' }}>            
+        <Row className="align-items-center mb-4">
                 <Col xs="auto">
                     <Image src={isEditing ? (formData.profilePicture || 'https://via.placeholder.com/150') : (userProfile.profilePicture || 'https://via.placeholder.com/150')}
                     roundedCircle
