@@ -200,14 +200,18 @@ function ProfilePage() {
     : [];
 
     return (
-        <Container className="mt-4" px={4} style={{ width: '100%', maxWidth: '900px' }}>
+        <Container fluid className="mt-4" px={4} 
+        style={{ 
+            marginLeft: '120px', 
+            maxWidth: '1000px'
+            }}>
             <Row className="align-items-center mb-4">
                 <Col xs="auto">
                     <Image src={isEditing ? (formData.profilePicture || 'https://via.placeholder.com/150') : (userProfile.profilePicture || 'https://via.placeholder.com/150')}
                     roundedCircle
                     style={{ objectFit: 'cover' }}
-                    width="150"
-                    height="150"
+                    width="150px"
+                    height="150px"
                     />
                 </Col>
                 <Col>
@@ -269,7 +273,7 @@ function ProfilePage() {
                         */}
                     {sortedWatchlist.length > 0 ? sortedWatchlist.map(movie => (
                         <Col xs="auto" key={movie.tmdbId}>
-                            <div style={{ position: 'absolute' }}> 
+                            <div style={{ position: 'relative' }}> 
                             <Link to={`/movie/${movie.tmdbId}`}>
                                 <Image src={movie.posterPath || 'https://via.placeholder.com/150x225'} style={{height: '225px', width: '150px'}} rounded />
                             </Link>

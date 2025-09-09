@@ -8,6 +8,7 @@
   .app-container {
     display: flex; /* Usa Flexbox per creare un layout a due colonne */
     min-height: 100vh;
+    background-color: var(--light-beige);
   }
 
   /* L'area del contenuto principale */
