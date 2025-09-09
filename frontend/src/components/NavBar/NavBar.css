@@ -11,6 +11,7 @@
     flex-direction: column;
     padding: 24px;
     box-sizing: border-box;
+        z-index: 1000; /* <-- AGGIUNGI QUESTA RIGA */
 }
 
 /* Stile per il logo */

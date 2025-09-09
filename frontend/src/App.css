@@ -8,7 +8,7 @@
   .app-container {
     display: flex; /* Usa Flexbox per creare un layout a due colonne */
     min-height: 100vh;
-    background-color: var(--light-beige);
+    background-color: #f3eee8ff;
   }
 
   /* L'area del contenuto principale */
@@ -24,11 +24,15 @@
 
     /* Assicura che il padding non aumenti la larghezza totale */
     box-sizing: border-box; 
+    background-color: #f3eee8ff;
+
+      min-width: 0;
   }
 
   .main-content.protected-routes {
     /* La Navbar è larga 240px, quindi il contenuto deve iniziare dopo */
     margin-left: 240px;
-    width: 100%; /* Occupa lo spazio rimanente */
+    width: calc(100% - 240px);
     background-color: #f3eee8ff; /* Colore di sfondo chiaro per il contenuto principale */
-  }
+        position: relative;
+    overflow-x: hidden; /* <-- AGGIUNGI QUESTA RIGA */  }
