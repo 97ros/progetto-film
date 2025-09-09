@@ -6,6 +6,7 @@ import api from '../services/api';
 import { Autocomplete, TextField, Rating, FormControlLabel, Switch, Button, Box, CircularProgress, Typography } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { Form, Row, Col } from 'react-bootstrap';
+import { theme } from './theme';
 
 /**
  * Un form riutilizzabile per creare un post.
@@ -143,10 +144,33 @@ function CreatePostForm({ onPostCreated, movieData = null }) {
                         <Form.Label className="mb-1" as="legend">Il tuo voto:</Form.Label>
                         <Rating name="movie-rating" value={rating} onChange={(event, newValue) => setRating(newValue || 0)} size="large" />
                     </Box>
-                    
-                    <FormControlLabel control={<Switch checked={isPrivate} onChange={(e) => setIsPrivate(e.target.checked)} />} label="Post privato (visibile solo a te)" sx={{ mb: 3 }} />
-                    
-                    <Button type="submit" variant="contained" endIcon={<SendIcon />} size="large" disabled={!selectedMovie}>
+
+                    <FormControlLabel control={<Switch checked={isPrivate} onChange={(e) => setIsPrivate(e.target.checked)} color="secondary" // ← Usa "secondary" per il colore
+                        sx={{
+                            '& .MuiSwitch-switchBase.Mui-checked': {
+                                color: theme.palette.secondary.light,
+                            },
+                            '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+                                backgroundColor: theme.palette.secondary.light,
+                            },
+                            '& .MuiSwitch-thumb': {
+                                color: theme.palette.secondary.light,
+                            },
+                            top: 0,
+                            }} />} label="Post privato (visibile solo a te)" sx={{ mb: 3 }} />
+
+                    <Button type="submit" variant="contained" endIcon={<SendIcon />} size="large" disabled={!selectedMovie} color="secondary" // ← Usa "secondary" per il colore definito nel tema
+                        sx={{
+                            backgroundColor: theme.palette.secondary.light,
+                            '&:hover': {
+                            backgroundColor: theme.palette.secondary.main,
+                            },
+                            textTransform: 'uppercase',
+                            fontWeight: 'bold',
+                            fontSize: '1rem',
+                            top: -13,
+                            right: -30,
+                            }}>
                         Pubblica
                     </Button>
                 </Col>

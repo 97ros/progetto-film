@@ -1,27 +1,28 @@
 /* src/pages/AuthPage.css */
 
-
 .auth-page-container {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
+    top: 50%; /* Sposta il contenitore al 50% dall'alto */
+    left: 50%; /* Sposta il contenitore al 50% da sinistra */
+    transform: translate(-50%, -50%); /* Corregge il centro esatto */
+    width: 100%; /* Copre l'intera larghezza della viewport */
+    height: 100%; /* Copre l'intera altezza della viewport */
     min-height: 100vh;
     background-color: var(--light-beige); /* Sfondo grigio chiaro */
     font-family: Arial, sans-serif;
-    position: relative;
+    position: fixed;
 }
-
 
 /* Contenitore principale per i form di Login e Registrazione */
 .auth-form-card {
   width: 100%;
   max-width: 400px;
+  max-height: 90vh;
   padding: 2.5rem 2rem;
   background-color: var(--primary-dark-blue);
   border-radius: 8px;
-  margin: 0;
-  
-  /* Applicazione di box-shadow come visto nella slide 23 "Background (e ombra) di un box" */
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   color: var(--light-beige);
   box-sizing: border-box;
@@ -69,6 +70,15 @@
   outline: none;
   border-color: var(--accent-yellow);
   box-shadow: 0 0 10px rgba(242, 192, 123, 0.5);
+}
+
+.toggle-password-btn {
+    margin-top: 10px;
+    border-color: var(--primary-dark-blue);
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--primary-dark-blue);
+    background-color: #c4c4c4;
 }
 
 /* Stile per il bottone di submit */

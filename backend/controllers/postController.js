@@ -78,6 +78,7 @@ exports.getHomepagePosts = async (req, res) => {
 // Funzione per MODIFICARE un post esistente
 // Rotta protetta: l'utente deve essere loggato e deve essere l'autore del post
 exports.updatePost = async (req, res) => {
+    try{
         const postId = req.params.postId; // L'ID del post da modificare, dall'URL
         const { review, rating, isPrivate } = req.body; // Dati aggiornabili
         const currentUserId = req.userId; // L'ID dell'utente loggato, dal token
@@ -99,16 +100,14 @@ exports.updatePost = async (req, res) => {
         if (isPrivate !== undefined) {
             post.isPrivate = isPrivate;
         }
-        
-        post.save()
-        .then( (updatedPost) => {
-            const populatedPost = Post.findById(updatedPost._id).populate('authorId', 'username profilePicture');
-            res.status(200).json({ message: "Post aggiornato con successo!", post: populatedPost });
-        })
-        .catch((error) => {
-            console.error("Errore durante l'aggiornamento del post:", error);
-            res.status(500).json({ message: "Errore del server durante l'aggiornamento del post." });
-        });
+
+        const updatedPost = await post.save();
+        const populatedPost = await Post.findById(updatedPost._id).populate('authorId', 'username profilePicture');
+        res.status(200).json({ message: "Post aggiornato con successo!", post: populatedPost });
+    } catch (error) {
+        console.error("Errore durante l'aggiornamento del post:", error);
+        res.status(500).json({ message: "Errore del server durante l'aggiornamento del post." });
+    }
 };
 
 // Funzione per ELIMINARE un post esistente

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
+import './custom.scss';
 
 // Import componenti UI
 import { Container, Row, Col, Image, Spinner, Alert, Card, Badge, Button, Modal, FormCheck, Form as BootstrapForm } from 'react-bootstrap';
@@ -29,7 +30,7 @@ function ProfilePage() {
 
     const [editingPost, setEditingPost] = useState(null); // Contiene il post da modificare
     const [editPostData, setEditPostData] = useState({ review: '', rating: 0 }); // Dati del form di modifica post
-    
+
     const isOwner = currentUser && currentUser.username === username;
 
     const fetchProfileData = useCallback(async () => {
@@ -199,13 +200,13 @@ function ProfilePage() {
     : [];
 
     return (
-        <Container className="mt-4">
+        <Container className="mt-4" px={4} style={{ width: '100%', maxWidth: '900px' }}>
             <Row className="align-items-center mb-4">
                 <Col xs="auto">
                     <Image src={isEditing ? (formData.profilePicture || 'https://via.placeholder.com/150') : (userProfile.profilePicture || 'https://via.placeholder.com/150')}
                     roundedCircle
                     style={{ objectFit: 'cover' }}
-                    width="450"
+                    width="150"
                     height="150"
                     />
                 </Col>
@@ -236,7 +237,7 @@ function ProfilePage() {
                     <h5 className="mt-3">Generi Preferiti</h5>
                     <div>
                         {genresToShow && genresToShow.map(genre => (
-                            <Badge pill bg="info" className="me-1 fs-6" key={genre}>{genre}</Badge>
+                            <Badge pill bg="genre" className="me-1 fs-6" key={genre}>{genre}</Badge>
                         ))}
                     </div>
                     {isEditing && (
