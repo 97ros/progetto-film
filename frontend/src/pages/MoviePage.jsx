@@ -83,7 +83,7 @@ function MoviePage() {
             };
 
             const response = await api.post('/users/me/watchlist', watchlistData);
-            
+
             // Aggiorna il contesto dell'utente con la nuova watchlist
             setCurrentUser(prevUser => ({
                 ...prevUser,

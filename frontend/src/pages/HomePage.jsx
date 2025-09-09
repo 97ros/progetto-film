@@ -10,6 +10,8 @@ import { Fab, Rating, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { theme } from '../components/theme';
+import './custom.scss';
 
 import { useAuth } from '../context/AuthContext';
 import CreatePostForm from '../components/CreatePostForm'; // Assicurati che il nome sia corretto
@@ -73,7 +75,7 @@ const HomePage = () => {
     };
 
     return (
-        <Container className="mt-4" px={4} style={{ maxWidth: '800px' }}>
+        <Container className="mt-4" px={4} style={{ width: '100%', padding: '100px', paddingTop: null }}>
             {loading && <div className="text-center"><Spinner animation="border" /></div>}
             {error && <Alert variant="danger">{error}</Alert>}
             
@@ -140,7 +142,7 @@ const HomePage = () => {
                 color="primary" 
                 aria-label="add" 
                 onClick={() => setShowCreateModal(true)}
-                sx={{ position: 'fixed', bottom: 24, right: 24 }}
+                sx={{ position: 'fixed', bottom: 24, right: 24, backgroundColor: theme.palette.secondary.light, '&:hover': { backgroundColor: theme.palette.secondary.main } }}
             >
                 <AddIcon />
             </Fab>

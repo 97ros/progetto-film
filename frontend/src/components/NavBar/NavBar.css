@@ -5,7 +5,7 @@
     left: 0;
     width: 240px;
     height: 100vh;
-    background-color: var(--primary-dark-blue);
+    background-color: rgb(16, 27, 49);
     color: #b3b3b3;
     display: flex;
     flex-direction: column;
@@ -15,7 +15,10 @@
 
 /* Stile per il logo */
 .navbar-logo {
-    margin-bottom: 40px;
+    margin-bottom: 30px;
+    margin-top: 10px;
+    text-align: center;
+    
 }
 
 .navbar-logo img {

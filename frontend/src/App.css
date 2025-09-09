@@ -29,4 +29,6 @@
   .main-content.protected-routes {
     /* La Navbar è larga 240px, quindi il contenuto deve iniziare dopo */
     margin-left: 240px;
+    width: 100%; /* Occupa lo spazio rimanente */
+    background-color: #f3eee8ff; /* Colore di sfondo chiaro per il contenuto principale */
   }
