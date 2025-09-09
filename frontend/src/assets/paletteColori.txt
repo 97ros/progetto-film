@@ -8,7 +8,7 @@
 
 /* Color Theme Swatches in RGBA */
 .Vntg-1-rgba { color: #162440ff; }
-.Vntg-2-rgba { color: rgba(243, 238, 232, 1); }
+.Vntg-2-rgba { color: #f3eee8ff; }
 .Vntg-3-rgba { color: rgba(242, 192, 123, 1); }
 .Vntg-4-rgba { color: #e6704cff; }
 .Vntg-5-rgba { color: rgba(25, 40, 75, 1); }

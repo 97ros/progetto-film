@@ -9,9 +9,10 @@ $theme-colors: (
 $theme-colors: map-merge(
   $theme-colors,
   (
-    "genre": rgb(31, 48, 81),
+    "genre": #162440ff,
     "movie": #e6704cff,
     "isPrivate": #e6704cff,
+    "homePage": #f3eee8ff
   )
 );
 
