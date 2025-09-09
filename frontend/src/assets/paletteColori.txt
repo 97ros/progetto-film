@@ -7,10 +7,10 @@
 .Vntg-5-hex { color: #19284B; }
 
 /* Color Theme Swatches in RGBA */
-.Vntg-1-rgba { color: rgba(22, 36, 64, 1); }
+.Vntg-1-rgba { color: #162440ff; }
 .Vntg-2-rgba { color: rgba(243, 238, 232, 1); }
 .Vntg-3-rgba { color: rgba(242, 192, 123, 1); }
-.Vntg-4-rgba { color: rgba(230, 112, 76, 1); }
+.Vntg-4-rgba { color: #e6704cff; }
 .Vntg-5-rgba { color: rgba(25, 40, 75, 1); }
 
 /* Color Theme Swatches in HSLA */

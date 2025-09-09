@@ -78,11 +78,11 @@ exports.getHomepagePosts = async (req, res) => {
 // Funzione per MODIFICARE un post esistente
 // Rotta protetta: l'utente deve essere loggato e deve essere l'autore del post
 exports.updatePost = async (req, res) => {
-    const postId = req.params.postId;
-    const { review, rating, isPrivate } = req.body;
-    const currentUserId = req.userId;
+    try{
+        const postId = req.params.postId; // L'ID del post da modificare, dall'URL
+        const { review, rating, isPrivate } = req.body; // Dati aggiornabili
+        const currentUserId = req.userId; // L'ID dell'utente loggato, dal token
 
-    try {
         const post = await Post.findById(postId);
 
         if (!post) {
@@ -97,18 +97,13 @@ exports.updatePost = async (req, res) => {
         // Aggiorna i campi del post solo se sono stati forniti
         if (review !== undefined) post.review = review;
         if (rating !== undefined) post.rating = rating;
-        if (isPrivate !== undefined) post.isPrivate = isPrivate;
-        
-        // Salva il post e attendi il completamento
+        if (isPrivate !== undefined) {
+            post.isPrivate = isPrivate;
+        }
+
         const updatedPost = await post.save();
-        
-        // Popola il post aggiornato e attendi il completamento
-        const populatedPost = await Post.findById(updatedPost._id)
-                                        .populate('authorId', 'username profilePicture')
-                                        .exec(); // .exec() è una buona pratica per eseguire la query
-
+        const populatedPost = await Post.findById(updatedPost._id).populate('authorId', 'username profilePicture');
         res.status(200).json({ message: "Post aggiornato con successo!", post: populatedPost });
-
     } catch (error) {
         console.error("Errore durante l'aggiornamento del post:", error);
         res.status(500).json({ message: "Errore del server durante l'aggiornamento del post." });

@@ -73,7 +73,7 @@ const HomePage = () => {
     };
 
     return (
-        <Container className="mt-4" style={{ maxWidth: '680px' }}>
+        <Container className="mt-4" px={4} style={{ maxWidth: '800px' }}>
             {loading && <div className="text-center"><Spinner animation="border" /></div>}
             {error && <Alert variant="danger">{error}</Alert>}
             

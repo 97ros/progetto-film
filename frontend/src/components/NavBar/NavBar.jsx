@@ -7,7 +7,7 @@ import './NavBar.css';
 import { FaHome, FaSearch, FaUser, FaSignOutAlt } from 'react-icons/fa';
 
 // Import del logo
-import logo from '../../assets/logo.png'; 
+import logo from '../../assets/logo_app.png'; 
 
 // Il componente non ha più bisogno di props
 function Navbar() {

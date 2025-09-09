@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
+import './custom.scss';
 
 // Componenti UI
 import { Container, Row, Col, Card, Image, Spinner, Alert, Button, Modal, Badge } from 'react-bootstrap';
@@ -186,18 +187,18 @@ function MoviePage() {
                          <div className="d-flex align-items-center mt-4">
                             {/* MODIFICA: Rendering condizionale del pulsante watchlist */}
                             {isInWatchlist ? (
-                                <Button variant="outline-danger" onClick={handleRemoveFromWatchlist} className="me-2">
+                                <Button variant="outline-movie" onClick={handleRemoveFromWatchlist} className="me-2">
                                     <BookmarkRemoveIcon fontSize="small" className="me-1" />
                                     Rimuovi dalla Watchlist
                                 </Button>
                             ) : (
-                                <Button variant="outline-primary" onClick={handleAddToWatchlist} className="me-2">
+                                <Button variant="outline-movie" onClick={handleAddToWatchlist} className="me-2">
                                     <BookmarkAddIcon fontSize="small" className="me-1" />
                                     Aggiungi alla Watchlist
                                 </Button>
                             )}
                             
-                            <Button variant="primary" onClick={() => setShowCreateModal(true)}>
+                            <Button variant="movie" onClick={() => setShowCreateModal(true)}>
                                 <PostAddIcon fontSize="small" className="me-1" />
                                 Scrivi un post
                             </Button>
