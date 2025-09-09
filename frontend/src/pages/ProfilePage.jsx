@@ -205,7 +205,7 @@ function ProfilePage() {
                     <Image src={isEditing ? (formData.profilePicture || 'https://via.placeholder.com/150') : (userProfile.profilePicture || 'https://via.placeholder.com/150')}
                     roundedCircle
                     style={{ objectFit: 'cover' }}
-                    width="450"
+                    width="150"
                     height="150"
                     />
                 </Col>
@@ -268,7 +268,7 @@ function ProfilePage() {
                         */}
                     {sortedWatchlist.length > 0 ? sortedWatchlist.map(movie => (
                         <Col xs="auto" key={movie.tmdbId}>
-                            <div style={{ position: 'relative' }}> 
+                            <div style={{ position: 'absolute' }}> 
                             <Link to={`/movie/${movie.tmdbId}`}>
                                 <Image src={movie.posterPath || 'https://via.placeholder.com/150x225'} style={{height: '225px', width: '150px'}} rounded />
                             </Link>
