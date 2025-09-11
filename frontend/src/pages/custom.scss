@@ -1,11 +1,9 @@
-// Override variabili prima dell'importazione
 $theme-colors: (
   "primary": #0074d9,
   "danger": #ff4136,
   "custom": #ff5733
 );
 
-// Aggiunge un nuovo colore al map dei theme-colors
 $theme-colors: map-merge(
   $theme-colors,
   (
@@ -16,5 +14,5 @@ $theme-colors: map-merge(
   )
 );
 
-// Poi l'import di Bootstrap
+// import di Bootstrap
 @import "~bootstrap/scss/bootstrap";

@@ -1,4 +1,3 @@
-// src/services/api.js
 /*
 Scopo: Centralizza la configurazione delle chiamate API.
 Crea un'istanza "pre-configurata" di Axios.

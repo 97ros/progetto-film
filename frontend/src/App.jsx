@@ -1,12 +1,11 @@
-// src/App.jsx
-/*Scopo: È il componente "scheletro" dell'applicazione. Non contiene una pagina specifica, ma definisce la struttura generale (layout + routing).
-
+/*
 Logica:
 - Layout: Renderizza sempre la Navbar e un'area per il contenuto principale.
 - Routing: Usa Routes e Route per definire quale componente di pagina (HomePage, SearchPage, etc.) deve essere mostrato in base all'URL corrente.
 - Rotte Protette: Usa il currentUser dal nostro useAuth per proteggere le rotte. Se l'utente non è loggato, viene reindirizzato alla pagina di login.
 - Rotte Pubbliche: Gestisce le rotte di login/registrazione, reindirizzando gli utenti già loggati alla homepage.*/
-// src/App.jsx
+
+// Importiamo le librerie necessarie
 import React from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 

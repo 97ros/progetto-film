@@ -1,10 +1,9 @@
-//non devi preoccuparti di filtrare i post nel frontend. Il backend (getHomepagePosts) lo fa già per te in base al token dell'utente che effettua la richiesta
-// src/pages/HomePage.jsx
+// Importiamo le librerie necessarie e il nostro api per comunicare con il server
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
 
-// Import componenti UI
+// Importiamo i componenti UI
 import { Container, Modal, Spinner, Alert, Card, Row, Col, Image } from 'react-bootstrap';
 import { Fab, Rating, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
@@ -13,11 +12,15 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { theme } from '../components/theme';
 import './custom.scss';
 
+// Importiamo il contesto di autenticazione
 import { useAuth } from '../context/AuthContext';
-import CreatePostForm from '../components/CreatePostForm'; // Assicurati che il nome sia corretto
+
+// Importiamo CreatePostForm associato al pulsante per creare un nuvo post
+import CreatePostForm from '../components/CreatePostForm';
 
 const linkStyle = { textDecoration: 'none', color: 'inherit' };
 
+// Creiamo il nostro componente
 const HomePage = () => {
     const { currentUser } = useAuth();
     const [posts, setPosts] = useState([]);
@@ -32,6 +35,7 @@ const HomePage = () => {
     }
 }, [currentUser]);
 
+    // Funzione responsabile del caricamento dei dati
     useEffect(() => {
         const fetchHomepagePosts = async () => {
             if (!currentUser) return; // Non fare nulla se l'utente non è loggato

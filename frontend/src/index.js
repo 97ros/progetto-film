@@ -10,13 +10,13 @@ e il nostro AuthProvider (per fornire il contesto di autenticazione).*/
 // src/index.js
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css'; // Importa gli stili di Bootstrap
 import './index.css'; // I tuoi stili globali
 
 import App from './App';
 import { AuthProvider } from './context/AuthContext';
+import { BrowserRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

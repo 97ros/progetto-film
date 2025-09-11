@@ -1,4 +1,4 @@
-// src/pages/MoviePage.jsx
+// Importiamo le libreri e gli hook necessari
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import api from '../services/api';
@@ -27,8 +27,6 @@ function MoviePage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [showCreateModal, setShowCreateModal] = useState(false); // Stato per il modal
-
-    // --- NUOVO: Stato per tracciare se il film è nella watchlist ---
     const [isInWatchlist, setIsInWatchlist] = useState(false);
 
     useEffect(() => {

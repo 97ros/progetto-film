@@ -39,6 +39,7 @@ exports.getMovieDetails = async (req, res) => {
             axios.get(`https://api.themoviedb.org/3/movie/${tmdbId}/credits?api_key=${tmdbApiKey}&language=it-IT`)
         ]);
 
+        // 
         const movie = movieRes.data;
         const credits = creditsRes.data;
 
@@ -46,7 +47,8 @@ exports.getMovieDetails = async (req, res) => {
             .filter(member => member.job === "Director")
             .map(d => d.name);
 
-        const cast = credits.cast.slice(0, 10).map(c => c.name); // primi 10 attori
+        // Visualizziamo solo i primi 10 attori
+        const cast = credits.cast.slice(0, 10).map(c => c.name); 
 
         const languages = movie.spoken_languages.map(l => l.english_name);
 

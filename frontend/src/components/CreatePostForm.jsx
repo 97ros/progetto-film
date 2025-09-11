@@ -1,18 +1,22 @@
-// src/components/CreatePostForm.jsx
+// Importiamo gli strumenti base di React
 import React, { useState, useEffect } from 'react';
+
+// Importiamo il nostro api per parlare con il server
 import api from '../services/api';
 
-// Import componenti UI
+// Importiamo componenti UI
 import { Autocomplete, TextField, Rating, FormControlLabel, Switch, Button, Box, CircularProgress, Typography } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { Form, Row, Col } from 'react-bootstrap';
 import { theme } from './theme';
 
 /**
- * Un form riutilizzabile per creare un post.
- * @param {function} onPostCreated - Callback eseguita dopo la creazione del post.
- * @param {object|null} movieData - Se fornito, pre-compila il form con i dati del film e disabilita la ricerca.
+ Un form riutilizzabile per creare un post che accetta due props:
+    * onPostCreated: funzione che verrà chiamata quando il post è stato creato.
+    * movieData: se fornito, pre-compila il form con i dati del film e disabilita la ricerca.
  */
+
+// Creiamo il componente CreatePostForm 
 function CreatePostForm({ onPostCreated, movieData = null }) {
     const [selectedMovie, setSelectedMovie] = useState(null); 
     const [review, setReview] = useState(''); 
@@ -97,7 +101,7 @@ function CreatePostForm({ onPostCreated, movieData = null }) {
     };
 
     const posterUrl = selectedMovie 
-        ? (selectedMovie.poster_path || 'https://via.placeholder.com/300x450.png?text=N/A')
+        ? (selectedMovie.poster_path || '../assets/movie-default-image.jpg')
         : 'https://via.placeholder.com/300x450.png?text=Seleziona+un+film';
 
     return (

@@ -1,5 +1,8 @@
+// Importiamo le librerie necessarie
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
+
+
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import './custom.scss';
@@ -55,12 +58,13 @@ function ProfilePage() {
         }
     }, [username]);
 
+    
     useEffect(() => {
         fetchProfileData();
     }, [fetchProfileData]);
 
 
-     // FUNZIONE PER RIMUOVERE DALLA WATCHLIST 
+     // Funzione per RIMUOVERE dalla watchlist 
     const handleRemoveFromWatchlist = async (tmdbId) => {
         // Chiediamo conferma all'utente
         if (!window.confirm("Sei sicuro di voler rimuovere questo film dalla tua watchlist?")) {
