@@ -3,17 +3,17 @@ const router = express.Router();
 
 // Importiamo il nuovo controller e il middleware di protezione
 const userController = require('../controllers/userController');
-const authMiddleware = require('../middleware/authMiddleware');
+
 
 // Rotta protetta per modificare il PROPRIO profilo. Deve stare prima di /:username
-router.put('/me', authMiddleware.protect, userController.updateProfile);
+router.put('/me', userController.updateProfile);
 
-// Rotta pubblica per recuperare il profilo di un utente (più generica)
-router.get('/:username', authMiddleware.protect, userController.getUserProfile);
+// Rotta per recuperare il profilo di un utente (più generica)
+router.get('/:username', userController.getUserProfile);
 
 // Rotte per la gestione della watchlist
-router.post('/me/watchlist', authMiddleware.protect, userController.addToWatchlist);
-router.delete('/me/watchlist/:tmdbId', authMiddleware.protect, userController.removeFromWatchlist);
+router.post('/me/watchlist', userController.addToWatchlist);
+router.delete('/me/watchlist/:tmdbId', userController.removeFromWatchlist);
 
 // Esportiamo il router
 module.exports = router;

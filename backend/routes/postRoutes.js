@@ -7,28 +7,27 @@ const router = express.Router();
 // Importiamo il nostro controller dei post 
 const postController = require('../controllers/postController');
 
-// Importiamo il middleware di autenticazione
-const authMiddleware = require('../middleware/authMiddleware');
+
 
 // Rotta per la homepage
-router.get('/', authMiddleware.protect, postController.getHomepagePosts); 
+router.get('/', postController.getHomepagePosts); 
 
 // Rotta per creare un nuovo post
-router.post('/', authMiddleware.protect, postController.createPost);
+router.post('/', postController.createPost);
 
 // Rotta per modificare un post specifico
-router.put('/:postId', authMiddleware.protect, postController.updatePost);
+router.put('/:postId', postController.updatePost);
 
 // Rotta per eliminare un post specifico
-router.delete('/:postId', authMiddleware.protect, postController.deletePost);
+router.delete('/:postId', postController.deletePost);
 
 // Rotta per mettere/togliere like a un post
-router.post('/:postId/like', authMiddleware.protect, postController.likePost);
+router.post('/:postId/like', postController.likePost);
 
 // Rotta per ottenere un singolo post
-router.get('/:postId', authMiddleware.protect, postController.getPostById);
+router.get('/:postId', postController.getPostById);
 
 // Rotta pubblica per ottenere i post di un film specifico
-router.get('/movie/:tmdbId', authMiddleware.protect, postController.getPostsForMovie);
+router.get('/movie/:tmdbId', postController.getPostsForMovie);
 
 module.exports = router;
