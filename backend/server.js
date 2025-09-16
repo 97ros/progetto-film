@@ -8,8 +8,10 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const http = require('http');
 
+const { protect } = require('./middleware/authMiddleware');
+
 // Importiamo le routes
-const authRoutes = require('./routes/authRoutes');
+const authRoutes = require('./routes/authRoutes'); 
 const postRoutes = require('./routes/postRoutes');
 const userRoutes = require('./routes/userRoutes');
 const movieRoutes = require('./routes/movieRoutes');
@@ -36,7 +38,11 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Uso dei router
-app.use('/api/auth', authRoutes);
+app.use('/api/auth', authRoutes); // rotta pubblica
+
+// Rotte private 
+app.use(protect);
+
 app.use('/api/users', userRoutes);
 app.use('/api/movies', movieRoutes);
 app.use('/api/posts', postRoutes);

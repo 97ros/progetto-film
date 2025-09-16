@@ -88,13 +88,13 @@ exports.updatePost = async (req, res) => {
         if (!post) {
             return res.status(404).json({ error: "Post non trovato." });
         }
+        
 
-        // CONTROLLO DI AUTORIZZAZIONE
         if (post.authorId.toString() !== currentUserId.toString()) {
             return res.status(403).json({ error: "Non hai il permesso di modificare questo post." });
         }
 
-        // Se tutti i controlli sono superati, aggiorniamo il post
+        // Aggiorna i campi del post solo se sono stati forniti
         if (review !== undefined) post.review = review;
         if (rating !== undefined) post.rating = rating;
         if (isPrivate !== undefined) {
