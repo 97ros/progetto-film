@@ -10,7 +10,7 @@ const jwt = require('jsonwebtoken');
 // Funzione helper per generare i token
 const generateTokens = (userId) => {
     const accessToken = jwt.sign(
-        { userId }, 
+        { userId }, // Payload (conetenuto) del token
         process.env.ACCESS_TOKEN_SECRET, 
         { expiresIn: '15m' }
     );
