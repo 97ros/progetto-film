@@ -2,9 +2,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 
-
+// Importiamo il nostro servizio API centralizzato
 import api from '../services/api';
+
+// Importiamo il contesto di autenticazione
 import { useAuth } from '../context/AuthContext';
+
+// Importiamo il file .scss per lo stile della pagina
 import './custom.scss';
 
 // Import componenti UI
@@ -17,29 +21,42 @@ import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
 import DeleteIcon from '@mui/icons-material/Delete';
 
+// Creiamo il componente principale
 function ProfilePage() {
     const { username } = useParams();
     const { currentUser, setCurrentUser } = useAuth();
 
+    // Stato del profilo utente
     const [profileData, setProfileData] = useState(null);
-    const [userPosts, setUserPosts] = useState([]); // Stato dedicato per i post
+    // Stato dedicato per i post
+    const [userPosts, setUserPosts] = useState([]);
+
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    // Booleano che attiva/disattiva la modalità di modifica del profilo
     const [isEditing, setIsEditing] = useState(false);
+    // Oggetto che contiene i valori dei campi del form di modifica
     const [formData, setFormData] = useState({});
+
+    // Stati per la gestione del modal di selezione generi
     const [showGenreModal, setShowGenreModal] = useState(false);
     const [allGenres, setAllGenres] = useState([]);
 
-    const [editingPost, setEditingPost] = useState(null); // Contiene il post da modificare
-    const [editPostData, setEditPostData] = useState({ review: '', rating: 0 }); // Dati del form di modifica post
+    // Contiene il post da modificare
+    const [editingPost, setEditingPost] = useState(null);
+    // Dati del form di modifica post
+    const [editPostData, setEditPostData] = useState({ review: '', rating: 0 }); 
 
+    // Variabile per differenziare utente loggato e altri utenti 
     const isOwner = currentUser && currentUser.username === username;
 
+    // Funzione che viene eseguita appena la pagina si carica e SOLO se username cambia
     const fetchProfileData = useCallback(async () => {
         setLoading(true);
-        setError(null); // Resetta l'errore a ogni nuovo fetch
+        setError(null);
         try {
+            // Eseguiamo la chiamata api per ottenere le informazioni sull'utente
             const response = await api.get(`/users/${username}`);
             setProfileData(response.data);
             setUserPosts(response.data.userPosts || []);
@@ -58,7 +75,7 @@ function ProfilePage() {
         }
     }, [username]);
 
-    
+    // Funzione eseguita solo se si visita il profilo di un altro utente
     useEffect(() => {
         fetchProfileData();
     }, [fetchProfileData]);
@@ -77,6 +94,7 @@ function ProfilePage() {
 
             // Aggiorniamo lo stato per riflettere la rimozione
             setProfileData(currentProfile => {
+                // Filtriamo la watchlist per rimuovere il film con il tmdbId specificato
                 const updatedWatchlist = currentProfile.userProfile.watchlist.filter(movie => movie.tmdbId !== tmdbId);
                 return {
                     ...currentProfile,
@@ -93,11 +111,13 @@ function ProfilePage() {
         }
     };
 
-
+    // Funzione per gestire il "like"
     const handleLikePost = async (postId) => {
         try {
+            // Chiamata all'API per mettere/togliere il like
             const response = await api.post(`/posts/${postId}/like`);
             const updatedPost = response.data.post;
+            // Aggiorniamo lo stato dei post per riflettere il cambiamento
             setUserPosts(currentPosts => 
                 currentPosts.map(p => p._id === postId ? updatedPost : p)
             );
@@ -107,11 +127,14 @@ function ProfilePage() {
         }
     };
 
+    // Funzione per eliminare un post
     const handleDeletePost = async (postId) => {
+        // Chiediamo conferma all'utente
         if (window.confirm("Sei sicuro di voler eliminare questo post?")) {
             try {
+                // Chiamata all'API per eliminare il post
                 await api.delete(`/posts/${postId}`);
-                // Rimuovi il post dallo stato per aggiornare la UI istantaneamente
+                // Rimuoviamo il post dallo stato per aggiornare la UI istantaneamente
                 setUserPosts(currentPosts => currentPosts.filter(p => p._id !== postId));
             } catch (err) {
                 console.error("Errore durante l'eliminazione del post:", err);
@@ -120,8 +143,7 @@ function ProfilePage() {
         }
     };
 
-    // FUNZIONI PER LA MODIFICA DEL POST 
-    // Apre il modal e pre-compila il form di modifica
+    // Apriamo il modal e impostiamo il post da modificare
     const handleOpenEditModal = (post) => {
         setEditingPost(post);
         setEditPostData({
@@ -131,17 +153,20 @@ function ProfilePage() {
         });
     };
 
-    // Chiude il modal
+    // Chiudiamo il modal e resettiamo il post in modifica
     const handleCloseEditModal = () => {
         setEditingPost(null);
     };
 
-    // Gestisce il salvataggio delle modifiche del post
+    // Gestiamo il salvataggio delle modifiche del post
     const handleUpdatePost = async () => {
+        // Se non c'è un post in modifica, usciamo
         if (!editingPost) return;
         try {
+            // Chiamata all'API per aggiornare il post
             const response = await api.put(`/posts/${editingPost._id}`, editPostData);
             const updatedPost = response.data.post;
+            // Aggiorniamo lo stato dei post con il post modificato
             setUserPosts(currentPosts =>
                 currentPosts.map(p => (p._id === updatedPost._id ? updatedPost : p))
             );
@@ -152,12 +177,16 @@ function ProfilePage() {
         }
     };
 
+    // Funzione per gestire i cambiamenti nei campi del form di modifica profilo
     const handleFormChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
+    // Funzione per salvare le modifiche del profilo
     const handleProfileUpdate = async () => {
         try {
+            // Chiamata all'API per aggiornare il profilo
             const response = await api.put('/users/me', formData);
             setCurrentUser(response.data.user);
+            // Ricarichiamo i dati del profilo per riflettere le modifiche
             await fetchProfileData();
             setIsEditing(false);
         } catch (err) {
@@ -166,9 +195,11 @@ function ProfilePage() {
         }
     };
     
+    // Funzione per aprire il modal di selezione generi
     const openGenreModal = async () => {
         if (allGenres.length === 0) {
             try {
+                // Carichiamo i generi solo la prima volta che apriamo il modal
                 const res = await api.get('/genres');
                 setAllGenres(res.data);
             } catch (error) {
@@ -178,6 +209,7 @@ function ProfilePage() {
         setShowGenreModal(true);
     };
 
+    // Funzione per gestire la selezione/deselezione dei generi
     const handleGenreChange = (genreName) => {
         const currentGenres = formData.preferredGenres || [];
         const isSelected = currentGenres.includes(genreName);
@@ -195,10 +227,7 @@ function ProfilePage() {
     const { userProfile } = profileData;
     const genresToShow = isEditing ? formData.preferredGenres : userProfile.preferredGenres;
 
-
-    // Ordina la watchlist per data di aggiunta (dal più recente al più vecchio)
-    // Usiamo [...userProfile.watchlist] per creare una copia dell'array prima di ordinarlo.
-    // È una buona pratica per non modificare direttamente lo stato.
+    // Ordiniamo la watchlist per data di aggiunta (dal più recente al più vecchio)
     const sortedWatchlist = userProfile.watchlist 
     ? [...userProfile.watchlist].sort((a, b) => new Date(b.addedAt) - new Date(a.addedAt))
     : [];
@@ -266,22 +295,16 @@ function ProfilePage() {
                  <React.Fragment>
                     <h3>La mia Watchlist</h3>
                     <Row className="flex-nowrap overflow-auto g-3 mb-4">
-                        {/* 
-                            **CORREZIONE CHIAVE**:
-                            La watchlist viene letta da `userProfile.watchlist`, che è la sua posizione corretta
-                            nella risposta dell'API dopo aver corretto il backend.
-                        */}
                     {sortedWatchlist.length > 0 ? sortedWatchlist.map(movie => (
                         <Col xs="auto" key={movie.tmdbId}>
                             <div style={{ position: 'relative' }}> 
                             <Link to={`/movie/${movie.tmdbId}`}>
                                 <Image src={movie.posterPath || 'https://via.placeholder.com/150x225'} style={{height: '225px', width: '150px'}} rounded />
                             </Link>
-                            {/* Aggiunta del pulsante di eliminazione */}
                                 <IconButton
                                     size="small"
                                     onClick={(e) => {
-                                        e.preventDefault(); // Impedisce al Link di attivarsi
+                                        e.preventDefault();
                                         handleRemoveFromWatchlist(movie.tmdbId);
                                     }}
                                     aria-label={`Rimuovi ${movie.title} dalla watchlist`}
@@ -313,7 +336,7 @@ function ProfilePage() {
                                 <Row>
                                     <Col xs={3} md={2}>
                                         <Link to={`/movie/${post.tmdbId}`}>
-                                            <Card.Img src={post.postImage || 'https://via.placeholder.com/150x225'} />
+                                            <Card.Img src={post.postImage || '../assets/movie-default-image.png'} />
                                         </Link>
                                     </Col>
                                     <Col xs={9} md={10}>
@@ -326,11 +349,6 @@ function ProfilePage() {
                                     </Col>
                                 </Row>
                             </Card.Body>
-                            {/* 
-                                --- CORREZIONE CHIAVE: Unico Card.Footer ---
-                                Questo footer ora contiene sia la sezione like che i pulsanti di modifica/elimina,
-                                ma mostra i pulsanti di modifica/elimina solo se `isOwner` è true.
-                            */}
                             <Card.Footer className="bg-white d-flex justify-content-between align-items-center">
                                 {/* Sezione Like (a sinistra) */}
                                 <div className="d-flex align-items-center">

@@ -1,21 +1,20 @@
-/* src/pages/AuthPage.css */
-
+/* Contenitore principale del form di Login e Registrazione */
 .auth-page-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    top: 50%; /* Sposta il contenitore al 50% dall'alto */
-    left: 50%; /* Sposta il contenitore al 50% da sinistra */
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%); /* Corregge il centro esatto */
-    width: 100%; /* Copre l'intera larghezza della viewport */
-    height: 100%; /* Copre l'intera altezza della viewport */
+    width: 100%;
+    height: 100%;
     min-height: 100vh;
-    background-color: var(--light-beige); /* Sfondo grigio chiaro */
+    background-color: var(--light-beige);
     font-family: Arial, sans-serif;
-    position: fixed;
+    position: fixed; /* Fissa il contenitore nella viewport */
 }
 
-/* Contenitore principale per i form di Login e Registrazione */
+/* Card corrispondente al form */
 .auth-form-card {
   width: 100%;
   max-width: 400px;
@@ -32,7 +31,7 @@
 .auth-form-card h2 {
   text-align: center;
   margin-bottom: 2rem;
-  font-size: 2.5em; /* Unità relativa 'em' come visto nella slide 49 */
+  font-size: 2.5em;
   font-weight: 600;
   color: #f0f2f5;
 }
@@ -53,28 +52,27 @@
 /* Stile dei campi di input */
 .form-group input {
   width: 100%;
-  padding: 12px 15px; /* Controllo del padding interno (Box Model) */
+  padding: 12px 15px;
   background-color: var(--secondary-dark-blue);
   border: 2px solid transparent;
   border-radius: 5px;
   color: var(--light-beige);
   font-size: 1em;
-
-  /* Applicazione delle transizioni (slide 52) per un effetto fluido */
   transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 /* Stile per l'input quando è in focus (selezionato dall'utente) */
-/* Utilizzo della pseudo-classe ':focus' (slide 48) */
 .form-group input:focus {
   outline: none;
   border-color: var(--accent-yellow);
   box-shadow: 0 0 10px rgba(242, 192, 123, 0.5);
 }
 
+/* Stile per il pulsante mostra/nascondi password */
 .toggle-password-btn {
     margin-top: 10px;
-    border-color: var(--primary-dark-blue);
+    border: 2px solid;
+    border-color: var(#070f32);
     cursor: pointer;
     font-size: 1rem;
     color: var(--primary-dark-blue);
@@ -93,22 +91,20 @@
   font-weight: bold;
   cursor: pointer;
   margin-top: 1rem;
-  
-  /* Transizione per l'effetto hover */
   transition: background-color 0.3s, transform 0.2s;
 }
 
-/* Effetto al passaggio del mouse sul bottone, uso della pseudo-classe ':hover' */
+/* Effetto al passaggio del mouse sul bottone */
 .submit-btn:hover {
   background-color: #d96544; /* Versione leggermente più scura dell'arancione */
   transform: translateY(-2px); /* Leggero sollevamento */
 }
 
+/* Stile del bottone disabilitato */
 .submit-btn:disabled {
     background-color: #c4c4c4;
     cursor: not-allowed;
 }
-
 
 /* Stile per il testo e i link in fondo al form */
 .auth-switcher {
@@ -125,14 +121,16 @@
   font-size: 0.9rem;
 }
 
+/* Stile per il link di switcher */
 .switcher-link:hover {
   color: var(--accent-orange);
   text-decoration: underline;
 }
 
+/* Stile per i messaggi di errore */
 .error-message {
-    color: #d32f2f; /* Rosso scuro per errore */
-    background-color: #ffcdd2; /* Sfondo rosso chiaro */
+    color: #d32f2f;
+    background-color: #ffcdd2;
     border: 1px solid #ef9a9a;
     padding: 0.75rem;
     border-radius: 4px;

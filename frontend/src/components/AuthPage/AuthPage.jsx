@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 
 // Importiamo il contesto di autenticazione per gestire login e registrazione
-//useAuth è un custom hook che ci permette di accedere al contesto
 import { useAuth } from '../../context/AuthContext';
 
 // Importiamo il CSS specifico per questa pagina
@@ -24,6 +23,7 @@ function AuthPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
 
+    // Invochiamo l'hook useAuth
     const auth = useAuth();
 
     // Funzione per passare da login a registrazione e viceversa
@@ -43,17 +43,16 @@ function AuthPage() {
         setError('');
 
         try {
+            // Eseguiamo il login o la registrazione a seconda della vista attuale
             if (isLoginView) {
                 await auth.login({ email, password });
-                // Il reindirizzamento viene gestito da AuthContext
             } else {
                 await auth.register({ username, email, password });
-                // Dopo la registrazione, mostriamo un messaggio e passiamo al login
                 alert('Registrazione completata! Ora puoi effettuare il login.');
                 toggleView();
             }
         } catch (err) {
-            // Mostriamo il messaggio di errore proveniente dal backend
+            // Mostriamo il messaggio di errore proveniente dal backend o un messaggio generico
             setError(err.response?.data?.message || 'Si è verificato un errore.');
         } finally {
             // Terminiamo il caricamento
@@ -69,11 +68,11 @@ function AuthPage() {
     // Renderizziamo il form di autenticazione
     return (
         <main className='main-content'>
-        <div className="auth-page-container"> 
+        <div className="auth-page-container">
             <form onSubmit={handleSubmit} className="auth-form-card"> 
                 <h2>{isLoginView ? 'Accedi al tuo account' : 'Crea un nuovo account'}</h2>
 
-                {/* Mostra il campo Username solo nella vista di registrazione */}
+                {/* Mostriamo il campo Username solo nella vista di registrazione */}
                 {!isLoginView && (
                     <div className="form-group">
                         <label htmlFor="username">Username</label>

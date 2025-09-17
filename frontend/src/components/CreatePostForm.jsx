@@ -10,23 +10,27 @@ import SendIcon from '@mui/icons-material/Send';
 import { Form, Row, Col } from 'react-bootstrap';
 import { theme } from './theme';
 
-/**
- Un form riutilizzabile per creare un post che accetta due props:
-    * onPostCreated: funzione che verrà chiamata quando il post è stato creato.
-    * movieData: se fornito, pre-compila il form con i dati del film e disabilita la ricerca.
- */
-
 // Creiamo il componente CreatePostForm 
 function CreatePostForm({ onPostCreated, movieData = null }) {
+    // Stato per gestire i campi del form
     const [selectedMovie, setSelectedMovie] = useState(null); 
-    const [review, setReview] = useState(''); 
+    const [review, setReview] = useState('');
     const [rating, setRating] = useState(0); 
     const [isPrivate, setIsPrivate] = useState(false);
+
+    // Stato per memorizzare i generi dei film selezionati
     const [genres, setGenres] = useState([]);
+
+    // Stato per memorizzare il testo nel campo di ricerca
     const [searchQuery, setSearchQuery] = useState(''); 
-    const [searchResults, setSearchResults] = useState([]); 
+
+    // Stato per mostrare la lista dei risultati
+    const [searchResults, setSearchResults] = useState([]);
+
+    // Stato per mostrare lo spinner di caricamento
     const [isSearching, setIsSearching] = useState(false); 
 
+    // Funzione per compilare automaticamente il form
     useEffect(() => {
         if (movieData) {
             setSelectedMovie({
@@ -38,7 +42,11 @@ function CreatePostForm({ onPostCreated, movieData = null }) {
         }
     }, [movieData]);
 
+    // Funzione per permettere all'utente di creare un nuovo post su un film
+    // Eseguita ogni volta che l'utente digita o quando cambia la modalità del form
     useEffect(() => {
+        // Se i dati del film sono stati già inseriti (modalità autocompilata) o le lettere digitate sono meno di 2:
+        // non fa nulla
         if (movieData || searchQuery.trim().length < 2) {
             setSearchResults([]);
             return;
@@ -60,14 +68,18 @@ function CreatePostForm({ onPostCreated, movieData = null }) {
         return () => clearTimeout(debounceTimer);
     }, [searchQuery, movieData]);
 
-
+    // Funzione che viene eseguita quando si clicca "Pubblica"
     const handleSubmit = async (event) => {
+        // Preveniamo il comportamento di default del pulsante (cioè il ricaricamento della pagina)
         event.preventDefault();
+
+        // Ci assicuriamo che sia selezionato un film
         if (!selectedMovie) {
             alert("Per favore, seleziona un film prima di pubblicare.");
             return;
         }
         
+        // Creiamo l'oggetto postData con la struttura richiesta dal backend
         const postData = {
             tmdbId: selectedMovie.id,
             movieTitle: selectedMovie.title,
@@ -82,14 +94,18 @@ function CreatePostForm({ onPostCreated, movieData = null }) {
         }
 
         try {
+            // Eseguiamo una richiesta POST a /posts con i dati del nuovo post
             const response = await api.post('/posts', postData);
             onPostCreated(response.data.post); 
             
+            // Controlliamo se il form NON è stato pre-compilato con dati di un film specifico
             if (!movieData) {
+                // Se è vero (l'utente ha cercato il film manualmente), allora:
                 setSelectedMovie(null);
                 setSearchQuery('');
                 setSearchResults([]);
             }
+            // In ogni caso (sia che 'movieData' esista o meno):
             setReview('');
             setRating(0);
             setIsPrivate(false);
@@ -100,16 +116,20 @@ function CreatePostForm({ onPostCreated, movieData = null }) {
         }
     };
 
+    // Se c’è un film usiamo la sua locandina (poster_path) o un’immagine di default locale (se la locandina non è disponibile)
+    // Se non c’è mostriamo un’immagine placeholder
     const posterUrl = selectedMovie 
-        ? (selectedMovie.poster_path || '../assets/movie-default-image.jpg')
-        : 'https://via.placeholder.com/300x450.png?text=Seleziona+un+film';
+            ? (selectedMovie.poster_path || '../assets/movie-default-image.jpg')
+            : 'https://via.placeholder.com/300x450.png?text=Seleziona+un+film';
 
     return (
         <Form onSubmit={handleSubmit}>
             <Row className="align-items-start">
                 <Col md={4} className="text-center">
                     <Box sx={{ width: '100%', paddingTop: '150%', backgroundColor: '#e0e0e0', borderRadius: 2, position: 'relative', overflow: 'hidden', mb: 2 }}>
-                        <img src={posterUrl} alt={selectedMovie ? `Locandina di ${selectedMovie.title}` : 'Locandina'} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+                        <img src={posterUrl} alt={selectedMovie ? `Locandina di ${selectedMovie.title}` : 'Locandina'} style={{
+                            position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover'
+                            }} />
                     </Box>
                 </Col>
 
@@ -129,15 +149,13 @@ function CreatePostForm({ onPostCreated, movieData = null }) {
                             onInputChange={(event, newInputValue) => setSearchQuery(newInputValue)}
                             renderOption={(props, option) => (
                                 <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
-                                    <img loading="lazy" width="40" src={option.poster_path || 'https://via.placeholder.com/40x60.png?text=N/A'} alt="" />
+                                    <img loading="lazy" width="40" src={option.poster_path || '../assets/movie-default-image.jpg'} alt="" />
                                     {option.title} ({option.release_date ? option.release_date.substring(0, 4) : 'N/D'})
                                 </Box>
                             )}
                             renderInput={(params) => (
-                                // --- CORREZIONE 1: Sostituito <> con React.Fragment ---
                                 <TextField {...params} label="Cerca e seleziona un film..." variant="outlined" InputProps={{ ...params.InputProps, endAdornment: (<React.Fragment>{isSearching ? <CircularProgress color="inherit" size={20} /> : null}{params.InputProps.endAdornment}</React.Fragment>)}} />
                             )}
-                            // --- CORREZIONE 2: Sostituito className con sx ---
                             sx={{ mb: 3 }}
                         />
                     )}
@@ -149,7 +167,7 @@ function CreatePostForm({ onPostCreated, movieData = null }) {
                         <Rating name="movie-rating" value={rating} onChange={(event, newValue) => setRating(newValue || 0)} size="large" />
                     </Box>
 
-                    <FormControlLabel control={<Switch checked={isPrivate} onChange={(e) => setIsPrivate(e.target.checked)} color="secondary" // ← Usa "secondary" per il colore
+                    <FormControlLabel control={<Switch checked={isPrivate} onChange={(e) => setIsPrivate(e.target.checked)} color="secondary"
                         sx={{
                             '& .MuiSwitch-switchBase.Mui-checked': {
                                 color: theme.palette.secondary.light,
@@ -163,7 +181,7 @@ function CreatePostForm({ onPostCreated, movieData = null }) {
                             top: 0,
                             }} />} label="Post privato (visibile solo a te)" sx={{ mb: 3 }} />
 
-                    <Button type="submit" variant="contained" endIcon={<SendIcon />} size="large" disabled={!selectedMovie} color="secondary" // ← Usa "secondary" per il colore definito nel tema
+                    <Button type="submit" variant="contained" endIcon={<SendIcon />} size="large" disabled={!selectedMovie} color="secondary"
                         sx={{
                             backgroundColor: theme.palette.secondary.light,
                             '&:hover': {

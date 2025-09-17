@@ -1,22 +1,28 @@
-// Importiamo React e gli hook fondamentali per gestire lo stato e gli effetti collaterali
+// Importiamo React e gli hook fondamentali
 import React, { useState, useEffect} from 'react';
 
-// Importiamo il componente Link 
+// Importiamo il componente Link
 import { Link } from 'react-router-dom';
 
 // Importiamo l'istanza di axios preconfigurata
-import api from '../../services/api.js'; // Usiamo il nostro servizio API centralizzato
+import api from '../../services/api.js';
 
 // Importiamo il CSS specifico per questa pagina
 import './SearchPage.css';
 
 // Creiamo il componente SearchPage
 function SearchPage() {
+    // Stato per memorizzare il testo digitato
     const [searchQuery, setSearchQuery] = useState('');
+
+    // Stato per la lista dei film trovati
     const [results, setResults] = useState([]);
+
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [noResults, setNoResults] = useState(false); // Stato per gestire "nessun risultato"
+
+    // Stato per gestire "nessun risultato"
+    const [noResults, setNoResults] = useState(false);
 
     // Logica di ricerca
     useEffect(() => {
@@ -27,20 +33,25 @@ function SearchPage() {
             return;
         }
 
+        // Funzione che restituisce risultati solo dopo mezzo secondo dall'ultima digitazione
+        // viene eseguita solo quando cambia searchQuery
         const debounceTimer = setTimeout(() => {
+            // funzione che effettua la chiamata api
             const fetchMovies = async () => {
                 setIsLoading(true);
                 setError(null);
                 setNoResults(false);
                 try {
-                    // La rotta è corretta come definita in movieRoutes.js
+                    // Chiamata api all'endpoint /movies/search
                     const response = await api.get(`/movies/search?query=${searchQuery}`);
                     
+                    // Se la risposta contiene dati e l'array dei risultati non è vuoto:
                     if (response.data && response.data.length > 0) {
+                        // Aggiorniamo lo stato di results con i dati della risposta
                         setResults(response.data);
                     } else {
                         setResults([]);
-                        setNoResults(true); // Imposta a true se l'API restituisce un array vuoto
+                        setNoResults(true);
                     }
                 } catch (err) {
                     console.error("Errore durante la ricerca:", err);
@@ -50,10 +61,11 @@ function SearchPage() {
                     setIsLoading(false);
                 }
             };
-
             fetchMovies();
-        }, 500); // 500ms di attesa prima di lanciare la ricerca
+             // 500ms di attesa prima di lanciare la ricerca
+        }, 500);
 
+        // Funzione che cancella il timer precedente
         return () => {
             clearTimeout(debounceTimer);
         };
@@ -69,16 +81,18 @@ function SearchPage() {
                     placeholder="Scrivi il titolo di un film..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    autoFocus // Mette il focus sull'input al caricamento della pagina
+                    // Mettiamo il focus sull'input al caricamento della pagina
+                    autoFocus
                 />
                 {isLoading && <div className="loading-spinner"></div>}
             </div>
 
             {error && <p className="error-message">{error}</p>}
 
-            {/* Mostra il menu a tendina solo se ci sono risultati */}
+            {/* Mostriamo il menu a tendina solo se ci sono risultati */}
             {results.length > 0 && (
                 <ul className="results-dropdown">
+                    {/* Mappiamo i risultati in singoli elementi della lista */ }
                     {results.map((movie) => (
                         <li key={movie.id} className="result-item">
                             <Link to={`/movie/${movie.id}`} className="result-link">

@@ -11,6 +11,7 @@ e il nostro AuthProvider (per fornire il contesto di autenticazione).*/
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
+
 import 'bootstrap/dist/css/bootstrap.min.css'; // Importa gli stili di Bootstrap
 import './index.css'; // I tuoi stili globali
 

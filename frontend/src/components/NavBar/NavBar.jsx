@@ -10,7 +10,7 @@ import { useAuth } from '../../context/AuthContext.js';
 // Importiamo il foglio di stile di questa pagina
 import './NavBar.css';
 
-// Importiamo icone
+// Importiamo le icone
 import { FaHome, FaSearch, FaUser, FaSignOutAlt } from 'react-icons/fa';
 
 // Importiamo il logo della web application
@@ -21,15 +21,10 @@ function Navbar() {
     // Usiamo il contesto per ottenere l'utente e la funzione di logout
     const { currentUser, logout } = useAuth();
 
-    // Se l'utente non è ancora stato caricato, non mostriamo nulla per evitare errori
-    if (!currentUser) {
-        return null; 
-    }
-
     return (
         <nav className="navbar-container">
             <div className="navbar-logo">
-                <Link to="/"> {/* Il logo ora è un link alla home */}
+                <Link to="/"> {/* Il logo è un link alla home */}
                     <img src={logo} alt="Logo" />
                 </Link>
             </div>
@@ -48,7 +43,7 @@ function Navbar() {
                     </NavLink>
                 </li>
                 <li>
-                    {/* Il link al profilo ora è dinamico e usa lo username dell'utente loggato */}
+                    {/* Il link al profilo è dinamico e usa lo username dell'utente loggato */}
                     <NavLink to={`/user/${currentUser.username}`} className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
                         <FaUser className="nav-icon" />
                         <span>Profilo</span>
@@ -56,11 +51,11 @@ function Navbar() {
                 </li>
             </ul>
 
-            {/* Aggiunta una sezione "footer" per raggruppare profilo utente e logout */}
+            {/* Sezione "footer" per raggruppare profilo utente e logout */}
             <div className="navbar-footer">
                     <span className="user-name">@{currentUser.username}</span>
                 <div className="logout-section">
-                    {/* 7. Il pulsante ora chiama direttamente la funzione `logout` dal contesto */}
+                    {/* Il pulsante chiama direttamente la funzione 'logout' dal contesto */}
                     <button onClick={logout} className="logout-button">
                         <FaSignOutAlt className="nav-icon" />
                         <span>Logout</span>
