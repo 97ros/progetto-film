@@ -13,12 +13,10 @@ exports.searchMovies = async (req, res) => {
         const movies = response.data.results.map(movie => ({
             id: movie.id,
             title: movie.title,
-            overview: movie.overview,
             release_date: movie.release_date,
             poster_path: movie.poster_path
                 ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
                 : null,
-            vote_average: movie.vote_average
         }));
 
         res.status(200).json(movies);
