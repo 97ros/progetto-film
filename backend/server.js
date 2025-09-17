@@ -25,7 +25,7 @@ const PORT = process.env.PORT || 5000; // Usa la porta definita nell'ambiente, o
 // Middleware globali
 
 // Configuriamo CORS per permettere richieste dal frontend
-const whitelist = ['http://localhost:3000']; // Aggiungeremo l'URL di produzione qui dopo
+const whitelist = ['http://localhost:3000']; 
 const corsOptions = {
     origin: function (origin, callback) {
         // Durante lo sviluppo, l'origin potrebbe essere undefined (es. Postman)
