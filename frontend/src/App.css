@@ -1,10 +1,4 @@
-  /*Scopo: Contiene gli stili specifici per il layout principale definito in App.jsx.
-  In questo caso, il suo scopo principale è creare la struttura a due colonne:
-  la Navbar fissa a sinistra e l'area del contenuto principale a destra,
-  assicurandosi che il contenuto non finisca sotto la navbar.*/
-
-  /* src/App.css */
-
+/* Stile di base per l'applicazione */
   .app-container {
     display: flex; /* Usa Flexbox per creare un layout a due colonne */
     min-height: 100vh;
@@ -13,26 +7,19 @@
 
   /* L'area del contenuto principale */
   .main-content {
-
     margin-left: 0; /* Inizialmente nessun margine a sinistra */
-    
-    /* Occupa tutto lo spazio rimanente in larghezza */
-    flex-grow: 1; 
-
-    /* Aggiunge un po' di spazio interno per non avere il contenuto attaccato ai bordi */
-    padding: 2rem; 
-
-    /* Assicura che il padding non aumenti la larghezza totale */
-    box-sizing: border-box; 
-    background-color: #f3eee8ff;
-
-      min-width: 0;
+    flex-grow: 1; /* Occupa tutto lo spazio rimanente in larghezza */
+    padding: 2rem; /* Aggiunge un po' di spazio interno per non avere il contenuto attaccato ai bordi */
+    box-sizing: border-box; /* Assicura che il padding non aumenti la larghezza totale */
+    background-color: #f3eee8ff; /* Colore di sfondo chiaro per il contenuto principale */
+    min-width: 0; /* Assicura che il contenuto non trabocchi orizzontalmente */
   }
 
+  /* Stile specifico per le rotte protette */
   .main-content.protected-routes {
-    /* La Navbar è larga 240px, quindi il contenuto deve iniziare dopo */
-    margin-left: 240px;
-    width: calc(100% - 240px);
+    margin-left: 240px; /* La Navbar è larga 240px, quindi il contenuto deve iniziare dopo */
+    width: calc(100% - 240px); /* Occupa lo spazio rimanente */
     background-color: #f3eee8ff; /* Colore di sfondo chiaro per il contenuto principale */
-        position: relative;
-    overflow-x: hidden; /* <-- AGGIUNGI QUESTA RIGA */  }
+    position: relative; /* Posizione relativa per il contenuto principale */
+    overflow-x: hidden; /* Evita lo scroll orizzontale */
+  }

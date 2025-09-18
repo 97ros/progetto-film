@@ -18,9 +18,9 @@
     margin-bottom: 30px;
     margin-top: 10px;
     text-align: center;
-    
 }
 
+/* Immagine del logo */
 .navbar-logo img {
     max-width: 150px;
 }
@@ -33,6 +33,7 @@
     flex-grow: 1; /* Lascia che questo occupi lo spazio, spingendo il footer in basso */
 }
 
+/* Singolo elemento della lista */
 .nav-links li {
     margin-bottom: 16px;
 }
@@ -85,7 +86,6 @@
     border: none;
 }
 
-
 /* Contenitore per la parte inferiore della navbar (profilo + logout) */
 .navbar-footer {
     margin-top: auto; /* Si assicura che stia in fondo */
@@ -105,6 +105,7 @@
     transition: background-color 0.2s ease;
 }
 
+/* Hover sulla sezione utente */
 .navbar-user-profile:hover {
     background-color: var(--accent-orange);
     color: #ffffff;
@@ -127,7 +128,7 @@
     text-overflow: ellipsis; /* Aggiunge "..." se il nome è troppo lungo */
 }
 
-
+/* Stile per il pulsante di logout */
 .logout-button {
     display: flex;
     align-items: center;
@@ -144,6 +145,7 @@
     transition: background-color 0.2s ease, color 0.2s ease;
 }
 
+/* Hover sul pulsante di logout */
 .logout-button:hover {
     background-color: #282828;
     color: #ffffff;

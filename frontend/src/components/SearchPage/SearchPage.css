@@ -11,7 +11,8 @@
     background-color: #f3eee8ff;
     position: relative; /* Assicuriamo che lo sfondo si estenda su tutta la pagina */
 }
-/* */
+
+/* Sfondo */
 .explore-container::before {
     content: '';
     position: fixed;
@@ -23,6 +24,7 @@
     z-index: -1; /* Mettiamo lo sfondo dietro tutto il contenuto */
 }
 
+/* Titolo principale */
 .explore-container h1 {
     color: #333;
     text-align: center;
@@ -32,6 +34,7 @@
     font-weight: 300;
 }
 
+/* Wrapper per la barra di ricerca */
 .search-bar-wrapper {
     position: relative;
     width: 100%;
@@ -39,6 +42,7 @@
     margin-bottom: 20px;
 }
 
+/* Stile per l'input di ricerca */
 .search-input {
     width: 100%;
     padding: 20px 25px;
@@ -50,12 +54,14 @@
     background-color: white; /* Assicuraiamo che l'input abbia sfondo bianco */
 }
 
+/* Focus sull'input di ricerca */
 .search-input:focus {
     outline: none;
     border-color: var(--accent-orange);
     box-shadow: 0 0 8px rgba(229, 9, 20, 0.2);
 }
 
+/* Stile per i messaggi di errore */
 .error-message {
     text-align: center;
     color: #e50914;
@@ -63,6 +69,7 @@
     background-color: transparent; /* Sfondo trasparente per i messaggi */
 }
 
+/* Stile per i messaggi di nessun risultato */
 .no-results-message {
     text-align: center;
     color: #666;
@@ -86,14 +93,17 @@
     max-width: 600px;
 }
 
+/* Singolo elemento della lista dei risultati */
 .result-item {
     border-bottom: 1px solid #eee;
 }
 
+/* Rimuovi il bordo dall'ultimo elemento */
 .result-item:last-child {
     border-bottom: none;
 }
 
+/* Stile per il link del risultato */
 .result-link {
     display: flex;
     align-items: center;
@@ -104,10 +114,12 @@
     background-color: transparent;
 }
 
+/* Hover sul link del risultato */
 .result-link:hover {
     background-color: rgba(229, 9, 20, 0.05);
 }
 
+/* Stile per l'immagine del poster */
 .result-poster {
     width: 50px;
     height: 75px;
@@ -118,17 +130,20 @@
     border: 1px solid #ddd;
 }
 
+/* Contenitore per le informazioni del risultato */
 .result-info {
     display: flex;
     flex-direction: column;
 }
 
+/* Stile per il titolo del risultato */
 .result-title {
     font-weight: bold;
     font-size: 16px;
     margin-bottom: 4px;
 }
 
+/* Stile per l'anno del risultato */
 .result-year {
     font-size: 14px;
     color: #777;
@@ -148,6 +163,7 @@
     animation: spin 1s linear infinite;
 }
 
+/* Animazione per lo spinner */
 @keyframes spin {
     0% { transform: translateY(-50%) rotate(0deg); }
     100% { transform: translateY(-50%) rotate(360deg); }
