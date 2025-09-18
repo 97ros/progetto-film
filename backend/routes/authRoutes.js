@@ -8,6 +8,7 @@ const router = express.Router();
 const authController = require('../controllers/authController');
 
 // Definiamo le nostre rotte
+
 // Quando arriva una richiesta POST a '/register'...
 router.post('/register', authController.register);
 
@@ -20,4 +21,5 @@ router.post('/logout', authController.logout);
 // Quando arriva una richiesta GET a '/refresh'...
 router.get('/refresh', authController.refresh); 
 
+// Esportiamo il router in modo che possa essere usato in altri file
 module.exports = router;

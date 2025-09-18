@@ -23,6 +23,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 // Creiamo il componente principale
 function ProfilePage() {
+    // Otteniamo lo username dai parametri dell'URL
     const { username } = useParams();
     const { currentUser, setCurrentUser } = useAuth();
 
@@ -31,6 +32,7 @@ function ProfilePage() {
     // Stato dedicato per i post
     const [userPosts, setUserPosts] = useState([]);
 
+    // Stati per la gestione del caricamento e degli errori
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -58,6 +60,7 @@ function ProfilePage() {
         try {
             // Eseguiamo la chiamata api per ottenere le informazioni sull'utente
             const response = await api.get(`/users/${username}`);
+            // Impostiamo i dati del profilo e i post
             setProfileData(response.data);
             setUserPosts(response.data.userPosts || []);
             setFormData({
@@ -67,9 +70,11 @@ function ProfilePage() {
                 preferredGenres: response.data.userProfile.preferredGenres || [],
                 isPrivate: response.data.userProfile.isPrivate || false
             });
+
         } catch (err) {
             console.error("Errore nel caricare il profilo:", err);
             setError("Questo utente non esiste o si è verificato un errore.");
+
         } finally {
             setLoading(false);
         }
@@ -79,7 +84,6 @@ function ProfilePage() {
     useEffect(() => {
         fetchProfileData();
     }, [fetchProfileData]);
-
 
      // Funzione per RIMUOVERE dalla watchlist 
     const handleRemoveFromWatchlist = async (tmdbId) => {
@@ -116,6 +120,7 @@ function ProfilePage() {
         try {
             // Chiamata all'API per mettere/togliere il like
             const response = await api.post(`/posts/${postId}/like`);
+            // Otteniamo il post aggiornato dalla risposta
             const updatedPost = response.data.post;
             // Aggiorniamo lo stato dei post per riflettere il cambiamento
             setUserPosts(currentPosts => 
@@ -165,12 +170,15 @@ function ProfilePage() {
         try {
             // Chiamata all'API per aggiornare il post
             const response = await api.put(`/posts/${editingPost._id}`, editPostData);
+            // Otteniamo il post aggiornato dalla risposta
             const updatedPost = response.data.post;
             // Aggiorniamo lo stato dei post con il post modificato
             setUserPosts(currentPosts =>
                 currentPosts.map(p => (p._id === updatedPost._id ? updatedPost : p))
             );
+            // Chiudiamo il modal
             handleCloseEditModal();
+
         } catch (err) {
             console.error("Errore durante l'aggiornamento del post:", err);
             alert("Non è stato possibile aggiornare il post.");
@@ -185,6 +193,7 @@ function ProfilePage() {
         try {
             // Chiamata all'API per aggiornare il profilo
             const response = await api.put('/users/me', formData);
+            // Aggiorniamo il contesto dell'utente loggato se necessario
             setCurrentUser(response.data.user);
             // Ricarichiamo i dati del profilo per riflettere le modifiche
             await fetchProfileData();
@@ -211,6 +220,7 @@ function ProfilePage() {
 
     // Funzione per gestire la selezione/deselezione dei generi
     const handleGenreChange = (genreName) => {
+        // Controlliamo se il genere è già selezionato
         const currentGenres = formData.preferredGenres || [];
         const isSelected = currentGenres.includes(genreName);
         const newGenres = isSelected
@@ -219,6 +229,7 @@ function ProfilePage() {
         setFormData({ ...formData, preferredGenres: newGenres });
     };
 
+    // Gestiamo i vari stati di caricamento, errore e visualizzazione
     if (loading) return <div className="text-center mt-5"><Spinner animation="border" /></div>;
     if (error) return <Container className="mt-5"><Alert variant="danger">{error}</Alert></Container>;
     if (!profileData) return null;
@@ -449,4 +460,5 @@ function ProfilePage() {
     );
 }
 
+// Esportiamo il componente ProfilePage
 export default ProfilePage;

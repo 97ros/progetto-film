@@ -1,10 +1,3 @@
-/*
-Logica:
-- Layout: Renderizza sempre la Navbar e un'area per il contenuto principale.
-- Routing: Usa Routes e Route per definire quale componente di pagina (HomePage, SearchPage, etc.) deve essere mostrato in base all'URL corrente.
-- Rotte Protette: Usa il currentUser dal nostro useAuth per proteggere le rotte. Se l'utente non è loggato, viene reindirizzato alla pagina di login.
-- Rotte Pubbliche: Gestisce le rotte di login/registrazione, reindirizzando gli utenti già loggati alla homepage.*/
-
 // Importiamo le librerie necessarie
 import React from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
@@ -19,21 +12,25 @@ import ProfilePage from './pages/ProfilePage';
 import MoviePage from './pages/MoviePage';
 import AuthPage from './components/AuthPage/AuthPage';
 
+// Import degli stili
 import './App.css';
 
 // Un componente helper per le rotte protette
 function ProtectedRoute({ children }) {
+    // Otteniamo l'utente corrente e la posizione attuale
     const { currentUser } = useAuth();
     const location = useLocation();
 
+    // Se non c'è un utente loggato, reindirizziamo al login
     if (!currentUser) {
-        // Reindirizza al login, ma ricorda da dove l'utente proveniva
         return <Navigate to="/login" state={{ from: location }} replace />;
     }
     return children;
 }
 
+// Componente principale dell'applicazione
 function App() {
+    // Otteniamo l'utente corrente dal contesto di autenticazione
     const { currentUser } = useAuth();
 
     return (
@@ -81,4 +78,5 @@ function App() {
     );
 }
 
+// Esportiamo il componente App come default
 export default App;

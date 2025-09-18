@@ -10,4 +10,5 @@ const genreController = require('../controllers/genreController');
 // Rotta per ottenere la lista di tutti i generi
 router.get('/', genreController.getAllGenres);
 
+// Esportiamo il router in modo che possa essere usato in altri file
 module.exports = router;

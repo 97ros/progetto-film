@@ -18,6 +18,7 @@ function SearchPage() {
     // Stato per la lista dei film trovati
     const [results, setResults] = useState([]);
 
+    // Stato per gestire il caricamento e gli errori
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -117,4 +118,5 @@ function SearchPage() {
     );
 }
 
+// Esportiamo il componente SearchPage
 export default SearchPage;

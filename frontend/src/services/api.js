@@ -55,4 +55,5 @@ api.interceptors.response.use(
     }
 );
 
+// Esportiamo l'istanza di Axios per l'uso in altre parti dell'applicazione
 export default api;

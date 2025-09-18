@@ -13,4 +13,5 @@ router.get('/search', movieController.searchMovies);
 // Rotta per ottenere i dettagli di un film specifico (es: GET /api/movies/:tmdbId)
 router.get('/:tmdbId', movieController.getMovieDetails);
 
+// Esportiamo il router in modo che possa essere usato in altri file
 module.exports = router;

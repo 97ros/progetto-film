@@ -7,9 +7,11 @@ exports.searchMovies = async (req, res) => {
     const tmdbApiKey = process.env.TMDB_API_KEY;
 
     try {
+        // Effettuiamo la richiesta a TMDB
         const tmdbUrl = `https://api.themoviedb.org/3/search/movie?api_key=${tmdbApiKey}&query=${encodeURIComponent(query)}&language=it-IT`;
         const response = await axios.get(tmdbUrl);
 
+        // Puliamo i dati per inviarli al frontend
         const movies = response.data.results.map(movie => ({
             id: movie.id,
             title: movie.title,
@@ -34,15 +36,17 @@ exports.getMovieDetails = async (req, res) => {
     const tmdbApiKey = process.env.TMDB_API_KEY;
 
     try {
+        // Effettuiamo due richieste: una per i dettagli del film e una per il cast e la crew
         const [movieRes, creditsRes] = await Promise.all([
             axios.get(`https://api.themoviedb.org/3/movie/${tmdbId}?api_key=${tmdbApiKey}&language=it-IT`),
             axios.get(`https://api.themoviedb.org/3/movie/${tmdbId}/credits?api_key=${tmdbApiKey}&language=it-IT`)
         ]);
 
-        // 
+        // Puliamo i dati per inviarli al frontend
         const movie = movieRes.data;
         const credits = creditsRes.data;
 
+        // Estraiamo i registi dalla crew
         const directors = credits.crew
             .filter(member => member.job === "Director")
             .map(d => d.name);
@@ -50,8 +54,10 @@ exports.getMovieDetails = async (req, res) => {
         // Visualizziamo solo i primi 10 attori
         const cast = credits.cast.slice(0, 10).map(c => c.name); 
 
+        // Estraiamo le lingue parlate
         const languages = movie.spoken_languages.map(l => l.english_name);
 
+        // Creiamo un oggetto con i dati "puliti"
         const cleanedMovie = {
             id: movie.id,
             title: movie.title,

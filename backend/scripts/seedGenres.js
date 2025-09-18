@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const axios = require('axios');
 const Genre = require('../models/genreModel'); // Importa il modello
 
+// Funzione principale per il seeding dei generi
 const seedGenres = async () => {
     try {
         // Connettiamoci al database
@@ -21,8 +22,10 @@ const seedGenres = async () => {
         const tmdbApiKey = process.env.TMDB_API_KEY;
         const tmdbUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${tmdbApiKey}&language=it-IT`;
         
+        // Effettuiamo la richiesta
         const response = await axios.get(tmdbUrl);
-        const genresFromApi = response.data.genres; // L'API restituisce un oggetto { genres: [...] }
+        // Estraiamo i generi dalla risposta
+        const genresFromApi = response.data.genres;
 
         // Formattiamo i dati per il nostro schema
         const genresToSave = genresFromApi.map(genre => ({
@@ -36,13 +39,13 @@ const seedGenres = async () => {
 
     } catch (error) {
         console.error("Errore durante il seeding dei generi:", error.message);
+
     } finally {
-        
         // Chiudiamo la connessione al database
         await mongoose.connection.close();
         console.log("Connessione al DB chiusa.");
     }
 };
 
-// Esegui la funzione
+// Eseguiamo la funzione
 seedGenres();

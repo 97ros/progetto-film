@@ -16,34 +16,46 @@ import PostAddIcon from '@mui/icons-material/PostAdd';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
+// Stile per i link
 const linkStyle = { textDecoration: 'none', color: 'inherit' };
 
+// Componente principale
 function MoviePage() {
-    const { movieId } = useParams();
-    const { currentUser, setCurrentUser } = useAuth(); // Prendiamo l'utente corrente dal contesto
 
+    // Prendiamo movieId dai parametri dell'URL
+    const { movieId } = useParams();
+
+    // Prendiamo l'utente corrente e la funzione per aggiornarlo dal contesto
+    const { currentUser, setCurrentUser } = useAuth();
+
+    // Stati per gestire i dettagli del film, i post, il caricamento, gli errori, la modale e lo stato della watchlist
     const [movieDetails, setMovieDetails] = useState(null);
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [showCreateModal, setShowCreateModal] = useState(false); // Stato per il modal
+    const [showCreateModal, setShowCreateModal] = useState(false);
     const [isInWatchlist, setIsInWatchlist] = useState(false);
 
+    // useEffect per caricare i dettagli del film e i post associati
     useEffect(() => {
+        // Funzione asincrona per il fetch dei dati
         const fetchMovieData = async () => {
             setLoading(true);
             try {
+                // Effettuiamo due richieste in parallelo: una per i dettagli del film e una per i post
                 const [movieRes, postsRes] = await Promise.all([
                     api.get(`/movies/${movieId}`),
                     api.get(`/posts/movie/${movieId}`) // Questa rotta è corretta
                 ]);
 
+                // Aggiorniamo gli stati con i dati ricevuti
                 setMovieDetails(movieRes.data);
-                setPosts(postsRes.data || []); // Il backend restituisce direttamente l'array di post
+                setPosts(postsRes.data || []);
 
             } catch (err) {
                 console.error("Errore nel caricare i dati del film:", err);
                 setError("Impossibile trovare i dati per questo film.");
+
             } finally {
                 setLoading(false);
             }
@@ -52,18 +64,18 @@ function MoviePage() {
         fetchMovieData();
     }, [movieId]);
 
-     // useEffect per controllare lo stato della watchlist 
-    // CORREZIONE CHIAVE: Aggiunto un controllo di sicurezza su currentUser.watchlist 
+    // useEffect per controllare lo stato della watchlist 
     useEffect(() => {
-        // Controlla se l'utente è loggato, se i dettagli del film sono caricati,
+        // Controlliamo se l'utente è loggato, se i dettagli del film sono caricati,
         // e, soprattutto, se currentUser.watchlist esiste ed è un array.
         if (currentUser && movieDetails && Array.isArray(currentUser.watchlist)) {
+            // Verifichiamo se il film è già nella watchlist dell'utente
             const movieIsOnList = currentUser.watchlist.some(
                 movie => movie.tmdbId.toString() === movieId
             );
+            // Aggiorniamo lo stato locale
             setIsInWatchlist(movieIsOnList);
         } else {
-            // Se una delle condizioni non è vera, assicurati che il film non sia segnato come "nella watchlist"
             setIsInWatchlist(false);
         }
     }, [currentUser, movieDetails, movieId]);
@@ -71,27 +83,30 @@ function MoviePage() {
 
     // Logica per aggiungere alla watchlist
     const handleAddToWatchlist = async () => {
+        // Controlliamo se l'utente è loggato
         if (!currentUser) return alert("Devi effettuare il login per aggiungere film alla watchlist.");
         try {
+            // Prepariamo i dati del film da inviare
             const posterUrl = movieDetails.poster_path ? `https://image.tmdb.org/t/p/w500${movieDetails.poster_path}` : null;
+            // Aggiungiamo eventuali altre informazioni necessarie
             const watchlistData = {
                 tmdbId: movieDetails.id,
                 title: movieDetails.title,
                 posterPath: posterUrl,
             };
 
+            // Effettuiamo la richiesta per aggiungere alla watchlist
             const response = await api.post('/users/me/watchlist', watchlistData);
 
-            // Aggiorna il contesto dell'utente con la nuova watchlist
+            // Aggiorniamo il contesto dell'utente con la nuova watchlist
             setCurrentUser(prevUser => ({
                 ...prevUser,
                 watchlist: response.data.watchlist
             }));
 
-            // Aggiorna lo stato locale per cambiare il pulsante
-            setIsInWatchlist(true); 
+            // Aggiorniamo lo stato locale per cambiare il pulsante
+            setIsInWatchlist(true);
             alert(`"${movieDetails.title}" è stato aggiunto alla tua watchlist!`);
-
 
         } catch(err) {
             alert((err.response && err.response.data && err.response.data.message) || "Questo film è già nella tua watchlist o si è verificato un errore.");
@@ -100,17 +115,18 @@ function MoviePage() {
 
     // Funzione per rimuovere dalla watchlist 
     const handleRemoveFromWatchlist = async () => {
+        // Controlliamo se l'utente è loggato
         if (!currentUser) return alert("Devi essere loggato per rimuovere film.");
         try {
             const response = await api.delete(`/users/me/watchlist/${movieId}`);
-            
-            // Aggiorna il contesto dell'utente con la watchlist modificata
+
+            // Aggiorniamo il contesto dell'utente con la watchlist modificata
             setCurrentUser(prevUser => ({
                 ...prevUser,
                 watchlist: response.data.watchlist
             }));
-            
-            // Aggiorna lo stato locale per cambiare il pulsante
+
+            // Aggiorniamo lo stato locale per cambiare il pulsante
             setIsInWatchlist(false);
             alert(`"${movieDetails.title}" è stato rimosso dalla tua watchlist.`);
 
@@ -122,12 +138,17 @@ function MoviePage() {
     // Logica per il like al post nella scheda film
     const handleLikePost = async (postId) => {
         try {
+            // Controlliamo se l'utente è loggato
+            if (!currentUser) return alert("Devi effettuare il login per mettere mi piace ai post.");
+            // Effettuiamo la richiesta per mettere/togliere il like
             const response = await api.post(`/posts/${postId}/like`);
+            // Otteniamo il post aggiornato dalla risposta
             const updatedPost = response.data.post;
-            // Aggiorna lo stato dei post per riflettere il like/unlike
+            // Aggiorniamo lo stato dei post per riflettere il like/unlike
             setPosts(currentPosts => 
                 currentPosts.map(p => p._id === postId ? updatedPost : p)
             );
+
         } catch(err) {
             console.error("Errore durante il like:", err);
             alert((err.response && err.response.data && err.response.data.message) || "Non è stato possibile aggiornare il like.");
@@ -136,12 +157,17 @@ function MoviePage() {
     
     // Funzione per quando un post viene creato con successo dal modal
     const handlePostCreated = (newPost) => {
-        setPosts(currentPosts => [newPost, ...currentPosts]); // Aggiunge il nuovo post in cima alla lista
-        setShowCreateModal(false); // Chiude il modal
+        // Aggiungiamo il nuovo post all'inizio della lista dei post
+        setPosts(currentPosts => [newPost, ...currentPosts]);
+        // Chiudiamo la modale
+        setShowCreateModal(false);
     };
     
+    // Renderizziamo il componente
     if (loading) return <div className="text-center mt-5"><Spinner animation="border" /></div>;
+    // Mostriamo un messaggio di errore se c'è un problema
     if (error) return <Container className="mt-5"><Alert variant="danger">{error}</Alert></Container>;
+    // Se non ci sono dettagli del film, non renderizziamo nulla
     if (!movieDetails) return null;
 
     // Costruiamo l'URL completo della locandina
@@ -254,7 +280,6 @@ function MoviePage() {
                 <Modal.Body>
                     <CreatePostForm
                         onPostCreated={handlePostCreated}
-                        // Passiamo i dati del film al form
                         movieData={{
                             tmdbId: movieDetails.id,
                             movieTitle: movieDetails.title,
@@ -268,4 +293,5 @@ function MoviePage() {
     );
 }
 
+// Esportiamo il componente MoviePage
 export default MoviePage;

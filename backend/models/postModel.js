@@ -1,5 +1,6 @@
 // Importiamo la libreria Mongoose
 const mongoose = require('mongoose');
+// Creiamo uno schema per il modello Post
 const Schema = mongoose.Schema;
 
 // Definiamo la struttura e le regole per i nostri "Post"
@@ -60,6 +61,7 @@ const postSchema = new Schema({
 },
 
 {
+    // Aggiunge automaticamente i campi createdAt e updatedAt
     timestamps: true
 });
 

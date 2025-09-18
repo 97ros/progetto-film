@@ -19,7 +19,7 @@ function AuthPage() {
     const [username, setUsername] = useState('');
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     
-    // Stati per il feedback utente
+    // Stati per gestire caricamento ed errori
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
 

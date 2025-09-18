@@ -66,4 +66,5 @@ function Navbar() {
     );
 }
 
+// Esportiamo il componente NavBar
 export default Navbar;

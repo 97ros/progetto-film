@@ -7,8 +7,6 @@ const router = express.Router();
 // Importiamo il nostro controller dei post 
 const postController = require('../controllers/postController');
 
-
-
 // Rotta per la homepage
 router.get('/', postController.getHomepagePosts); 
 
@@ -30,4 +28,5 @@ router.get('/:postId', postController.getPostById);
 // Rotta pubblica per ottenere i post di un film specifico
 router.get('/movie/:tmdbId', postController.getPostsForMovie);
 
+// Esportiamo il router in modo che possa essere usato in altri file
 module.exports = router;

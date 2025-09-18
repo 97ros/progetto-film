@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const http = require('http');
 
+// Importiamo il middleware di protezione delle rotte
 const { protect } = require('./middleware/authMiddleware');
 
 // Importiamo le routes
@@ -19,11 +20,12 @@ const genreRoutes = require('./routes/genreRoutes');
 
 // Creiamo l'app Express
 const app = express();
-const server = http.createServer(app); // Creiamo esplicitamente il server HTTP
-const PORT = process.env.PORT || 5000; // Usa la porta definita nell'ambiente, o la 5000 di default
+// Creiamo il server HTTP
+const server = http.createServer(app);
+// Definiamo la porta su cui il server ascolterà
+const PORT = process.env.PORT || 5000;
 
 // Middleware globali
-
 // Configuriamo CORS per permettere richieste dal frontend
 const corsOptions = {
     origin: 'http://localhost:3000', 
@@ -38,9 +40,10 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Uso dei router
-app.use('/api/auth', authRoutes); // rotta pubblica
+app.use('/api/auth', authRoutes);
 
-// Rotte private 
+// Rotte protette
+// Tutte le rotte definite dopo questo middleware richiederanno un token valido
 app.use(protect);
 
 app.use('/api/users', userRoutes);
@@ -60,14 +63,13 @@ app.use((err, req, res, next) => {
     res.status(500).json({ message: 'Qualcosa è andato storto sul server!' });
 });
 
-// Connettiamoci a MongoDB e avviamo il server
+// Connettiamoci a MongoDB e avviamo il server solo se la connessione al database è andata a buon fine
 console.log("Tentativo di connessione a MongoDB...");
 const MONGO_URI = process.env.MONGO_URI;
 
 mongoose.connect(MONGO_URI)
   .then(() => {
     console.log('Connessione a MongoDB Atlas riuscita!');
-    // Avviamo il server solo se la connessione al database è andata a buon fine
     server.listen(PORT, () => console.log(`Server in ascolto sulla porta ${PORT}`));
   })
   .catch((error) => {

@@ -71,9 +71,11 @@ exports.login = async (req, res) => {
         // Prendiamo email e password dal form di login
         const { email, password } = req.body;
 
+        // Controlliamo che email e password siano stati forniti
         if (!email || !password) {
             return res.status(400).json({ message: "Email e password sono obbligatori." });
         }
+
         // La ricerca dell'utente nel database viene fatta per email
         const user = await User.findOne({ email });
         if (!user || !(await user.comparePassword(password))) {
@@ -87,6 +89,7 @@ exports.login = async (req, res) => {
         console.log(`[LOGIN] Salvataggio refresh token nel DB: ${refreshToken} per utente ${user._id}`);
         await RefreshToken.create({ token: refreshToken, userId: user._id });
 
+        // Impostiamo il cookie con il refresh token
         res.cookie('jwt', refreshToken, {
             httpOnly: true, 
             secure: process.env.NODE_ENV === 'production', 
@@ -94,6 +97,7 @@ exports.login = async (req, res) => {
             maxAge: 7 * 24 * 60 * 60 * 1000 
         });
 
+        // Inviamo la risposta al client con l'access token e alcune info sull'utente
         res.json({
             message: "Login effettuato con successo!",
             accessToken,
@@ -165,10 +169,11 @@ exports.logout = async (req, res) => {
     // Controlliamo se il cookie con il refresh token esiste
     const cookies = req.cookies;
     if (!cookies?.jwt) {
-        // Se non c'è cookie, non c'è nulla da fare. L'utente è già effettivamente "uscito"
+        // Se non c'è cookie, non c'è nulla da fare: l'utente è già effettivamente "uscito"
         return res.sendStatus(204);
     }
-
+    
+    // Prendiamo il refresh token dal cookie
     const refreshToken = cookies.jwt;
 
     try {
@@ -177,6 +182,7 @@ exports.logout = async (req, res) => {
         
         const result = await RefreshToken.deleteOne({ token: refreshToken });
 
+        // Se result.deletedCount è 0, significa che il token non era nel DB
         if (result.deletedCount === 0) {
             console.warn(`[LOGOUT] ATTENZIONE: Nessun refresh token trovato nel DB da eliminare.`);
         } else {

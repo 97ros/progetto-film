@@ -18,35 +18,38 @@ import { useAuth } from '../context/AuthContext';
 // Importiamo CreatePostForm associato al pulsante per creare un nuvo post
 import CreatePostForm from '../components/CreatePostForm';
 
+// Stile per i link
 const linkStyle = { textDecoration: 'none', color: 'inherit' };
 
 // Creiamo il nostro componente
 const HomePage = () => {
+    // Invochiamo il contesto di autenticazione per sapere chi è l'utente loggato
     const { currentUser } = useAuth();
+
+    // Stati per gestire i post, il caricamento, gli errori e la modale di creazione
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [showCreateModal, setShowCreateModal] = useState(false);
 
+    // Logghiamo currentUser per assicurarci che sia corretto
     useEffect(() => {
-    console.log("CurrentUser in HomePage:", currentUser);
-    if (currentUser) {
-        console.log("CurrentUser ID:", currentUser._id);
-    }
-}, [currentUser]);
+        console.log("CurrentUser in HomePage:", currentUser);
+        if (currentUser) {
+            console.log("CurrentUser ID:", currentUser._id);
+        }
+    }, [currentUser]);
 
     // Funzione responsabile del caricamento dei dati
     useEffect(() => {
         const fetchHomepagePosts = async () => {
-            if (!currentUser) return; // Non fare nulla se l'utente non è loggato
+            // Non fare nulla se l'utente non è loggato
+            if (!currentUser) return;
 
             try {
-                // Questa chiamata a '/posts' invoca `getHomepagePosts` nel backend.
-                // Il backend usa il nostro token JWT per identificare l'utente,
-                // recuperare i suoi generi preferiti e restituire un feed di post
-                // già filtrato e personalizzato. Non è necessaria alcuna logica
-                // di filtro aggiuntiva qui nel frontend.
-                const response = await api.get('/posts'); 
+                // Chiamata API all'endpoint /posts
+                const response = await api.get('/posts');
+                // Aggiorniamo lo stato dei post con i dati ricevuti
                 setPosts(response.data || []);
             } catch (err) {
                 console.error("Errore nel caricare i post della homepage:", err);
@@ -61,8 +64,11 @@ const HomePage = () => {
     // Funzione per gestire il "like"
     const handleLikePost = async (postId) => {
         try {
+            // Chiamata API all'endpoint /posts/:id/like
             const response = await api.post(`/posts/${postId}/like`);
+            // Aggiorniamo il post specifico nella lista dei post
             const updatedPost = response.data.post;
+            // Aggiorniamo lo stato dei post
             setPosts(currentPosts => 
                 currentPosts.map(p => p._id === postId ? updatedPost : p)
             );
@@ -74,7 +80,9 @@ const HomePage = () => {
 
     // Funzione per il form di creazione
     const handlePostCreated = (newPost) => {
+        // Aggiungiamo il nuovo post in cima alla lista
         setPosts(currentPosts => [newPost, ...currentPosts]);
+        // Chiudiamo la modale
         setShowCreateModal(false);
     };
 
@@ -86,7 +94,7 @@ const HomePage = () => {
             {!loading && !error && (
                 posts.length > 0 ? (
                     posts.map(post => {
-                        if (!post || !post.authorId) return null; // Controllo di sicurezza
+                        if (!post || !post.authorId) return null;
                         const isLiked = currentUser && post.likes.includes(currentUser.id);
                         return (
                             <Card key={post._id} className="mb-4 shadow-sm">
@@ -164,4 +172,5 @@ const HomePage = () => {
     );
 };
 
+// Esportiamo il componente HomePage
 export default HomePage;

@@ -24,7 +24,7 @@ const userSchema = new Schema({
         required: [true, "L'email è obbligatoria."],
         unique: true,
         trim: true,
-        lowercase: true // Salva sempre l'email in minuscolo per consistenza 
+        lowercase: true
     },
 
     // Campo per la password (salvata in formato criptato)
@@ -37,7 +37,7 @@ const userSchema = new Schema({
     // Campo per l'immagine del profilo (opzionale)
     profilePicture: {
         type: String,
-        default: '../../frontend/src/assets/default-avatar.jpg' // Se non viene fornita, usa questa
+        default: '../../frontend/src/assets/default-avatar.jpg'
     },
     
     // Campo per la biografia (opzionale)
@@ -47,39 +47,40 @@ const userSchema = new Schema({
     },
 
     // Campo per i generi preferiti (opzionale)
-    preferredGenres: [{ type: String }], // Array di stringhe per i generi
+    preferredGenres: [{ type: String }],
 
     // Campo per la watchlist (opzionale)
-    watchlist: [{ // Array di oggetti per i film da vedere
+    watchlist: [{
         tmdbId: { type: Number, required: true },
         title: { type: String, required: true },
         posterPath: { type: String },
         addedAt: { type: Date,
-        default: Date.now // Si popola automaticamente con la data corrente
+        default: Date.now
         }
     }]
 });
 
-
-
 // Middleware di Mongoose per eseguire l'hashing prima di salvare
 userSchema.pre('save', async function (next) {
+    // Se la password non è stata modificata, salta l'hashing
     if (!this.isModified('password')) return next();
+    // Altrimenti, esegui l'hashing della password
     try {
+        // Genera un sale e hash la password
         const salt = await bcrypt.genSalt(10);
+        // Sostituisci la password in chiaro con quella hashata
         this.password = await bcrypt.hash(this.password, salt);
+        // Procedi con il salvataggio
         next();
     } catch (error) {
         next(error);
     }
 });
 
-
 // Metodo di istanza per confrontare le password
 userSchema.methods.comparePassword = function (inputPassword) {
     return bcrypt.compare(inputPassword, this.password);
 };
-
 
 // Esportiamo il modello e Mongoose creerà una collezione chiamata "users"
 module.exports = mongoose.model('User', userSchema);

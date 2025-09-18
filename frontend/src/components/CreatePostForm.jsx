@@ -45,17 +45,19 @@ function CreatePostForm({ onPostCreated, movieData = null }) {
     // Funzione per permettere all'utente di creare un nuovo post su un film
     // Eseguita ogni volta che l'utente digita o quando cambia la modalità del form
     useEffect(() => {
-        // Se i dati del film sono stati già inseriti (modalità autocompilata) o le lettere digitate sono meno di 2:
-        // non fa nulla
+        // Se il form è già compilato o le lettere digitate sono meno di 2: non fa nulla
         if (movieData || searchQuery.trim().length < 2) {
             setSearchResults([]);
             return;
         }
 
+        // Altrimenti mostra lo spinner e cerca i film
         setIsSearching(true);
         const debounceTimer = setTimeout(async () => {
             try {
+                // Chiamata API all'endpoint /movies/search
                 const response = await api.get(`/movies/search?query=${searchQuery}`);
+                // Estraiamo i risultati dalla risposta
                 setSearchResults(response.data || []);
             } catch (error) {
                 console.error("Errore nella ricerca del film:", error);
@@ -64,7 +66,7 @@ function CreatePostForm({ onPostCreated, movieData = null }) {
                 setIsSearching(false);
             }
         }, 500);
-
+        // Funzione di pulizia per cancellare il timer se l'utente digita ancora
         return () => clearTimeout(debounceTimer);
     }, [searchQuery, movieData]);
 
@@ -89,6 +91,7 @@ function CreatePostForm({ onPostCreated, movieData = null }) {
             genres: genres
         };
 
+        // Aggiungiamo il rating solo se è maggiore di 0
         if (rating > 0) {
             postData.rating = rating;
         }
@@ -116,7 +119,7 @@ function CreatePostForm({ onPostCreated, movieData = null }) {
         }
     };
 
-    // Se c’è un film usiamo la sua locandina (poster_path) o un’immagine di default locale (se la locandina non è disponibile)
+    // Se c’è un film usiamo la sua locandina o un’immagine di default locale
     // Se non c’è mostriamo un’immagine placeholder
     const posterUrl = selectedMovie 
             ? (selectedMovie.poster_path || '../assets/movie-default-image.jpg')
@@ -201,4 +204,5 @@ function CreatePostForm({ onPostCreated, movieData = null }) {
     );
 }
 
+// Esportiamo il componente CreatePostForm
 export default CreatePostForm;

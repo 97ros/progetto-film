@@ -22,7 +22,6 @@ export const AuthProvider = ({ children }) => {
     // Inizializziamo useNavigate per la navigazione programmatica
     const navigate = useNavigate();
 
-
     // Funzione per effettuare il login
     const login = async (credentials) => {
         try {
@@ -69,6 +68,7 @@ export const AuthProvider = ({ children }) => {
         } catch (error) {
             console.error("Errore durante il logout dal server:", error);
         } finally {
+            
             // Puliamo i dati della sessione lato client
             localStorage.removeItem('accessToken');
             localStorage.removeItem('user');
