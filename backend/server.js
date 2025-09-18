@@ -40,6 +40,8 @@ const corsOptions = {
     },
     credentials: true
 };
+
+// Applichiamo il middleware CORS
 app.use(cors(corsOptions));
 
 // Aggiungiamo l'URL del frontend deployato alla whitelist tramite una variabile d'ambiente
