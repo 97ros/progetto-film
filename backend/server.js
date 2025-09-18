@@ -27,11 +27,25 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware globali
 // Configuriamo CORS per permettere richieste dal frontend
+const whitelist = ['http://localhost:3000'];
 const corsOptions = {
-    origin: 'http://localhost:3000', 
-    credentials: true 
+    origin: function (origin, callback) {
+        // Durante lo sviluppo, l'origin potrebbe essere undefined
+        // L'URL di produzione verrà aggiunto in una variabile d'ambiente
+        if (process.env.NODE_ENV !== 'production' || whitelist.indexOf(origin) !== -1 || !origin) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true
 };
 app.use(cors(corsOptions));
+
+// Aggiungiamo l'URL del frontend deployato alla whitelist tramite una variabile d'ambiente
+if (process.env.FRONTEND_URL) {
+    whitelist.push(process.env.FRONTEND_URL);
+}
 
 // Middleware per "leggere" il corpo delle richieste in formato JSON
 app.use(express.json());

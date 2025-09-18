@@ -9,14 +9,17 @@ const jwt = require('jsonwebtoken');
 
 // Funzione helper per generare i token
 const generateTokens = (userId) => {
+    // Generiamo sia l'access token che il refresh token
     const accessToken = jwt.sign(
-        { userId }, 
+        // Payload del token
+        { userId },
         process.env.ACCESS_TOKEN_SECRET, 
         { expiresIn: '15m' }
     );
     const refreshToken = jwt.sign(
-        { userId }, 
-        process.env.REFRESH_TOKEN_SECRET, 
+        // Payload del token
+        { userId },
+        process.env.REFRESH_TOKEN_SECRET,
         { expiresIn: '7d' }
     );
     return { accessToken, refreshToken };
