@@ -20,15 +20,14 @@ const genreRoutes = require('./routes/genreRoutes');
 // Creiamo l'app Express
 const app = express();
 const server = http.createServer(app); // Creiamo esplicitamente il server HTTP
-const PORT = process.env.PORT || 5000; // Usa la porta definita nell'ambiente, o la 5000 di default
+const PORT = process.env.PORT || 5000; // Usiamo la porta definita nell'ambiente, o la 5000 di default
 
 // Middleware globali
-
 // Configuriamo CORS per permettere richieste dal frontend
-const whitelist = ['http://localhost:3000']; // Aggiungeremo l'URL di produzione qui dopo
+const whitelist = ['http://localhost:3000'];
 const corsOptions = {
     origin: function (origin, callback) {
-        // Durante lo sviluppo, l'origin potrebbe essere undefined (es. Postman)
+        // Durante lo sviluppo, l'origin potrebbe essere undefined
         // L'URL di produzione verrà aggiunto in una variabile d'ambiente
         if (process.env.NODE_ENV !== 'production' || whitelist.indexOf(origin) !== -1 || !origin) {
             callback(null, true);
@@ -40,7 +39,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-// Aggiungi l'URL del frontend deployato alla whitelist tramite una variabile d'ambiente
+// Aggiungiamo l'URL del frontend deployato alla whitelist tramite una variabile d'ambiente
 if (process.env.FRONTEND_URL) {
     whitelist.push(process.env.FRONTEND_URL);
 }
