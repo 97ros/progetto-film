@@ -55,7 +55,7 @@ exports.getMovieDetails = async (req, res) => {
         // Estraiamo le lingue parlate
         const languages = movie.spoken_languages.map(l => l.english_name);
 
-        // Creiamo un oggetto con i dati "puliti"
+        // Creiamo un oggetto con i dati "puliti" 
         const cleanedMovie = {
             id: movie.id,
             title: movie.title,

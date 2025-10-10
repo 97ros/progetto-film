@@ -145,7 +145,7 @@
     transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-/* Hover sul pulsante di logout */
+/* Hover sul pulsante di logout*/
 .logout-button:hover {
     background-color: #282828;
     color: #ffffff;

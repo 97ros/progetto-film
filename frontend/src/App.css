@@ -21,5 +21,5 @@
     width: calc(100% - 240px); /* Occupa lo spazio rimanente */
     background-color: #f3eee8ff; /* Colore di sfondo chiaro per il contenuto principale */
     position: relative; /* Posizione relativa per il contenuto principale */
-    overflow-x: hidden; /* Evita lo scroll orizzontale */
+    overflow-x: hidden; /* Evita lo scroll orizzontale*/
   }

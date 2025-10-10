@@ -58,7 +58,7 @@ exports.getHomepagePosts = async (req, res) => {
         // Recuperiamo i generi preferiti dell'utente
         const user = await User.findById(userId);
 
-        // Creiamo la query di base per trovare solo i post pubblici
+        // Creiamo la query di base per trovare solo i post pubblici 
         let query = { isPrivate: false };
 
         // Se l'utente ha definito dei generi preferiti, li usiamo per filtrare

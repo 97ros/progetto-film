@@ -203,7 +203,7 @@ exports.logout = async (req, res) => {
 
     } catch (error) {
         // Se c'è un errore con il database, puliamo comunque il cookie dal browser
-        // per non lasciare il client in uno stato inconsistente.
+        // per non lasciare il client in uno stato inconsistente 
         console.error("Errore durante il logout:", error);
         res.clearCookie('jwt', { httpOnly: true, sameSite: 'Strict', secure: process.env.NODE_ENV === 'production' });
         res.status(500).json({ message: "Errore del server durante il logout." });

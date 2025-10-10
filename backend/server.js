@@ -79,7 +79,7 @@ app.use((err, req, res, next) => {
     res.status(500).json({ message: 'Qualcosa è andato storto sul server!' });
 });
 
-// Connettiamoci a MongoDB e avviamo il server solo se la connessione al database è andata a buon fine
+// Connettiamoci a MongoDB e avviamo il server solo se la connessione al database è andata a buon fine 
 console.log("Tentativo di connessione a MongoDB...");
 const MONGO_URI = process.env.MONGO_URI;
 
