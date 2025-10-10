@@ -1,6 +1,6 @@
 // Importiamo le librerie necessarie
 import React, { useState, useEffect, useCallback } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 
 // Importiamo il nostro servizio API centralizzato
 import api from '../services/api';
@@ -40,6 +40,9 @@ function ProfilePage() {
     const [isEditing, setIsEditing] = useState(false);
     // Oggetto che contiene i valori dei campi del form di modifica
     const [formData, setFormData] = useState({});
+
+    // Hook per la navigazione
+    const navigate = useNavigate();
 
     // Stati per la gestione del modal di selezione generi
     const [showGenreModal, setShowGenreModal] = useState(false);
@@ -194,10 +197,19 @@ function ProfilePage() {
             // Chiamata all'API per aggiornare il profilo
             const response = await api.put('/users/me', formData);
             // Aggiorniamo il contesto dell'utente loggato se necessario
-            setCurrentUser(response.data.user);
+            setCurrentUser(response.data.user);         
             // Ricarichiamo i dati del profilo per riflettere le modifiche
-            await fetchProfileData();
             setIsEditing(false);
+            // Controlliamo se lo username è cambiato.
+            // Se è cambiato, reindirizziamo alla nuova pagina del profilo.
+            // Altrimenti, ricarichiamo i dati della pagina corrente.
+            if (response.data.user.username !== username) {
+                navigate(`/user/${response.data.user.username}`);
+            } else {
+                // Ricarica i dati solo se lo username non è cambiato
+                await fetchProfileData();
+            }
+
         } catch (err) {
             console.error("Errore nell'aggiornare il profilo:", err);
             alert((err.response && err.response.data && err.response.data.message) || "Errore durante l'aggiornamento.");
@@ -339,7 +351,7 @@ function ProfilePage() {
             <h3>Post di {userProfile.username}</h3>
             {userPosts && userPosts.length > 0 ? (
                 userPosts.map(post => {
-                    const isLiked = currentUser && post.likes.includes(currentUser.id);
+                    const isLiked = currentUser && post.likes.includes(currentUser._id);
 
                     return (
                         <Card key={post._id} className="mb-3">

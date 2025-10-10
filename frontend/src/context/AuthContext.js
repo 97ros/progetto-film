@@ -83,6 +83,18 @@ export const AuthProvider = ({ children }) => {
         }
     }, [navigate]);
 
+    // Funzione per aggiornare l'utente: aggiornerà sia lo stato di React sia il localStorage
+    const updateUser = (newUserData) => {
+        if (newUserData) {
+            localStorage.setItem('user', JSON.stringify(newUserData));
+        } else {
+            // Se i dati sono nulli, rimuoviamo l'utente (utile per il logout)
+            localStorage.removeItem('user');
+        }
+        // Infine, aggiorniamo lo stato di React
+        setCurrentUser(newUserData);
+    };
+
     useEffect(() => {
         // Funzione che controlla se già esiste una sessione
         const checkUserSession = () => {
@@ -106,7 +118,7 @@ export const AuthProvider = ({ children }) => {
     // Salviamo dati e funzioni da rendere disponibili ai componenti figli
     const value = {
         currentUser,
-        setCurrentUser,
+        setCurrentUser: updateUser,
         loading,
         login,
         register,
