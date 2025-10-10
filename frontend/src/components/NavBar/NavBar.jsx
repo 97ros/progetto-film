@@ -18,7 +18,7 @@ import logo from '../../assets/logo_app.png';
 
 // Creiamo il componente NavBar
 function Navbar() {
-    // Usiamo il contesto per ottenere l'utente e la funzione di logout
+    // Usiamo il contesto per ottenere l'utente e la funzione di logout 
     const { currentUser, logout } = useAuth();
 
     return (

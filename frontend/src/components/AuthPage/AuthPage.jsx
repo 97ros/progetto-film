@@ -26,7 +26,7 @@ function AuthPage() {
     // Invochiamo l'hook useAuth
     const auth = useAuth();
 
-    // Funzione per passare da login a registrazione e viceversa
+    // Funzione per passare da login a registrazione e viceversa 
     const toggleView = () => {
         setIsLoginView(!isLoginView);
         // Puliamo i campi e gli errori quando cambiamo vista

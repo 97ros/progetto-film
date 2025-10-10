@@ -21,7 +21,7 @@ function CreatePostForm({ onPostCreated, movieData = null }) {
     // Stato per memorizzare i generi dei film selezionati
     const [genres, setGenres] = useState([]);
 
-    // Stato per memorizzare il testo nel campo di ricerca
+    // Stato per memorizzare il testo nel campo di ricerca 
     const [searchQuery, setSearchQuery] = useState(''); 
 
     // Stato per mostrare la lista dei risultati

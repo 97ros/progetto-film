@@ -10,7 +10,7 @@ const postController = require('../controllers/postController');
 // Rotta per la homepage
 router.get('/', postController.getHomepagePosts); 
 
-// Rotta per creare un nuovo post
+// Rotta per creare un nuovo post 
 router.post('/', postController.createPost);
 
 // Rotta per modificare un post specifico

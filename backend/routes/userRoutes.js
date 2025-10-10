@@ -6,7 +6,7 @@ const router = express.Router();
 // Importiamo il nuovo controller e il middleware di protezione
 const userController = require('../controllers/userController');
 
-// Rotta protetta per modificare il PROPRIO profilo. Deve stare prima di /:username
+// Rotta protetta per modificare il PROPRIO profilo. Deve stare prima di /:username 
 router.put('/me', userController.updateProfile);
 
 // Rotta per recuperare il profilo di un utente (più generica)

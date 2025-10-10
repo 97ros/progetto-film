@@ -11,7 +11,7 @@
     min-height: 100vh;
     background-color: var(--light-beige);
     font-family: Arial, sans-serif;
-    position: fixed; /* Fissa il contenitore nella viewport */
+    position: fixed; /* Fissa il contenitore nella viewport*/
 }
 
 /* Card corrispondente al form */

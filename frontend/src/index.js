@@ -11,7 +11,7 @@ import { AuthProvider } from './context/AuthContext';
 // Importiamo BrowserRouter per abilitare il routing
 import { BrowserRouter } from 'react-router-dom';
 
-// Creiamo il root e renderizziamo l'applicazione
+// Creiamo il root e renderizziamo l'applicazione 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
