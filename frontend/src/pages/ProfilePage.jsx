@@ -259,7 +259,7 @@ function ProfilePage() {
         <Container className="mt-4" px={4} style={{ maxWidth: '1110px', width: '100%', paddingTop: null, position:'relative' }}>            
         <Row className="align-items-center mb-4">
                 <Col xs="auto">
-                    <Image src={isEditing ? (formData.profilePicture || 'https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg') : (userProfile.profilePicture || 'https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg')}
+                    <Image src={isEditing ? (formData.profilePicture || 'https://via.placeholder.com/300x300.png?text=Immagine+non+disponibile')}
                     roundedCircle
                     style={{ objectFit: 'cover' }}
                     width="150px"
@@ -359,7 +359,7 @@ function ProfilePage() {
                                 <Row>
                                     <Col xs={3} md={2}>
                                         <Link to={`/movie/${post.tmdbId}`}>
-                                            <Card.Img src={post.postImage || '../assets/movie-default-image.png'} />
+                                            <Card.Img src={post.postImage || 'https://via.placeholder.com/150x225.png?text=Immagine+non+disponibile'} />
                                         </Link>
                                     </Col>
                                     <Col xs={9} md={10}>
