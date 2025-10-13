@@ -73,7 +73,7 @@ npm start
 
 ## 🔐 Configurazione
 
-L’applicazione utilizza due file `.env` — uno per il **backend** e uno per il **frontend**.
+L’applicazione utilizza due file `.env`, uno per il **backend** e uno per il **frontend**.
 
 ### 📁 backend/.env
 Crea un file `.env` nella cartella `backend` con il seguente contenuto:
@@ -91,14 +91,12 @@ PORT=3000
 REACT_APP_API_BASE_URL=http://localhost:5001/api
 ```
 
-⚠️ Importante: Non includere i file .env nel repository pubblico, **inglobali nel file `.gitignore`**
-Mantieni le credenziali e le chiavi API solo in locale o su server sicuri.
+⚠️ Importante: Non includere i file .env nel repository pubblico, **inglobali nel file `.gitignore`**.
 
 ## 👥 Autori
-Progetto universitario – **“La Pellicola Digitale”**
-Sviluppato con *React*, *Node.js* ed *Express* da:
-**Elia Aurora**
-**Lasorsa Rossana**
+Progetto universitario – **“La Pellicola Digitale”**, sviluppato con *React*, *Node.js* ed *Express* da:
+**Elia Aurora**  
+**Lasorsa Rossana**   
 
-Docente: **Ferrara Antonio**
+Docente: **Ferrara Antonio**   
 Università: **Politecnico di Bari**
