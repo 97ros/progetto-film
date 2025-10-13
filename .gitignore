@@ -6,5 +6,8 @@
 /backend/.env
 /frontend/.env
 
+# Ignora il file contenente la password del database
+/PasswordMongoDBCluster.txt
+
 # File generati dal sistema operativo
 .DS_Store
