@@ -242,7 +242,7 @@ function MoviePage() {
                         <Card.Body>
                             <div className="d-flex align-items-start">
                                 <Link to={`/user/${post.authorId.username}`}>
-                                    <Image src={post.authorId.profilePicture || 'https://via.placeholder.com/50'}
+                                    <Image src={post.authorId.profilePicture || 'https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg'}
                                     roundedCircle
                                     style={{ objectFit: 'cover' }}
                                     width="50"

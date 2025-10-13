@@ -259,7 +259,7 @@ function ProfilePage() {
         <Container className="mt-4" px={4} style={{ maxWidth: '1110px', width: '100%', paddingTop: null, position:'relative' }}>            
         <Row className="align-items-center mb-4">
                 <Col xs="auto">
-                    <Image src={isEditing ? (formData.profilePicture || 'https://via.placeholder.com/150') : (userProfile.profilePicture || 'https://via.placeholder.com/150')}
+                    <Image src={isEditing ? (formData.profilePicture || 'https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg') : (userProfile.profilePicture || 'https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg')}
                     roundedCircle
                     style={{ objectFit: 'cover' }}
                     width="150px"
