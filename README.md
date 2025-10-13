@@ -94,9 +94,9 @@ REACT_APP_API_BASE_URL=http://localhost:5001/api
 ⚠️ Importante: Non includere i file .env nel repository pubblico, **inglobali nel file `.gitignore`**.
 
 ## 👥 Autori
-Progetto universitario – **“La Pellicola Digitale”**, sviluppato con *React*, *Node.js* ed *Express* da:
-**Elia Aurora**  
-**Lasorsa Rossana**   
+Progetto universitario – **“La Pellicola Digitale”**, sviluppato con *React*, *Node.js* ed *Express* da:    
+**Elia Aurora**      
+**Lasorsa Rossana**      
 
 Docente: **Ferrara Antonio**   
 Università: **Politecnico di Bari**
