@@ -37,7 +37,7 @@ const userSchema = new Schema({
     // Campo per l'immagine del profilo (opzionale)
     profilePicture: {
         type: String,
-        default: '../../frontend/src/assets/default-avatar.jpg'
+        default: 'https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg'
     },
     
     // Campo per la biografia (opzionale)
