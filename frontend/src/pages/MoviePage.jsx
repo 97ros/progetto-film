@@ -236,7 +236,7 @@ function MoviePage() {
             <h3>Post su "{movieDetails.title}"</h3>
             {posts.length > 0 ? (
                 posts.map(post => {
-                    const isLiked = currentUser && post.likes.includes(currentUser._id);
+                    const isLiked = currentUser && post.likes?.some(likeId => likeId === currentUser?.Id);
                     return (
                     <Card key={post._id} className="mb-3">
                         <Card.Body>

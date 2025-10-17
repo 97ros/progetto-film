@@ -351,7 +351,7 @@ function ProfilePage() {
             <h3>Post di {userProfile.username}</h3>
             {userPosts && userPosts.length > 0 ? (
                 userPosts.map(post => {
-                    const isLiked = currentUser && post.likes.includes(currentUser._id);
+                    const isLiked = currentUser && post.likes?.some(likeId => likeId === currentUser?.Id);
 
                     return (
                         <Card key={post._id} className="mb-3">
