@@ -37,7 +37,7 @@ const userSchema = new Schema({
     // Campo per l'immagine del profilo (opzionale)
     profilePicture: {
         type: String,
-        default: '../../frontend/src/assets/default-avatar.jpg'
+        default: 'https://www.pngplay.com/wp-content/uploads/12/User-Avatar-Profile-PNG-Pic-Clip-Art-Background.png'
     },
     
     // Campo per la biografia (opzionale)

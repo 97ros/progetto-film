@@ -359,7 +359,7 @@ function ProfilePage() {
                                 <Row>
                                     <Col xs={3} md={2}>
                                         <Link to={`/movie/${post.tmdbId}`}>
-                                            <Card.Img src={post.postImage || '../assets/movie-default-image.png'} />
+                                            <Card.Img src={post.postImage || 'https://www.ninodangelo.com/wp-content/uploads/no-locandina.jpg'} />
                                         </Link>
                                     </Col>
                                     <Col xs={9} md={10}>

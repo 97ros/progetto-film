@@ -122,7 +122,7 @@ function CreatePostForm({ onPostCreated, movieData = null }) {
     // Se c’è un film usiamo la sua locandina o un’immagine di default locale
     // Se non c’è mostriamo un’immagine placeholder
     const posterUrl = selectedMovie 
-            ? (selectedMovie.poster_path || '../assets/movie-default-image.jpg')
+            ? (selectedMovie.poster_path || 'https://www.ninodangelo.com/wp-content/uploads/no-locandina.jpg')
             : 'https://via.placeholder.com/300x450.png?text=Seleziona+un+film';
 
     return (
@@ -152,7 +152,7 @@ function CreatePostForm({ onPostCreated, movieData = null }) {
                             onInputChange={(event, newInputValue) => setSearchQuery(newInputValue)}
                             renderOption={(props, option) => (
                                 <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
-                                    <img loading="lazy" width="40" src={option.poster_path || '../assets/movie-default-image.jpg'} alt="" />
+                                    <img loading="lazy" width="40" src={option.poster_path || 'https://www.ninodangelo.com/wp-content/uploads/no-locandina.jpg'} alt="" />
                                     {option.title} ({option.release_date ? option.release_date.substring(0, 4) : 'N/D'})
                                 </Box>
                             )}
