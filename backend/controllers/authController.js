@@ -107,9 +107,10 @@ exports.login = async (req, res) => {
             user: {
                 id: user._id, 
                 username: user.username,
-                profilePicture: user.profilePicture }
+                profilePicture: user.profilePicture,
+                watchlist: user.watchlist 
+            }
         });
-
 
     } catch (error) {
         console.error("Errore login:", error);
