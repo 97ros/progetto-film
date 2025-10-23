@@ -95,7 +95,7 @@ const HomePage = () => {
                 posts.length > 0 ? (
                     posts.map(post => {
                         if (!post || !post.authorId) return null;
-                        const isLiked = currentUser && post.likes?.some(likeId => likeId === currentUser?.Id);                        
+                        const isLiked = currentUser && post.likes?.some(likeId => likeId === currentUser?.id);                        
                         return (
                             <Card key={post._id} className="mb-4 shadow-sm">
                                 <Card.Header className="bg-white border-bottom-0">
