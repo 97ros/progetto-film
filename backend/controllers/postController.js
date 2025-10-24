@@ -198,49 +198,6 @@ exports.likePost = async (req, res) => {
         });
 };
 
-// Funzione per OTTENERE un post specifico tramite il suo ID
-exports.getPostById = async (req, res) => {
-    try {
-        // Prendiamo l'ID del post dall'URL
-        const postId = req.params.postId;
-        // Troviamo il post nel database e popoliamo i dati dell'autore
-        const post = await Post.findById(postId).populate('authorId', 'username profilePicture'); 
-
-        // Controlliamo se il post esiste
-        if (!post) {
-            return res.status(404).json({ message: "Post non trovato." });
-        }
-
-        // Controllo della privacy del post
-        if (post.isPrivate) {
-            // Se il post è privato, solo l'autore può vederlo -> dobbiamo verificare l'identità del richiedente
-            const authHeader = req.headers.authorization || req.headers.Authorization;
-            let currentUserId = null;
-            // Estraiamo l'ID dell'utente dal token JWT
-            if (authHeader?.startsWith('Bearer ')) {
-                const token = authHeader.split(' ')[1];
-                try {
-                    // Verifichiamo il token e otteniamo il payload
-                    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-                    // Estraiamo l'ID dell'utente dal payload
-                    currentUserId = decoded.userId;
-                } catch (err) { /* ignora token non valido */ }
-            }
-
-            // Se l'utente non è l'autore del post, neghiamo l'accesso
-            if (post.authorId._id.toString() !== currentUserId) {
-                return res.status(403).json({ message: "Questo post è privato." });
-            }
-        }
-        res.status(200).json(post);
-
-    } catch (error) {
-        console.error("Errore recupero post per ID:", error);
-        if (error.name === 'CastError') {
-            return res.status(400).json({ message: "ID del post non valido." });
-        }
-}
-};
 
 // Funzione per trovare i post di un film specifico tramite il suo TMDB ID
 exports.getPostsForMovie = (req, res) => {

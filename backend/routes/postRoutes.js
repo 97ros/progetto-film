@@ -22,9 +22,6 @@ router.delete('/:postId', postController.deletePost);
 // Rotta per mettere/togliere like a un post
 router.post('/:postId/like', postController.likePost);
 
-// Rotta per ottenere un singolo post
-router.get('/:postId', postController.getPostById);
-
 // Rotta pubblica per ottenere i post di un film specifico
 router.get('/movie/:tmdbId', postController.getPostsForMovie);
 
