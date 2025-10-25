@@ -52,7 +52,7 @@ if (process.env.FRONTEND_URL) {
 // Middleware per "leggere" il corpo delle richieste in formato JSON
 app.use(express.json());
 
-// Middleware per parsare i cookie dalle richieste in arrivo
+// Middleware per passare i cookie dalle richieste in arrivo
 app.use(cookieParser());
 
 // Uso dei router

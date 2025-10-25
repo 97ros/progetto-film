@@ -125,38 +125,44 @@ exports.updatePost = async (req, res) => {
 
 // Funzione per ELIMINARE un post esistente
 // Rotta protetta: l'utente deve essere loggato e deve essere l'autore del post.
-exports.deletePost = async (req, res) => {
+exports.deletePost = (req, res) => {
         // Prendiamo l'ID del post dall'URL
         const postId = req.params.postId;
         // L'ID dell'utente loggato, dal token
         const currentUserId = req.userId;
 
         // Troviamo il post nel database
-        const post = await Post.findById(postId);
+        Post.findById(postId)
+            .then(post => {
+                // Controlliamo se il post esiste
+                if (!post) {
+                    res.status(404).json({ error: "Post non trovato." });
+                    return null;
+                }
+                // Controllo di autorizzazione: solo l'autore può eliminare il post
+                if (post.authorId.toString() !== currentUserId.toString()) {
+                res.status(403).json({ error: "Non hai il permesso di eliminare questo post." });
+                return null;
+                }
 
-        // Controlliamo se il post esiste
-        if (!post) {
-            return res.status(404).json({ error: "Post non trovato." });
-        }
-
-        // Controllo di autorizzazione: solo l'autore può eliminare il post
-        if (post.authorId.toString() !== currentUserId.toString()) {
-            return res.status(403).json({ error: "Non hai il permesso di eliminare questo post." });
-        }
-
-        // Se tutti i controlli sono superati, eliminiamo il post
-        Post.findByIdAndDelete(postId)
-        .then(() => {
-            res.status(200).json({ message: "Post eliminato con successo!" });
-        })
-        .catch((error) => {
-            console.error("Errore eliminazione post:", error);
-            res.status(500).json({ message: "Errore del server durante l'eliminazione del post." });
-        });
+                // Se tutti i controlli sono superati, eliminiamo il post
+                return Post.findByIdAndDelete(postId)
+            })
+            .then(deletePost => {
+                if (deletePost) {
+                    res.status(200).json({ message: "Post eliminato con successo!" });
+                }
+            })
+            .catch((error) => {
+                console.error("Errore eliminazione post:", error);
+                res.status(500).json({ message: "Errore del server durante l'eliminazione del post." });
+            });
 };
+
 
 // Funzione per METTERE/TOGLIERE "like" a un post
 exports.likePost = async (req, res) => {
+    try {
         // Prendiamo l'ID del post dall'URL
         const postId = req.params.postId;
         // L'ID dell'utente loggato, dal token
@@ -181,22 +187,24 @@ exports.likePost = async (req, res) => {
         }
 
         // Salviamo il post aggiornato
-        post.save()
-        .then((updatedPost) => { return Post.findById(updatedPost._id).populate('authorId', 'username profilePicture'); 
-        })
+        const updatedPost = await post.save();
+
         // Popoliamo i dati dell'autore per la risposta
-        .then((populatedPost) => {
-            res.json({
-                message: "Operazione like/unlike completata.",
-                post: populatedPost,
-                likesCount: populatedPost.likes.length
-            });
-        })
-        .catch((error) => {
-            console.error("Errore nell'operazione like/unlike:", error);
-            res.status(500).json({ message: "Errore del server." });
-        });
+        const populatedPost = await Post.findById(updatedPost._id).populate('authorId', 'username profilePicture');
+
+        res.json({
+                    message: "Operazione like/unlike completata.",
+                    post: populatedPost,
+                    likesCount: populatedPost.likes.length
+                });
+
+    } catch (error) {
+        console.error("Errore nell'operazione like/unlike:", error);
+        res.status(500).json({ message: "Errore del server." });
+    }
+
 };
+
 
 
 // Funzione per trovare i post di un film specifico tramite il suo TMDB ID
