@@ -36,41 +36,37 @@ function SearchPage() {
 
         // Funzione che restituisce risultati solo dopo mezzo secondo dall'ultima digitazione
         // viene eseguita solo quando cambia searchQuery
-        const debounceTimer = setTimeout(() => {
-            // funzione che effettua la chiamata api
-            const fetchMovies = async () => {
-                setIsLoading(true);
-                setError(null);
-                setNoResults(false);
-                try {
-                    // Chiamata api all'endpoint /movies/search
-                    const response = await api.get(`/movies/search?query=${searchQuery}`);
-                    
-                    // Se la risposta contiene dati e l'array dei risultati non è vuoto:
-                    if (response.data && response.data.length > 0) {
-                        // Aggiorniamo lo stato di results con i dati della risposta
-                        setResults(response.data);
-                    } else {
-                        setResults([]);
-                        setNoResults(true);
-                    }
-                } catch (err) {
-                    console.error("Errore durante la ricerca:", err);
-                    setError("Impossibile caricare i risultati. Riprova più tardi.");
-                    setResults([]);
-                } finally {
-                    setIsLoading(false);
-                }
-            };
-            fetchMovies();
-             // 500ms di attesa prima di lanciare la ricerca
-        }, 500);
+        const debounceTimer = setTimeout(async () => {
+            setIsLoading(true);
+            setError(null);
+            setNoResults(false);
+            try {
+            // Chiamata api all'endpoint /movies/search
+            const response = await api.get(`/movies/search?query=${searchQuery}`);
+            // Se la risposta contiene dati e l'array dei risultati non è vuoto:
+                            if (response.data && response.data.length > 0) {
+                                // Aggiorniamo lo stato di results con i dati della risposta
+                                setResults(response.data);
+                            } else {
+                                setResults([]);
+                                setNoResults(true);
+                            }
+                        } catch (err) {
+                            console.error("Errore durante la ricerca:", err);
+                            setError("Impossibile caricare i risultati. Riprova più tardi.");
+                            setResults([]);
+                        } finally {
+                            setIsLoading(false);
+                        }
+                    // 500ms di attesa prima di lanciare la ricerca
+                }, 500);
 
-        // Funzione che cancella il timer precedente
-        return () => {
-            clearTimeout(debounceTimer);
-        };
+                // Funzione che cancella il timer precedente
+                return () => {
+                    clearTimeout(debounceTimer);
+                };
     }, [searchQuery]);
+
 
     return (
         <div className="explore-container">
