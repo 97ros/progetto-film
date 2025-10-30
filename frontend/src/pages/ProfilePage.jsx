@@ -83,7 +83,7 @@ function ProfilePage() {
         }
     }, [username]);
 
-    // Funzione eseguita solo se si visita il profilo di un altro utente
+    // Funzione eseguita al primo caricamento della pagina e ogni volta che lo username nei parametri dell'URL cambia
     useEffect(() => {
         fetchProfileData();
     }, [fetchProfileData]);
@@ -400,7 +400,7 @@ function ProfilePage() {
                 <p>Questo utente non ha ancora pubblicato nessun post.</p>
             )}
 
-<Modal show={!!editingPost} onHide={handleCloseEditModal} centered>
+<Modal show={Boolean(editingPost)} onHide={handleCloseEditModal} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Modifica il tuo post</Modal.Title>
                 </Modal.Header>
