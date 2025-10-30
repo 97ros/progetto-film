@@ -45,7 +45,7 @@ function MoviePage() {
                 // Effettuiamo due richieste in parallelo: una per i dettagli del film e una per i post
                 const [movieRes, postsRes] = await Promise.all([
                     api.get(`/movies/${movieId}`),
-                    api.get(`/posts/movie/${movieId}`) // Questa rotta è corretta
+                    api.get(`/posts/movie/${movieId}`) 
                 ]);
 
                 // Aggiorniamo gli stati con i dati ricevuti
@@ -66,9 +66,8 @@ function MoviePage() {
 
     // useEffect per controllare lo stato della watchlist 
     useEffect(() => {
-        // Controlliamo se l'utente è loggato, se i dettagli del film sono caricati,
-        // e, soprattutto, se currentUser.watchlist esiste ed è un array.
-        if (currentUser && movieDetails && Array.isArray(currentUser.watchlist)) {
+        // Controlliamo se i dettagli del film sono caricati
+        if (movieDetails) {
             // Verifichiamo se il film è già nella watchlist dell'utente
             const movieIsOnList = currentUser.watchlist.some(
                 movie => movie.tmdbId.toString() === movieId
@@ -83,8 +82,6 @@ function MoviePage() {
 
     // Logica per aggiungere alla watchlist
     const handleAddToWatchlist = async () => {
-        // Controlliamo se l'utente è loggato
-        if (!currentUser) return alert("Devi effettuare il login per aggiungere film alla watchlist.");
         try {
             // Prepariamo i dati del film da inviare
             const posterUrl = movieDetails.poster_path ? `https://image.tmdb.org/t/p/w500${movieDetails.poster_path}` : null;
@@ -115,8 +112,6 @@ function MoviePage() {
 
     // Funzione per rimuovere dalla watchlist 
     const handleRemoveFromWatchlist = async () => {
-        // Controlliamo se l'utente è loggato
-        if (!currentUser) return alert("Devi essere loggato per rimuovere film.");
         try {
             const response = await api.delete(`/users/me/watchlist/${movieId}`);
 
@@ -138,8 +133,6 @@ function MoviePage() {
     // Logica per il like al post nella scheda film
     const handleLikePost = async (postId) => {
         try {
-            // Controlliamo se l'utente è loggato
-            if (!currentUser) return alert("Devi effettuare il login per mettere mi piace ai post.");
             // Effettuiamo la richiesta per mettere/togliere il like
             const response = await api.post(`/posts/${postId}/like`);
             // Otteniamo il post aggiornato dalla risposta
@@ -207,9 +200,8 @@ function MoviePage() {
                     <p>{movieDetails.overview}</p>
                     
                     {/* I pulsanti di azione sono mostrati solo se l'utente è loggato */}
-                    {currentUser && (
                          <div className="d-flex align-items-center mt-4">
-                            {/* MODIFICA: Rendering condizionale del pulsante watchlist */}
+                            {/* Rendering condizionale del pulsante watchlist */}
                             {isInWatchlist ? (
                                 <Button variant="outline-movie" onClick={handleRemoveFromWatchlist} className="me-2">
                                     <BookmarkRemoveIcon fontSize="small" className="me-1" />
@@ -227,7 +219,6 @@ function MoviePage() {
                                 Scrivi un post
                             </Button>
                         </div>
-                    )}
                 </Col>
             </Row>
 
@@ -260,7 +251,7 @@ function MoviePage() {
                             </div>
                         </Card.Body>
                          <Card.Footer className="bg-white d-flex align-items-center">
-                                <IconButton onClick={() => handleLikePost(post._id)} color="error" disabled={!currentUser}>
+                                <IconButton onClick={() => handleLikePost(post._id)} color="error" >
                                     {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                                 </IconButton>
                                 <span>{post.likes.length} Mi piace</span>

@@ -9,16 +9,16 @@ const authController = require('../controllers/authController');
 
 // Definiamo le nostre rotte
 
-// Quando arriva una richiesta POST a '/register'...
+// Quando arriva una richiesta POST a '/register'
 router.post('/register', authController.register);
 
-// Quando arriva una richiesta POST a '/login'...
+// Quando arriva una richiesta POST a '/login'
 router.post('/login', authController.login);
 
-// Quando arriva una richiesta POST a '/logout'...
+// Quando arriva una richiesta POST a '/logout'
 router.post('/logout', authController.logout);
 
-// Quando arriva una richiesta GET a '/refresh'...
+// Quando arriva una richiesta GET a '/refresh'
 router.get('/refresh', authController.refresh); 
 
 // Esportiamo il router in modo che possa essere usato in altri file
