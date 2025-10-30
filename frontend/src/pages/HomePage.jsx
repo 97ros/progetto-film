@@ -32,14 +32,6 @@ const HomePage = () => {
     const [error, setError] = useState(null);
     const [showCreateModal, setShowCreateModal] = useState(false);
 
-    // Logghiamo currentUser per assicurarci che sia corretto
-    useEffect(() => {
-        console.log("CurrentUser in HomePage:", currentUser);
-        if (currentUser) {
-            console.log("CurrentUser ID:", currentUser._id);
-        }
-    }, [currentUser]);
-
     // Funzione responsabile del caricamento dei dati
     useEffect(() => {
         const fetchHomepagePosts = async () => {
