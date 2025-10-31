@@ -85,7 +85,7 @@ function CreatePostForm({ onPostCreated, movieData = null }) {
         const postData = {
             tmdbId: selectedMovie.id,
             movieTitle: selectedMovie.title,
-            postImage: selectedMovie.poster_path,
+            postImage: selectedMovie.poster_path || 'https://www.ninodangelo.com/wp-content/uploads/no-locandina.jpg',
             review: review,
             isPrivate: isPrivate,
             genres: genres
