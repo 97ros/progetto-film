@@ -108,7 +108,7 @@ const HomePage = () => {
                                         <Col xs={4} md={3} className="pe-0">
                                             <Link to={`/movie/${post.tmdbId}`}>
                                                 <Card.Img 
-                                                    src={post.postImage || 'https://via.placeholder.com/300x450.png?text=N/A'}
+                                                    src={post.postImage || 'https://www.ninodangelo.com/wp-content/uploads/no-locandina.jpg'}
                                                     style={{ borderRadius: '8px' }}
                                                 />
                                             </Link>

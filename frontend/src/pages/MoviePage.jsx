@@ -166,7 +166,7 @@ function MoviePage() {
     // Costruiamo l'URL completo della locandina
     const posterUrl = movieDetails.poster_path 
         ? `https://image.tmdb.org/t/p/w500${movieDetails.poster_path}` 
-        : 'https://via.placeholder.com/400x600.png?text=N/A';
+        : 'https://www.ninodangelo.com/wp-content/uploads/no-locandina.jpg';
         
     return (
         <Container className="mt-4">

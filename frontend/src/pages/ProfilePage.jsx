@@ -322,7 +322,7 @@ function ProfilePage() {
                         <Col xs="auto" key={movie.tmdbId}>
                             <div style={{ position: 'relative' }}> 
                             <Link to={`/movie/${movie.tmdbId}`}>
-                                <Image src={movie.posterPath || 'https://via.placeholder.com/150x225'} style={{height: '225px', width: '150px'}} rounded />
+                                <Image src={movie.posterPath || 'https://www.ninodangelo.com/wp-content/uploads/no-locandina.jpg'} style={{height: '225px', width: '150px'}} rounded />
                             </Link>
                                 <IconButton
                                     size="small"

@@ -94,7 +94,7 @@ function SearchPage() {
                         <li key={movie.id} className="result-item">
                             <Link to={`/movie/${movie.id}`} className="result-link">
                                 <img 
-                                    src={movie.poster_path || 'https://via.placeholder.com/50x75.png?text=N/A'} 
+                                    src={movie.poster_path || 'https://www.ninodangelo.com/wp-content/uploads/no-locandina.jpg'} 
                                     alt={`Locandina di ${movie.title}`} 
                                     className="result-poster"
                                 />

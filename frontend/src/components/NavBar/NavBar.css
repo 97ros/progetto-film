@@ -79,7 +79,6 @@
 
 /* Focus e active */
 .nav-link:focus,
-.nav-link:focus-visible,
 .nav-link:active {
     outline: none;
     box-shadow: none;
