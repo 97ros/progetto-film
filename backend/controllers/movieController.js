@@ -1,4 +1,4 @@
-// Importiamo lan libreria 
+// Importiamo la libreria 
 const axios = require("axios");
 
 // Funzione per cercare film tramite il titolo

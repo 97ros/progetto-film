@@ -108,7 +108,7 @@ function SearchPage() {
                 </ul>
             )}
             
-            {/* Mostra il messaggio "Nessun risultato" */}
+            {/* Mostriamo il messaggio "Nessun risultato" */}
             {noResults && <p className="no-results-message">Nessun film trovato per "{searchQuery}"</p>}
         </div>
     );

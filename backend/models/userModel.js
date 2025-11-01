@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 // Importiamo la libreria bcrypt
 const bcrypt = require('bcryptjs');
 
-// Creiamo una scorciatoia per la classe Schema di Mongoose
+// Creiamo lo schema per il modello User
 const Schema = mongoose.Schema;
 
 // Definiamo la struttura e le regole per i nostri documenti "User"

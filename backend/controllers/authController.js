@@ -30,7 +30,7 @@ exports.register = (req, res) => {
         //Prendiamo i dati inviati dal frontend (dal form di registrazione)
         const { username, email, password } = req.body;
 
-        // Controlla se l'utente o l'email esistono già
+        // Controlliamo se l'utente o l'email esistono già
         User.findOne({ $or: [{ email }, { username }] })
         .then( (user) => {
 			if (user) {throw new Error('AlreadyUsed')};

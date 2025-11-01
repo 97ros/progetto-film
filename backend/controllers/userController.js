@@ -53,7 +53,7 @@ exports.updateProfile = async (req, res) => {
 
         if (!userToUpdate) return res.status(404).json({ message: "Utente non trovato." });
 
-        // Controlla se il nuovo username è già stato preso da un altro utente
+        // Controlliamo se il nuovo username è già stato preso da un altro utente
         if (username && username !== userToUpdate.username) {
            const existingUser = await User.findOne({ username: username });
            if (existingUser) {

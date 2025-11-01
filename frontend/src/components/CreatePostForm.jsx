@@ -51,7 +51,7 @@ function CreatePostForm({ onPostCreated, movieData = null }) {
             return;
         }
 
-        // Altrimenti mostra lo spinner e cerca i film
+        // Altrimenti mostriamo lo spinner e cerchiamo i film
         setIsSearching(true);
         const debounceTimer = setTimeout(async () => {
             try {

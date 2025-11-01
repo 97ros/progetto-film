@@ -35,7 +35,7 @@ const HomePage = () => {
     // Funzione responsabile del caricamento dei dati
     useEffect(() => {
         const fetchHomepagePosts = async () => {
-            // Non fare nulla se l'utente non è loggato
+            // Se l'utente non è loggato non facciamo nulla 
             if (!currentUser) return;
 
             try {
@@ -51,7 +51,8 @@ const HomePage = () => {
             }
         };
         fetchHomepagePosts();
-    }, [currentUser]); // Riesegui il fetch se cambia l'utente loggato
+    // Rieseguiamo il fetch se cambia l'utente loggato    
+    }, [currentUser]); 
     
     // Funzione per gestire il "like"
     const handleLikePost = async (postId) => {
