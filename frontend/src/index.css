@@ -14,30 +14,30 @@ src/index.css
 
 /* Stili globali per il corpo della pagina */
 body {
-  margin: 0;
+  margin: 0; /* Rimuoviamo il margine di default del browser */
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    sans-serif; /* Font di sistema per prestazioni ottimali */
+  -webkit-font-smoothing: antialiased; /* Migliora la resa del testo sui diversi sistemi operativi */
+  -moz-osx-font-smoothing: grayscale; /* Migliora la resa del testo sui diversi sistemi operativi */
   background-color: #f4f4f4; /* Un grigio chiaro per lo sfondo delle pagine */
 
 /* Utilizzo di Flexbox (slide 34) per centrare il contenuto verticalmente e orizzontalmente */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+  display: flex; /* Usiamo Flexbox per il layout */
+  justify-content: center; /* Centriamo gli elementi orizzontalmente */
+  align-items: center; /* Centriamo gli elementi verticalmente */
+  min-height: 100vh;  /* Altezza minima per coprire tutta la viewport */
   background-color: var(--light-beige); /* Sfondo generale della pagina */
 
 }
 
 /* Una regola "box-sizing" standard per rendere il layout più prevedibile */
 *, *::before, *::after {
-  box-sizing: border-box;
+  box-sizing: border-box; /* Include il padding e il bordo nella larghezza/altezza totale degli elementi */
 }
 
 /* Stili di base per i link, per rimuovere la sottolineatura di default */
 a {
-  text-decoration: none;
-  color: inherit;
+  text-decoration: none; /* Rimuoviamo la sottolineatura */
+  color: inherit; /* Eredita il colore del testo circostante */
 }

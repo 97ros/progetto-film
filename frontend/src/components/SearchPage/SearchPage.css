@@ -1,170 +1,170 @@
 /* Contenitore principale */
 .explore-container {
-    width: 100%;
+    width: 100%; /* Assicuriamo che il contenitore occupi tutta la larghezza disponibile */
     min-height: 100vh; /* Assicuriamo che copra tutta l'altezza della viewport */
-    margin: 0 auto;
+    margin: 0 auto; /* Centriamo orizzontalmente */
     padding: 40px 20px; /* Aggiungiamo padding per spaziatura */
     font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #f3eee8ff;
+    display: flex; /* Usiamo Flexbox per il layout */
+    flex-direction: column; /* Disposizione verticale */
+    align-items: center; /* Centriamo gli elementi orizzontalmente */
+    background-color: #f3eee8ff; /* Colore di sfondo chiaro */
     position: relative; /* Assicuriamo che lo sfondo si estenda su tutta la pagina */
 }
 
 /* Sfondo */
 .explore-container::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #f3eee8ff;
+    content: ''; /* Contenuto vuoto per il pseudo-elemento */
+    position: fixed; /* Posizione fissa per coprire tutta la pagina */
+    top: 0; /* Inizio dall'alto */
+    left: 0; /* Inizio da sinistra */
+    width: 100%; /* Larghezza completa */
+    height: 100%; /* Altezza completa */
+    background-color: #f3eee8ff; /* Colore di sfondo chiaro */
     z-index: -1; /* Mettiamo lo sfondo dietro tutto il contenuto */
 }
 
 /* Titolo principale */
 .explore-container h1 {
-    color: #333;
-    text-align: center;
-    margin-bottom: 30px;
-    margin-top: 0;
-    font-size: 2.5rem;
-    font-weight: 300;
+    color: #333; /* Colore del testo scuro per contrasto */
+    text-align: center; /* Centriamo il testo */
+    margin-bottom: 30px; /* Spazio sotto il titolo */
+    margin-top: 0; /* Nessun margine sopra il titolo */
+    font-size: 2.5rem; /* Dimensione del font grande */
+    font-weight: 300; /* Peso del font leggero */
 }
 
 /* Wrapper per la barra di ricerca */
 .search-bar-wrapper {
-    position: relative;
-    width: 100%;
-    max-width: 600px;
-    margin-bottom: 20px;
+    position: relative; /* Posizione relativa per posizionare lo spinner di caricamento */
+    width: 100%; /* Larghezza completa */
+    max-width: 600px; /* Larghezza massima per schermi grandi */
+    margin-bottom: 20px; /* Spazio sotto la barra di ricerca */
 }
 
 /* Stile per l'input di ricerca */
 .search-input {
-    width: 100%;
-    padding: 20px 25px;
-    font-size: 22px;
-    border: 2px solid #ddd;
-    border-radius: 50px;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    width: 100%; /* Occupa tutta la larghezza del contenitore */
+    padding: 20px 25px; /* Spaziatura interna */
+    font-size: 22px; /* Dimensione del font più grande */
+    border: 2px solid #ddd; /* Bordo sottile e chiaro */
+    border-radius: 50px; /* Angoli arrotondati */
+    box-sizing: border-box; /* Include il padding nella larghezza totale */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transizioni fluide per interazioni */
     background-color: white; /* Assicuraiamo che l'input abbia sfondo bianco */
 }
 
 /* Focus sull'input di ricerca */
 .search-input:focus {
-    outline: none;
-    border-color: var(--accent-orange);
-    box-shadow: 0 0 8px rgba(229, 9, 20, 0.2);
+    outline: none; /* Rimuoviamo il contorno di default */
+    border-color: var(--accent-orange); /* Cambiamo il colore del bordo al focus */
+    box-shadow: 0 0 8px rgba(229, 9, 20, 0.2); /* Aggiungiamo un'ombra leggera */
 }
 
 /* Stile per i messaggi di errore */
 .error-message {
-    text-align: center;
-    color: #e50914;
-    margin-top: 16px;
+    text-align: center; /* Centriamo il testo */
+    color: #e50914; /* Colore rosso per l'errore */
+    margin-top: 16px; /* Spazio sopra il messaggio */
     background-color: transparent; /* Sfondo trasparente per i messaggi */
 }
 
 /* Stile per i messaggi di nessun risultato */
 .no-results-message {
-    text-align: center;
-    color: #666;
-    margin-top: 20px;
-    font-style: italic;
-    background-color: transparent;
+    text-align: center; /* Centriamo il testo */
+    color: #666; /* Colore grigio per il messaggio */
+    margin-top: 20px; /* Spazio sopra il messaggio */
+    font-style: italic; /* Stile corsivo per il messaggio */
+    background-color: transparent; /* Sfondo trasparente per i messaggi */
 }
 
 /* Menu a tendina dei risultati */
 .results-dropdown {
-    list-style: none;
-    padding: 0;
-    margin-top: 8px;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    max-height: 400px;
-    overflow-y: auto;
-    width: 100%;
-    max-width: 600px;
+    list-style: none; /* Rimuoviamo i punti elenco */
+    padding: 0; /* Rimuoviamo il padding */
+    margin-top: 8px; /* Spazio sopra il menu */
+    background-color: white; /* Sfondo bianco per il menu */
+    border: 1px solid #ddd; /* Bordo sottile e chiaro */
+    border-radius: 12px; /* Angoli arrotondati */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Ombra leggera per profondità */
+    max-height: 400px; /* Altezza massima con scroll */
+    overflow-y: auto; /* Abilitiamo lo scroll verticale */
+    width: 100%; /* Occupa tutta la larghezza del contenitore */
+    max-width: 600px; /* Larghezza massima per schermi grandi */
 }
 
 /* Singolo elemento della lista dei risultati */
 .result-item {
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #eee; /* Bordo inferiore leggero per separare gli elementi */
 }
 
 /* Rimuovi il bordo dall'ultimo elemento */
 .result-item:last-child {
-    border-bottom: none;
+    border-bottom: none; /* Nessun bordo per l'ultimo elemento */
 }
 
 /* Stile per il link del risultato */
 .result-link {
-    display: flex;
-    align-items: center;
-    padding: 12px 16px;
-    text-decoration: none;
-    color: #333;
-    transition: background-color 0.2s ease;
-    background-color: transparent;
+    display: flex; /* Usiamo Flexbox per il layout */
+    align-items: center; /* Allineiamo verticalmente il contenuto */
+    padding: 12px 16px; /* Spaziatura interna */
+    text-decoration: none;  /* Rimuoviamo la sottolineatura */
+    color: #333; /* Colore del testo scuro */
+    transition: background-color 0.2s ease; /* Transizione fluida per l'hover */
+    background-color: transparent; /* Sfondo trasparente di default */
 }
 
 /* Hover sul link del risultato */
 .result-link:hover {
-    background-color: rgba(229, 9, 20, 0.05);
+    background-color: rgba(229, 9, 20, 0.05); /* Cambiamo lo sfondo al passaggio del mouse */
 }
 
 /* Stile per l'immagine del poster */
 .result-poster {
-    width: 50px;
-    height: 75px;
-    object-fit: cover;
-    border-radius: 6px;
-    margin-right: 16px;
-    background-color: #eee;
-    border: 1px solid #ddd;
+    width: 50px; /* Larghezza fissa per l'immagine del poster */
+    height: 75px; /* Altezza fissa per l'immagine del poster */
+    object-fit: cover; /* Copriamo l'area mantenendo le proporzioni */
+    border-radius: 6px; /* Angoli leggermente arrotondati */
+    margin-right: 16px; /* Spazio a destra dell'immagine */
+    background-color: #eee; /* Colore di sfondo di riserva */
+    border: 1px solid #ddd; /* Bordo sottile e chiaro */
 }
 
 /* Contenitore per le informazioni del risultato */
 .result-info {
-    display: flex;
-    flex-direction: column;
+    display: flex; /* Usiamo Flexbox per il layout */
+    flex-direction: column; /* Disposizione verticale */
 }
 
 /* Stile per il titolo del risultato */
 .result-title {
-    font-weight: bold;
-    font-size: 16px;
-    margin-bottom: 4px;
+    font-weight: bold;  /* Testo in grassetto */
+    font-size: 16px; /* Dimensione del font */
+    margin-bottom: 4px; /* Spazio sotto il titolo */
 }
 
 /* Stile per l'anno del risultato */
 .result-year {
-    font-size: 14px;
-    color: #777;
+    font-size: 14px;  /* Dimensione del font leggermente più piccola */
+    color: #777; /* Colore grigio per il testo secondario */
 }
 
 /* Spinner di caricamento */
 .loading-spinner {
-    position: absolute;
-    right: 25px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 24px;
-    height: 24px;
-    border: 3px solid #f3f3f3;
-    border-top: 3px solid var(--accent-orange);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
+    position: absolute; /* Posizione assoluta rispetto al wrapper */
+    right: 25px; /* Posizionato a destra dentro l'input */
+    top: 50%; /* Centrato verticalmente */
+    transform: translateY(-50%); /* Correzione per il centraggio verticale */
+    width: 24px; /* Larghezza dello spinner */
+    height: 24px; /* Altezza dello spinner */
+    border: 3px solid #f3f3f3; /* Colore di sfondo dello spinner */
+    border-top: 3px solid var(--accent-orange); /* Colore della parte superiore dello spinner */
+    border-radius: 50%; /* Forma circolare */
+    animation: spin 1s linear infinite; /* Animazione di rotazione continua */
 }
 
 /* Animazione per lo spinner */
 @keyframes spin {
-    0% { transform: translateY(-50%) rotate(0deg); }
-    100% { transform: translateY(-50%) rotate(360deg); }
+    0% { transform: translateY(-50%) rotate(0deg); } /* Inizio della rotazione */
+    100% { transform: translateY(-50%) rotate(360deg); } /* Fine della rotazione */
 }

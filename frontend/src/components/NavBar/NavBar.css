@@ -1,127 +1,128 @@
 /* Contenitore principale della Navbar */
 .navbar-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 240px;
-    height: 100vh;
-    background-color: rgb(16, 27, 49);
-    color: #b3b3b3;
-    display: flex;
-    flex-direction: column;
-    padding: 24px;
-    box-sizing: border-box;
-    z-index: 1000;
+    position: fixed; /* Posizione fissa */
+    top: 0; /* Inizio dall'alto */
+    left: 0; /* Inizio da sinistra */
+    width: 240px; /* Larghezza fissa */
+    height: 100vh; /* Altezza completa della viewport */
+    background-color: rgb(16, 27, 49); /* Colore di sfondo scuro */
+    color: #b3b3b3; /* Colore del testo grigio chiaro */
+    display: flex; /* Layout flessibile */
+    flex-direction: column; /* Disposizione verticale */
+    padding: 24px; /* Spaziatura interna */
+    box-sizing: border-box; /* Include il padding nella larghezza/altezza */
+    z-index: 1000; /* Assicuriamoci che sia sopra altri contenuti */
+}
 
 /* Stile per il logo */
 .navbar-logo {
-    margin-bottom: 30px;
-    margin-top: 10px;
-    text-align: center;
+    margin-bottom: 30px; /* Spazio sotto il logo */
+    margin-top: 10px; /* Spazio sopra il logo */
+    text-align: center; /* Centriamo il logo */
 }
 
 /* Immagine del logo */
 .navbar-logo img {
-    max-width: 150px;
+    max-width: 150px; /* Larghezza massima del logo */
 }
 
 /* Lista dei link di navigazione */
 .nav-links {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+    list-style: none; /* Rimuoviamo i punti elenco */
+    padding: 0; /* Rimuoviamo il padding di default */
+    margin: 0; /* Rimuoviamo il margine di default */
     flex-grow: 1; /* Lascia che questo occupi lo spazio, spingendo il footer in basso */
 }
 
 /* Singolo elemento della lista */
 .nav-links li {
-    margin-bottom: 16px;
+    margin-bottom: 16px; /* Spazio sotto ogni link */
 }
 
 /* Stile base per il link */
 .nav-link {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: #b3b3b3;
-    font-size: 16px !important;
-    font-weight: bold !important;
-    padding: 12px 16px !important;
-    border-radius: 6px;
-    transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
-    outline: none;
-    box-shadow: none;
-    border: none;
+    display: flex; /* Layout flessibile */
+    align-items: center;    /* Allineiamo verticalmente il contenuto */
+    text-decoration: none;  /* Rimuoviamo la sottolineatura */
+    color: #b3b3b3; /* Colore del testo grigio chiaro */
+    font-size: 16px !important; /* Dimensione del testo */
+    font-weight: bold !important; /* Testo in grassetto */
+    padding: 12px 16px !important; /* Spaziatura interna */
+    border-radius: 6px; /* Angoli arrotondati */
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;   /* Transizioni fluide per interazioni */
+    outline: none; /* Rimuoviamo il contorno di default */
+    box-shadow: none; /* Rimuoviamo l'ombra di default */
+    border: none; /* Rimuoviamo il bordo di default */
 }
 
 /* Hover */
 .nav-link:hover,
 .nav-link:hover span,
 .nav-link:hover .nav-icon {
-    background-color: var(--accent-yellow);
-    color: #ffffff;
+    background-color: var(--accent-yellow); /* Cambiamo lo sfondo al passaggio del mouse */
+    color: #ffffff; /* Cambiamo il colore del testo al passaggio del mouse */
 }
 
 /* Active */
 .nav-link.active,
 .nav-link.active span,
 .nav-link.active .nav-icon {
-    background-color: var(--accent-orange);
-    color: #ffffff;
+    background-color: var(--accent-orange); /* Sfondo arancione per il link attivo */
+    color: #ffffff; /* Colore del testo bianco per il link attivo */
 }
 
 /* Icona */
 .nav-icon {
-    margin-right: 16px;
-    font-size: 20px;
+    margin-right: 16px; /* Spazio a destra dell'icona */
+    font-size: 20px; /* Dimensione dell'icona */
     color: inherit; /* Eredita il colore dal padre */
 }
 
 /* Focus e active */
 .nav-link:focus,
 .nav-link:active {
-    outline: none;
-    box-shadow: none;
-    border: none;
+    outline: none; /* Rimuoviamo il contorno di default */
+    box-shadow: none; /* Rimuoviamo l'ombra di default */
+    border: none; /* Rimuoviamo il bordo di default */
 }
 
 /* Contenitore per la parte inferiore della navbar (profilo + logout) */
 .navbar-footer {
     margin-top: auto; /* Si assicura che stia in fondo */
-    padding-top: 20px;
+    padding-top: 20px; /* Spazio sopra il footer */
     border-top: 1px solid #282828; /* Separatore sottile */
 }
 
 /* Sezione che mostra l'utente loggato */
 .navbar-user-profile {
-    display: flex;
-    align-items: center;
-    padding: 10px 16px;
-    margin-bottom: 10px;
-    border-radius: 6px;
-    text-decoration: none;
-    color: #b3b3b3;
-    transition: background-color 0.2s ease;
+    display: flex; /* Layout flessibile */
+    align-items: center; /* Allineiamo verticalmente il contenuto */
+    padding: 10px 16px; /* Spaziatura interna */
+    margin-bottom: 10px; /* Spazio sotto la sezione utente */
+    border-radius: 6px; /* Angoli arrotondati */
+    text-decoration: none; /* Rimuoviamo la sottolineatura */
+    color: #b3b3b3; /* Colore del testo grigio chiaro */
+    transition: background-color 0.2s ease; /* Transizione fluida per l'hover */
 }
 
 /* Hover sulla sezione utente */
 .navbar-user-profile:hover {
-    background-color: var(--accent-orange);
-    color: #ffffff;
+    background-color: var(--accent-orange); /* Cambiamo lo sfondo al passaggio del mouse */
+    color: #ffffff; /* Cambiamo il colore del testo al passaggio del mouse */
 }
 
 /* Avatar (foto profilo) dell'utente */
 .user-avatar {
-    width: 40px;
-    height: 40px;
+    width: 40px; /* Larghezza dell'avatar */
+    height: 40px; /* Altezza dell'avatar */
     border-radius: 50%; /* Cerchio perfetto */
-    margin-right: 12px;
+    margin-right: 12px; /* Spazio a destra dell'avatar */
     object-fit: cover; /* Evita che l'immagine si distorca */
 }
 
 /* Nome utente */
 .user-name {
-    font-weight: bold;
+    font-weight: bold; /* Testo in grassetto */
     white-space: nowrap; /* Evita che il nome vada a capo */
     overflow: hidden; /* Nasconde il testo che esce */
     text-overflow: ellipsis; /* Aggiunge "..." se il nome è troppo lungo */
@@ -129,24 +130,23 @@
 
 /* Stile per il pulsante di logout */
 .logout-button {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    background: none;
-    border: none;
-    color: #b3b3b3;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 12px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    text-align: left;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    display: flex;  /* Layout flessibile */
+    align-items: center; /* Allineiamo verticalmente il contenuto */
+    width: 100%;    /* Occupa tutta la larghezza del contenitore */
+    background: none; /* Rimuoviamo lo sfondo di default */
+    border: none; /* Rimuoviamo il bordo di default */
+    color: #b3b3b3; /* Colore del testo grigio chiaro */
+    font-size: 16px; /* Dimensione del testo */
+    font-weight: bold; /* Testo in grassetto */
+    padding: 12px 16px; /* Spaziatura interna */
+    border-radius: 6px; /* Angoli arrotondati */
+    cursor: pointer; /* Cursore a mano */
+    text-align: left; /* Testo allineato a sinistra */
+    transition: background-color 0.2s ease, color 0.2s ease; /* Transizioni fluide */
 }
 
 /* Hover sul pulsante di logout */
 .logout-button:hover {
-    background-color: #282828;
-    color: #ffffff;
-}
+    background-color: #282828; /* Cambiamo lo sfondo al passaggio del mouse */
+    color: #ffffff; /* Cambiamo il colore del testo al passaggio del mouse */
 }

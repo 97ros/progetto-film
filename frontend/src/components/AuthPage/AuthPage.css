@@ -1,97 +1,97 @@
 /* Contenitore principale del form di Login e Registrazione */
 .auth-page-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* Corregge il centro esatto */
-    width: 100%;
-    height: 100%;
-    min-height: 100vh;
-    background-color: var(--light-beige);
-    font-family: Arial, sans-serif;
+    display: flex;  /* Layout flessibile */
+    justify-content: center; /* Centriamo orizzontalmente */
+    align-items: center; /* Centriamo verticalmente */
+    top: 50%; /* Centriamo verticalmente */
+    left: 50%; /* Centriamo orizzontalmente */
+    transform: translate(-50%, -50%); /* Correggiamo il centro esatto */
+    width: 100%; /* Larghezza completa */
+    height: 100%; /* Altezza completa */
+    min-height: 100vh; /* Altezza minima per coprire tutta la viewport */
+    background-color: var(--light-beige); /* Colore di sfondo chiaro */
+    font-family: Arial, sans-serif; /* Font di base */
     position: fixed; /* Fissa il contenitore nella viewport */
 }
 
 /* Card corrispondente al form */
 .auth-form-card {
-  width: 100%;
-  max-width: 400px;
-  max-height: 90vh;
-  padding: 2.5rem 2rem;
-  background-color: var(--primary-dark-blue);
-  border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  color: var(--light-beige);
-  box-sizing: border-box;
+  width: 100%; /* Larghezza completa */
+  max-width: 400px; /* Larghezza massima */
+  max-height: 90vh; /* Altezza massima per evitare overflow */
+  padding: 2.5rem 2rem; /* Spaziatura interna */
+  background-color: var(--primary-dark-blue); /* Colore di sfondo scuro */
+  border-radius: 8px; /* Angoli arrotondati */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Ombra per profondità */
+  color: var(--light-beige); /* Colore del testo chiaro */
+  box-sizing: border-box; /* Include il padding nella larghezza/altezza */
 }
 
 /* Stile per i titoli dei form */
 .auth-form-card h2 {
-  text-align: center;
-  margin-bottom: 2rem;
-  font-size: 2.5em;
-  font-weight: 600;
-  color: #f0f2f5;
+  text-align: center; /* Centriamo il titolo */
+  margin-bottom: 2rem;  /* Spazio sotto il titolo */
+  font-size: 2.5em; /* Dimensione del titolo */
+  font-weight: 600; /* Peso del font */
+  color: #f0f2f5; /* Colore del testo */
 }
 
 /* Gruppo che contiene label e input, utile per la spaziatura */
 .form-group {
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.25rem; /* Spazio sotto ogni gruppo */
 }
 
 /* Stile delle etichette (label) */
 .form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  font-size: 0.9em;
+  display: block; /* Blocca la label su una nuova riga */
+  margin-bottom: 0.5rem;  /* Spazio sotto la label */
+  font-weight: 500; /* Peso del font */
+  font-size: 0.9em; /* Dimensione del font leggermente più piccola */
 }
 
 /* Stile dei campi di input */
 .form-group input {
-  width: 100%;
-  padding: 12px 15px;
-  background-color: var(--secondary-dark-blue);
-  border: 2px solid transparent;
-  border-radius: 5px;
-  color: var(--light-beige);
-  font-size: 1em;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  width: 100%;  /* Larghezza completa */
+  padding: 12px 15px; /* Spaziatura interna */
+  background-color: var(--secondary-dark-blue); /* Colore di sfondo scuro */
+  border: 2px solid transparent;  /* Bordo trasparente di default */
+  border-radius: 5px; /* Angoli arrotondati */
+  color: var(--light-beige);  /* Colore del testo chiaro */
+  font-size: 1em; /* Dimensione del font */
+  transition: border-color 0.3s, box-shadow 0.3s; /* Transizioni fluide per interazioni */
 }
 
 /* Stile per l'input quando è in focus (selezionato dall'utente) */
 .form-group input:focus {
-  outline: none;
-  border-color: var(--accent-yellow);
-  box-shadow: 0 0 10px rgba(242, 192, 123, 0.5);
+  outline: none;  /* Rimuoviamo il contorno di default */
+  border-color: var(--accent-yellow); /* Cambiamo il colore del bordo al focus */
+  box-shadow: 0 0 10px rgba(242, 192, 123, 0.5);  /* Aggiungiamo un'ombra leggera */
 }
 
 /* Stile per il pulsante mostra/nascondi password */
 .toggle-password-btn {
-    margin-top: 10px;
-    border: 2px solid;
-    border-color: var(#070f32);
-    cursor: pointer;
-    font-size: 1rem;
-    color: var(--primary-dark-blue);
-    background-color: #c4c4c4;
+    margin-top: 10px; /* Spazio sopra il bottone */
+    border: 2px solid;  /* Bordo di 2px */
+    border-color: var(#070f32); /* Colore del bordo */
+    cursor: pointer;  /* Cambia il cursore al passaggio del mouse */
+    font-size: 1rem;  /* Dimensione del font */
+    color: var(--primary-dark-blue);  /* Colore del testo */
+    background-color: #c4c4c4;  /* Colore di sfondo */
 }
 
 /* Stile per il bottone di submit */
 .submit-btn {
-  width: 100%;
-  padding: 0.8rem;
-  border: none;
-  border-radius: 4px;
-  background-color: var(--accent-orange);
-  color: var(--secondary-dark-blue);
-  font-size: 1.1rem;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 1rem;
-  transition: background-color 0.3s, transform 0.2s;
+  width: 100%;  /* Larghezza completa */
+  padding: 0.8rem;  /* Spaziatura interna */
+  border: none; /* Rimuoviamo il bordo */
+  border-radius: 4px; /* Angoli arrotondati */
+  background-color: var(--accent-orange); /* Colore di sfondo arancione */
+  color: var(--secondary-dark-blue);  /* Colore del testo scuro */
+  font-size: 1.1rem;  /* Dimensione del font */
+  font-weight: bold;  /* Testo in grassetto */
+  cursor: pointer;  /* Cambia il cursore al passaggio del mouse */
+  margin-top: 1rem; /* Spazio sopra il bottone */
+  transition: background-color 0.3s, transform 0.2s;  /* Transizioni fluide per interazioni */
 }
 
 /* Effetto al passaggio del mouse sul bottone */
@@ -102,39 +102,39 @@
 
 /* Stile del bottone disabilitato */
 .submit-btn:disabled {
-    background-color: #c4c4c4;
-    cursor: not-allowed;
+    background-color: #c4c4c4; /* Colore grigio chiaro */
+    cursor: not-allowed; /* Cursore non permesso */
 }
 
 /* Stile per il testo e i link in fondo al form */
 .auth-switcher {
-  text-align: center;
-  margin-top: 25px;
-  color: var(--accent-yellow);
-  text-decoration: none;
-  font-weight: bold;
-  transition: color 0.3s;
-  cursor: pointer;
-  background: none;
-  border: none;
-  padding: 0;
-  font-size: 0.9rem;
+  text-align: center; /* Centriamo il testo */
+  margin-top: 25px; /* Spazio sopra il testo */
+  color: var(--accent-yellow); /* Colore del testo giallo */
+  text-decoration: none; /* Rimuoviamo la sottolineatura */
+  font-weight: bold; /* Testo in grassetto */
+  transition: color 0.3s; /* Transizione fluida per l'hover */
+  cursor: pointer; /* Cambia il cursore al passaggio del mouse */
+  background: none; /* Rimuoviamo lo sfondo */
+  border: none; /* Rimuoviamo il bordo */
+  padding: 0; /* Rimuoviamo il padding */
+  font-size: 0.9rem; /* Dimensione del font leggermente più piccola */
 }
 
 /* Stile per il link di switcher */
 .switcher-link:hover {
-  color: var(--accent-orange);
-  text-decoration: underline;
+  color: var(--accent-orange); /* Cambiamo il colore al passaggio del mouse */
+  text-decoration: underline; /* Aggiungiamo la sottolineatura al passaggio del mouse */
 }
 
 /* Stile per i messaggi di errore */
 .error-message {
-    color: #d32f2f;
-    background-color: #ffcdd2;
-    border: 1px solid #ef9a9a;
-    padding: 0.75rem;
-    border-radius: 4px;
-    margin-bottom: 1rem;
-    text-align: center;
-    font-size: 0.9rem;
+    color: #d32f2f; /* Colore rosso per l'errore */
+    background-color: #ffcdd2; /* Sfondo rosato chiaro */
+    border: 1px solid #ef9a9a; /* Bordo rosso chiaro */
+    padding: 0.75rem; /* Spaziatura interna */
+    border-radius: 4px; /* Angoli arrotondati */
+    margin-bottom: 1rem; /* Spazio sotto il messaggio */
+    text-align: center; /* Centriamo il testo */
+    font-size: 0.9rem; /* Dimensione del font leggermente più piccola */
 }
