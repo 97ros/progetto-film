@@ -14,7 +14,7 @@
 
 /* Sfondo */
 .explore-container::before {
-    content: ''; /* Contenuto vuoto per il pseudo-elemento */
+    content: ''; /* Contenuto vuoto per lo pseudo-elemento */
     position: fixed; /* Posizione fissa per coprire tutta la pagina */
     top: 0; /* Inizio dall'alto */
     left: 0; /* Inizio da sinistra */
