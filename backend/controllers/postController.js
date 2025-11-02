@@ -4,8 +4,6 @@ const Post = require('../models/postModel');
 // Importiamo il nostro modello per gli utenti
 const User = require('../models/userModel');
 
-// Importiamo la libreria jsonwebtoken
-const jwt = require('jsonwebtoken');
 
 // Funzione per CREARE un nuovo post
 exports.createPost = async (req, res) => {
